@@ -1,6 +1,13 @@
 <clickhouse>
-  <listen_host>0.0.0.0</listen_host>
+  <!-- IPv4 and IPv6: the Docker network has both and ClickHouse may pick
+       either to reach a keeper. -->
+  <listen_host>::</listen_host>
   <keeper_server>
     <tcp_port>2181</tcp_port>
   </keeper_server>
+  <!-- The endpoint is described in observability.xml. A keeper has no HTTP
+       port to serve it by default. -->
+  <prometheus>
+    <port>9100</port>
+  </prometheus>
 </clickhouse>

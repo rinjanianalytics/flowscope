@@ -28,10 +28,11 @@ services:
       - ./clickhouse/observability.xml:/etc/clickhouse-keeper/keeper_config.d/observability.xml
       - ./clickhouse/keeper.xml:/etc/clickhouse-keeper/keeper_config.d/flowscope.xml
       - ./clickhouse/keeper-cluster.xml:/etc/clickhouse-keeper/keeper_config.d/keeper-cluster.xml
-      - ./clickhouse/keeper-cluster.xml:/etc/clickhouse-keeper/keeper_config.d/keeper-cluster-1.xml
+      - ./clickhouse/keeper-cluster-1.xml:/etc/clickhouse-keeper/keeper_config.d/keeper-cluster-1.xml
     healthcheck:
       interval: 20s
-      test: ["CMD", "wget", "-T", "1", "--spider", "--no-proxy", "http://127.0.0.1:9100/metrics"]
+      # The wget of this image has no option to skip a proxy.
+      test: ["CMD", "wget", "-T", "1", "--spider", "http://127.0.0.1:9100/metrics"]
     labels:
       - metrics.enable=true
   clickhouse-keeper-2:
@@ -42,7 +43,7 @@ services:
       - ./clickhouse/observability.xml:/etc/clickhouse-keeper/keeper_config.d/observability.xml
       - ./clickhouse/keeper.xml:/etc/clickhouse-keeper/keeper_config.d/flowscope.xml
       - ./clickhouse/keeper-cluster.xml:/etc/clickhouse-keeper/keeper_config.d/keeper-cluster.xml
-      - ./clickhouse/keeper-cluster.xml:/etc/clickhouse-keeper/keeper_config.d/keeper-cluster-2.xml
+      - ./clickhouse/keeper-cluster-2.xml:/etc/clickhouse-keeper/keeper_config.d/keeper-cluster-2.xml
   clickhouse-keeper-3:
     <<: *clickhouse-keeper
     volumes:
@@ -51,13 +52,18 @@ services:
       - ./clickhouse/observability.xml:/etc/clickhouse-keeper/keeper_config.d/observability.xml
       - ./clickhouse/keeper.xml:/etc/clickhouse-keeper/keeper_config.d/flowscope.xml
       - ./clickhouse/keeper-cluster.xml:/etc/clickhouse-keeper/keeper_config.d/keeper-cluster.xml
-      - ./clickhouse/keeper-cluster.xml:/etc/clickhouse-keeper/keeper_config.d/keeper-cluster-3.xml
+      - ./clickhouse/keeper-cluster-3.xml:/etc/clickhouse-keeper/keeper_config.d/keeper-cluster-3.xml
 
   clickhouse:
     depends_on:
       - clickhouse-keeper-1
       - clickhouse-keeper-2
       - clickhouse-keeper-3
+    # The cluster definition names the replicas clickhouse-1 to clickhouse-4.
+    networks:
+      default:
+        aliases:
+          - clickhouse-1
     volumes:
       - ./clickhouse/cluster.xml:/etc/clickhouse-server/config.d/cluster.xml
       - ./clickhouse/cluster-1.xml:/etc/clickhouse-server/config.d/cluster-1.xml
