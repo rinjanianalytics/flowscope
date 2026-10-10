@@ -1,0 +1,312 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-brand-mid: var(--brand-mid);
+  --color-brand-ink: var(--brand-ink);
+  --color-surface-2: var(--surface-2);
+  --color-grid: var(--grid);
+  --color-axis: var(--axis);
+  --color-code: var(--code);
+  --color-code-foreground: var(--code-foreground);
+  --color-crit: var(--crit);
+  --color-crit-bg: var(--crit-bg);
+  --color-crit-ink: var(--crit-ink);
+  --color-crit-line: var(--crit-line);
+  --color-warn: var(--warn);
+  --color-warn-bg: var(--warn-bg);
+  --color-ok: var(--ok);
+  --color-ok-bg: var(--ok-bg);
+  --color-info: var(--info);
+  --color-info-bg: var(--info-bg);
+  --shadow-card: var(--shadow-card);
+  --text-2xs: 0.6875rem;
+  --text-2xs--line-height: 1rem;
+  --text-ui: 0.8125rem;
+  --text-ui--line-height: 1.25rem;
+  --text-title: 1.75rem;
+  --text-title--line-height: 1.15;
+  --text-display: 2rem;
+  --text-display--line-height: 1.15;
+  --tracking-label: 0.12em;
+  --tracking-display: -0.03em;
+  --container-measure: 70ch;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: "Poppins", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-heading: var(--font-sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  /* Rinjani Analytics brand kit, shared with PathScope. */
+  --radius: 0.875rem;
+  --background: #f4f5f7;
+  --foreground: #16181c;
+  --card: #fff;
+  --card-foreground: #16181c;
+  --popover: #fff;
+  --popover-foreground: #16181c;
+  --primary: #35776f;
+  --brand-mid: #509087;
+  --primary-foreground: #fff;
+  --secondary: #eef0f3;
+  --secondary-foreground: #16181c;
+  --muted: #eef0f3;
+  --muted-foreground: #5a6270;
+  --accent: #e3efec;
+  --accent-foreground: #23544e;
+  --destructive: #c8322b;
+  --border: #e6e8ec;
+  --input: #d7dbe1;
+  --ring: #35776f;
+  --chart-1: #118a78;
+  --chart-2: #c97c14;
+  --chart-3: #4c72d9;
+  --chart-4: #b5508f;
+  --chart-5: #9aa3ae;
+  --sidebar: #fff;
+  --sidebar-foreground: #3d4450;
+  --sidebar-primary: #16181c;
+  --sidebar-primary-foreground: #fff;
+  --sidebar-accent: #f0f2f5;
+  --sidebar-accent-foreground: #16181c;
+  --sidebar-border: #e6e8ec;
+  --sidebar-ring: #35776f;
+  --brand-ink: #2b625b;
+  --surface-2: #f7f8fa;
+  --grid: #eceef1;
+  --axis: #c9ced5;
+  --code: #16181c;
+  --code-foreground: #e8ecef;
+  --crit: #c8322b;
+  --crit-bg: #fdeceb;
+  --crit-ink: #9e2620;
+  --crit-line: #f3c4c0;
+  --warn: #7f5f00;
+  --warn-bg: #fbf3dc;
+  --ok: #23685e;
+  --ok-bg: #e3efec;
+  --info: #5a6270;
+  --info-bg: #eef0f3;
+  --shadow-card: 0 1px 2px #1018280a, 0 10px 30px #1018280f;
+}
+
+.dark {
+  --background: #0f1215;
+  --foreground: #e8ecef;
+  --card: #181c20;
+  --card-foreground: #e8ecef;
+  --popover: #1b2025;
+  --popover-foreground: #e8ecef;
+  --primary: #35776f;
+  --brand-mid: #509087;
+  --primary-foreground: #fff;
+  --secondary: #22272c;
+  --secondary-foreground: #e8ecef;
+  --muted: #22272c;
+  --muted-foreground: #a3adb6;
+  --accent: #1e3a36;
+  --accent-foreground: #a8ddd3;
+  --destructive: #f0605a;
+  --border: #262b31;
+  --input: #323940;
+  --ring: #509087;
+  --chart-1: #1fa08b;
+  --chart-2: #c97c14;
+  --chart-3: #5c86e6;
+  --chart-4: #c860a4;
+  --chart-5: #6b7480;
+  --sidebar: #121519;
+  --sidebar-foreground: #c5cdd4;
+  --sidebar-primary: #e8ecef;
+  --sidebar-primary-foreground: #16181c;
+  --sidebar-accent: #1e2328;
+  --sidebar-accent-foreground: #e8ecef;
+  --sidebar-border: #262b31;
+  --sidebar-ring: #509087;
+  --brand-ink: #7fc9bc;
+  --surface-2: #14181b;
+  --grid: #262b31;
+  --axis: #3a4148;
+  --code: #0b0e10;
+  --code-foreground: #e8ecef;
+  --crit: #f0605a;
+  --crit-bg: #2a1b1b;
+  --crit-ink: #f7a29e;
+  --crit-line: #5a2e2c;
+  --warn: #d9b44a;
+  --warn-bg: #2a2614;
+  --ok: #7fc9bc;
+  --ok-bg: #17302c;
+  --info: #a3adb6;
+  --info-bg: #22272c;
+  --shadow-card: 0 1px 2px #00000059;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+}
+@theme {
+  --animate-wiggle: wiggle 1s cubic-bezier(0, 0, 0.2, 1) 5;
+
+  @keyframes wiggle {
+    25% {
+      transform: rotate(10deg);
+    }
+    75% {
+      transform: rotate(-10deg);
+    }
+  }
+}
+
+/* Filter editor (CodeMirror) */
+.cm-editor {
+  @apply min-h-20 text-sm;
+
+  /* Fill the box, so a click anywhere in it focuses the editor. */
+  .cm-scroller {
+    @apply min-h-20;
+  }
+  .cm-content {
+    @apply min-h-20 px-2.5 py-1.5 font-mono;
+  }
+  .cm-line {
+    @apply px-0;
+  }
+  &.cm-focused {
+    @apply outline-none;
+  }
+  .cm-placeholder {
+    @apply text-muted-foreground;
+  }
+  .cm-tooltip {
+    @apply z-50 border-0 bg-transparent;
+  }
+  .cm-tooltip-lint {
+    @apply rounded-md border bg-popover text-xs text-popover-foreground shadow-md;
+  }
+  .cm-tooltip-autocomplete {
+    @apply rounded-lg border bg-popover p-1 text-popover-foreground shadow-md;
+
+    ul {
+      @apply font-sans;
+    }
+    li {
+      @apply flex flex-row flex-nowrap items-center justify-between gap-3 rounded-md px-1.5 py-0.5;
+
+      .cm-completionLabel {
+        @apply grow;
+      }
+      .cm-completionDetail {
+        @apply shrink text-xs not-italic text-muted-foreground;
+      }
+      &[aria-selected] {
+        @apply bg-primary text-primary-foreground;
+      }
+      &[aria-selected] .cm-completionDetail {
+        @apply text-primary-foreground/80;
+      }
+    }
+  }
+}
+
+/* Documentation: admonitions */
+.prose .admonition {
+  @apply my-4 rounded-md border-l-4 p-4;
+
+  .admonition-title {
+    @apply mt-0 flex items-center font-bold;
+
+    svg {
+      @apply mr-2 h-4 w-4;
+    }
+  }
+
+  p:last-child {
+    @apply mb-0;
+  }
+}
+
+.prose .admonition-important {
+  @apply border-purple-500 bg-purple-50 text-purple-800 dark:bg-purple-900/20 dark:text-purple-200;
+}
+
+.prose .admonition-note {
+  @apply border-blue-500 bg-blue-50 text-blue-800 dark:bg-blue-900/20 dark:text-blue-200;
+}
+
+.prose .admonition-tip {
+  @apply border-green-500 bg-green-50 text-green-800 dark:bg-green-900/20 dark:text-green-200;
+}
+
+.prose .admonition-warning {
+  @apply border-yellow-500 bg-yellow-50 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-200;
+
+  svg {
+    transform: translateY(2px);
+  }
+}
+
+.prose .admonition-caution {
+  @apply border-red-500 bg-red-50 text-red-800 dark:bg-red-900/20 dark:text-red-200;
+}
+
+.prose code {
+  hyphens: manual;
+  hyphenate-character: "";
+}
+
+/* Code blocks carry their own dark background. */
+.prose pre {
+  background-color: var(--code);
+  color: var(--code-foreground);
+}
