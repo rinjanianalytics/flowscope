@@ -2,7 +2,7 @@
 services:
   flowscope-console:
     environment:
-      AKVORADO_CFG_CONSOLE_DATABASE_DSN: file::memory:?cache=shared
+      FLOWSCOPE_CFG_CONSOLE_DATABASE_DSN: file::memory:?cache=shared
   flowscope-exporter-1: &exporter
     extends:
       file: versions.yml
@@ -24,14 +24,14 @@ services:
     <<: *exporter
     command: demo-exporter /etc/flowscope/demo-2.yaml
     environment:
-      AKVORADO_CFG_DEMOEXPORTER_FLOWS_SEED: 100
+      FLOWSCOPE_CFG_DEMOEXPORTER_FLOWS_SEED: 100
   flowscope-exporter-3:
     <<: *exporter
     command: demo-exporter /etc/flowscope/demo-3.yaml
     environment:
-      AKVORADO_CFG_DEMOEXPORTER_FLOWS_SEED: 200
+      FLOWSCOPE_CFG_DEMOEXPORTER_FLOWS_SEED: 200
   flowscope-exporter-4:
     <<: *exporter
     command: demo-exporter /etc/flowscope/demo-4.yaml
     environment:
-      AKVORADO_CFG_DEMOEXPORTER_FLOWS_SEED: 300
+      FLOWSCOPE_CFG_DEMOEXPORTER_FLOWS_SEED: 300

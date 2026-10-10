@@ -139,9 +139,7 @@ fn kafka_to_clickhouse() {
 
     // Produce raw flows until the consumer is assigned and rows show up.
     let producer: BaseProducer = ClientConfig::new().set("bootstrap.servers", brokers()).create().unwrap();
-    let packets = pcap_udp_payloads(
-        &Path::new(env!("CARGO_MANIFEST_DIR")).join("../../outlet/flow/decoder/netflow/testdata/nfv5.pcap"),
-    );
+    let packets = pcap_udp_payloads(&Path::new(env!("CARGO_MANIFEST_DIR")).join("../../tests/data/netflow/nfv5.pcap"));
     let raw: Vec<Vec<u8>> = packets
         .iter()
         .map(|p| {
@@ -179,7 +177,7 @@ fn kafka_to_clickhouse() {
     let metrics = r.render_metrics();
     let forwarded: u64 = metrics
         .lines()
-        .find(|l| l.starts_with("akvorado_outlet_core_forwarded_flows_total"))
+        .find(|l| l.starts_with("flowscope_outlet_core_forwarded_flows_total"))
         .and_then(|l| l.rsplit_once(' '))
         .map(|(_, v)| v.parse().unwrap())
         .unwrap();

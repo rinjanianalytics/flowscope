@@ -17,8 +17,8 @@
       "grafana.app/saved-from-ui": "Grafana v13.0.1+security-01 (9bbe672d)",
       "grafana.app/updatedBy": "user:u000000018",
       "grafana.app/updatedTimestamp": "2026-05-23T18:07:50Z",
-      "grafana.app/folderTitle": "akvorado",
-      "grafana.app/folderUrl": "/dashboards/f/afk1sbqiazda8a/akvorado"
+      "grafana.app/folderTitle": "flowscope",
+      "grafana.app/folderUrl": "/dashboards/f/afk1sbqiazda8a/flowscope"
     }
   },
   "spec": {
@@ -69,7 +69,7 @@
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "rate(akvorado_inlet_flow_input_udp_packets_total)",
+                        "expr": "rate(flowscope_inlet_flow_input_udp_packets_total)",
                         "legendFormat": "{{exporter}}",
                         "range": true
                       }
@@ -196,7 +196,7 @@
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "rate(akvorado_outlet_kafkainput_consumergroup_lag_messages)",
+                        "expr": "rate(flowscope_outlet_kafkainput_consumergroup_lag_messages)",
                         "legendFormat": "lag messages",
                         "range": true
                       }
@@ -323,7 +323,7 @@
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "akvorado_outlet_clickhouse_errors_total",
+                        "expr": "flowscope_outlet_clickhouse_errors_total",
                         "legendFormat": "errors total",
                         "range": true
                       }
@@ -450,7 +450,7 @@
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "rate(akvorado_outlet_routing_provider_bmp_message_queue_full_total)",
+                        "expr": "rate(flowscope_outlet_routing_provider_bmp_message_queue_full_total)",
                         "legendFormat": "{{exporter}}",
                         "range": true
                       }
@@ -577,7 +577,7 @@
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "rate(akvorado_outlet_routing_provider_bmp_message_queue_notfull_total)",
+                        "expr": "rate(flowscope_outlet_routing_provider_bmp_message_queue_notfull_total)",
                         "legendFormat": "{{exporter}}",
                         "range": true
                       }
@@ -704,7 +704,7 @@
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "rate(akvorado_inlet_kafka_sent_bytes_total)",
+                        "expr": "rate(flowscope_inlet_kafka_sent_bytes_total)",
                         "legendFormat": "{{exporter}}",
                         "range": true
                       }
@@ -831,7 +831,7 @@
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "rate(akvorado_outlet_kafkainput_received_messages_total)",
+                        "expr": "rate(flowscope_outlet_kafkainput_received_messages_total)",
                         "legendFormat": "Worker: {{worker}}",
                         "range": true
                       }
@@ -958,7 +958,7 @@
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "rate(akvorado_outlet_kafkainput_received_bytes_total)",
+                        "expr": "rate(flowscope_outlet_kafkainput_received_bytes_total)",
                         "legendFormat": "Worker {{worker}}",
                         "range": true
                       }
@@ -1085,7 +1085,7 @@
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "rate(akvorado_outlet_core_received_flows_total)",
+                        "expr": "rate(flowscope_outlet_core_received_flows_total)",
                         "legendFormat": "{{exporter}}",
                         "range": true
                       }
@@ -1212,7 +1212,7 @@
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "rate(akvorado_outlet_core_forwarded_flows_total)",
+                        "expr": "rate(flowscope_outlet_core_forwarded_flows_total)",
                         "legendFormat": "{{exporter}}",
                         "range": true
                       }
@@ -1339,7 +1339,7 @@
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "akvorado_outlet_core_flows_errors_total",
+                        "expr": "flowscope_outlet_core_flows_errors_total",
                         "legendFormat": "{{exporter}}",
                         "range": true
                       }
@@ -1466,7 +1466,7 @@
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "rate(sum(akvorado_inlet_flow_input_udp_packets_total))",
+                        "expr": "rate(sum(flowscope_inlet_flow_input_udp_packets_total))",
                         "legendFormat": "Sum",
                         "range": true
                       }
@@ -1593,7 +1593,7 @@
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "rate(sum(akvorado_inlet_kafka_sent_bytes_total))",
+                        "expr": "rate(sum(flowscope_inlet_kafka_sent_bytes_total))",
                         "legendFormat": "Sum",
                         "range": true
                       }

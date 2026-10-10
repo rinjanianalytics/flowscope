@@ -20,10 +20,10 @@
 # services:
 #   flowscope-console:
 #     environment:
-#       AKVORADO_CFG_CONSOLE_DATABASE_DSN: !reset null
+#       FLOWSCOPE_CFG_CONSOLE_DATABASE_DSN: !reset null
 
 # To add use HTTP basic auth to protect the service, uncomment the snippet
-# below. You can generate your own user/password with "htpasswd -nB akvorado".
+# below. You can generate your own user/password with "htpasswd -nB flowscope".
 # If you enable TLS, replace "public" by "publicsecure".
 
 # services:
@@ -31,7 +31,7 @@
 #     environment:
 #       TRAEFIK_ENTRYPOINTS_public_HTTP_MIDDLEWARES: auth@docker
 #     labels:
-#       - traefik.http.middlewares.auth.basicauth.users=akvorado:$$2y$$05$$Ud.JjfZWtKlSOoXKkv48leXze3u4cSNC5G4lG9nkfv5OFOkVcgRrm
+#       - traefik.http.middlewares.auth.basicauth.users=flowscope:$$2y$$05$$Ud.JjfZWtKlSOoXKkv48leXze3u4cSNC5G4lG9nkfv5OFOkVcgRrm
 
 # To enable integration with an SSO and protect the console, use something like this:
 
@@ -74,11 +74,11 @@
 #       - traefik.http.routers.sso.rule=PathPrefix(`/sso`)
 #   flowscope-console:
 #     environment:
-#       AKVORADO_CFG_CONSOLE_AUTH_HEADERS_LOGIN: X-Forwarded-User
-#       AKVORADO_CFG_CONSOLE_AUTH_HEADERS_NAME: X-Forwarded-Displayname
-#       AKVORADO_CFG_CONSOLE_AUTH_DEFAULTUSER_LOGIN: ""
-#       AKVORADO_CFG_CONSOLE_AUTH_LOGOUTURL: /sso/portals/main/logout
-#       AKVORADO_CFG_CONSOLE_AUTH_AVATARURL: "https://avatars.githubusercontent.com/{{ .Login }}?s=80"
+#       FLOWSCOPE_CFG_CONSOLE_AUTH_HEADERS_LOGIN: X-Forwarded-User
+#       FLOWSCOPE_CFG_CONSOLE_AUTH_HEADERS_NAME: X-Forwarded-Displayname
+#       FLOWSCOPE_CFG_CONSOLE_AUTH_DEFAULTUSER_LOGIN: ""
+#       FLOWSCOPE_CFG_CONSOLE_AUTH_LOGOUTURL: /sso/portals/main/logout
+#       FLOWSCOPE_CFG_CONSOLE_AUTH_AVATARURL: "https://avatars.githubusercontent.com/{{ .Login }}?s=80"
 #     labels:
 #       # Override authentication middleware
 #       - traefik.http.routers.flowscope-console.middlewares=sso

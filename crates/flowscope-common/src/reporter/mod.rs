@@ -126,14 +126,14 @@ impl Reporter {
         &self.registry
     }
 
-    /// Metrics factory for a module. The module is the Go package path
-    /// without the leading "akvorado/" ("outlet/core"): metrics are prefixed
-    /// with "akvorado_outlet_core_" like in the Go version.
+    /// Metrics factory for a module, named like the Go package it was ported
+    /// from ("outlet/core"): its metrics are prefixed with
+    /// "flowscope_outlet_core_". Akvorado uses "akvorado_outlet_core_".
     pub fn metrics(&self, module: &str) -> Metrics {
         let prefix = if module.is_empty() {
-            "akvorado_cmd_".to_string()
+            "flowscope_cmd_".to_string()
         } else {
-            format!("akvorado_{}_", module.replace(['/', '.'], "_"))
+            format!("flowscope_{}_", module.replace(['/', '.'], "_"))
         };
         Metrics { prefix, registry: self.registry.clone() }
     }
@@ -276,9 +276,9 @@ mod tests {
     fn prefixes() {
         let r = Reporter::new_mock();
         let m = r.metrics("outlet/core");
-        assert_eq!(m.prefix(), "akvorado_outlet_core_");
+        assert_eq!(m.prefix(), "flowscope_outlet_core_");
         m.counter("flows_received_total", "Flows.").inc();
-        assert!(r.render_metrics().contains("akvorado_outlet_core_flows_received_total 1\n"));
+        assert!(r.render_metrics().contains("flowscope_outlet_core_flows_received_total 1\n"));
     }
 
     #[tokio::test]

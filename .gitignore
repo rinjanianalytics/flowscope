@@ -1,42 +1,8 @@
-/bin/akvorado
-/test/
-/orchestrator/clickhouse/data/asns.csv
-/orchestrator/clickhouse/data/tcp.csv
-/orchestrator/clickhouse/data/udp.csv
-/console/filter/parser.go
-/common/schema/definition_gen.go
-/common/embed/data/embed.zip
+# Rust
+/target/
 
-/console/data/frontend/
-/console/data/docs/53-metrics.md
+# The web interface, built from web/ and embedded in the console
+/crates/flowscope-console/data/frontend/
 
 *~
 __pycache__/
-/outlet/routing/provider/bmp/testdata/*.svg
-/.go-cache
-/.npm-cache
-/result
-
-## Do not add more files after this line!
-
-# Auto: mock_*.go
-/common/clickhousedb/mocks/mock_driver.go
-
-# Auto: *_enumer.go
-/common/kafka/loadbalancealgorithm_enumer.go
-/common/kafka/saslmechanism_enumer.go
-/common/remotedatasource/paginationtype_enumer.go
-/common/remotedatasource/parsertype_enumer.go
-/console/homepagetopwidget_enumer.go
-/outlet/clickhouse/serverselectionalgorithm_enumer.go
-/outlet/core/asnprovider_enumer.go
-/outlet/core/netprovider_enumer.go
-/outlet/metadata/provider/gnmi/ifspeedpathunit_enumer.go
-/outlet/metadata/provider/snmp/authprotocol_enumer.go
-/outlet/metadata/provider/snmp/privprotocol_enumer.go
-
-# Auto: *.pb.go
-/common/pb/rawflow.pb.go
-
-# Rust
-/target/

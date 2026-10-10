@@ -484,7 +484,17 @@ mod golden {
     fn same_as_go() {
         let path = concat!(env!("CARGO_MANIFEST_DIR"), "/../../tests/golden/testdata/docs.json");
         let golden: Golden = serde_json::from_str(&std::fs::read_to_string(path).unwrap()).unwrap();
-        let docs = Docs::default();
+        // The answers of Go were recorded for the documentation as it was
+        // then. A copy of it is kept with them, so the documentation can
+        // change without the Go code to record again.
+        let dir = concat!(env!("CARGO_MANIFEST_DIR"), "/../../tests/golden/testdata/docs");
+        let mut files: Vec<(String, Vec<u8>)> = std::fs::read_dir(dir)
+            .unwrap()
+            .map(|entry| entry.unwrap().path())
+            .map(|path| (path.file_name().unwrap().to_string_lossy().to_string(), std::fs::read(&path).unwrap()))
+            .collect();
+        files.sort();
+        let docs = Docs::new(files);
         // The title is written in the code of the Go version.
         assert_eq!(docs.index("/"), golden.index.replace("# Akvorado documentation", "# FlowScope documentation"));
         let mut failures = vec![];

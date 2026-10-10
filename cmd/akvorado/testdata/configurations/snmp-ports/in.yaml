@@ -1,7 +1,0 @@
----
-inlet:
-  metadata:
-    provider:
-      type: snmp
-      ports:
-        ::/0: 1611

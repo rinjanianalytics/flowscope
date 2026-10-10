@@ -1,8 +1,0 @@
----
-paths:
-  kafka.brokers:
-    - 127.0.0.1:9092
-  inlet.0.kafka.brokers:
-    - 127.0.0.1:9092
-  outlet.0.kafkainput.brokers:
-    - 127.0.0.1:9092

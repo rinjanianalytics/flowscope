@@ -25,7 +25,7 @@ fn metrics(r: &Reporter) -> BTreeMap<String, String> {
     r.render_metrics()
         .lines()
         .filter(|l| !l.starts_with('#'))
-        .filter_map(|l| l.strip_prefix("akvorado_outlet_routing_provider_bioris_"))
+        .filter_map(|l| l.strip_prefix("flowscope_outlet_routing_provider_bioris_"))
         .filter_map(|l| l.rsplit_once(' ').map(|(k, v)| (k.to_string(), v.to_string())))
         .collect()
 }
@@ -287,37 +287,4 @@ async fn non_working_bioris() {
     );
     let lookup = p.lookup(v4("192.0.2.1"), None, v4("192.0.2.2")).await;
     assert_eq!(lookup, Err("no router".into()));
-}
-
-/// Against a real bio-rd RIS server, started by `tests/golden/bioris`
-/// with the BMP captures of the Go tests.
-#[tokio::test]
-#[ignore = "needs Go"]
-async fn bioris_interop() {
-    use tokio::io::AsyncBufReadExt;
-    let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
-    let mut child = tokio::process::Command::new("go")
-        .args(["run", "./tests/golden/bioris"])
-        .current_dir(&root)
-        .stdin(std::process::Stdio::piped())
-        .stdout(std::process::Stdio::piped())
-        .kill_on_drop(true)
-        .spawn()
-        .expect("go run");
-    let mut lines = tokio::io::BufReader::new(child.stdout.take().unwrap()).lines();
-    let addr = tokio::time::timeout(std::time::Duration::from_secs(120), lines.next_line())
-        .await
-        .expect("RIS server started")
-        .unwrap()
-        .unwrap();
-    let r = Reporter::new_mock();
-    let config = BiorisConfiguration {
-        ris_instances: vec![RisInstance { grpc_addr: addr.clone(), ..Default::default() }],
-        timeout: Duration::from_secs(2),
-        ..Default::default()
-    };
-    let p = BiorisProvider::new(&r, config, &Daemon::new()).unwrap();
-    check_lookup(&addr, &r, &p).await;
-    drop(child.stdin.take());
-    let _ = child.wait().await;
 }

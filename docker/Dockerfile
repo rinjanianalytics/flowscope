@@ -5,9 +5,9 @@ WORKDIR /build/web
 # Cache for modules
 COPY web/package.json web/pnpm-lock.yaml web/pnpm-workspace.yaml ./
 RUN --mount=type=cache,target=/root/.local/share/pnpm/store pnpm install --frozen-lockfile
-# Build. It writes the export to ../console/data/frontend.
+# Build. It writes the export to ../crates/flowscope-console/data/frontend.
 COPY web ./
-RUN mkdir -p /build/console/data && pnpm build
+RUN mkdir -p /build/crates/flowscope-console/data && pnpm build
 
 FROM rust:1.92-bookworm AS build-rust
 # CMake builds the Kafka client.
@@ -16,7 +16,7 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 WORKDIR /build
 COPY . .
-COPY --from=build-web /build/console/data/frontend console/data/frontend
+COPY --from=build-web /build/crates/flowscope-console/data/frontend crates/flowscope-console/data/frontend
 # Without a version, the one of the workspace is used.
 ARG VERSION
 RUN --mount=type=cache,target=/usr/local/cargo/registry \

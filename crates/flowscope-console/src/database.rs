@@ -464,7 +464,7 @@ mod tests {
     #[tokio::test]
     async fn builtin_filters() {
         let builtin = |d: &str| BuiltinSavedFilter { description: d.into(), content: "SrcAS = 1".into() };
-        let path = std::env::temp_dir().join(format!("akvorado-test-{}.sqlite", std::process::id()));
+        let path = std::env::temp_dir().join(format!("flowscope-test-{}.sqlite", std::process::id()));
         let dsn = format!("file:{}", path.display());
         let config = |saved| Configuration { driver: "sqlite".into(), dsn: dsn.clone(), saved_filters: saved };
         let db = Database::new(config(vec![builtin("first"), builtin("second")])).await.unwrap();

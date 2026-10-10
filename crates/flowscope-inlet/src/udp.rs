@@ -404,6 +404,6 @@ mod tests {
             assert!(flow.time_received.abs_diff(now) < 5, "{} vs {now}", flow.time_received);
         }
         let metrics = r.render_metrics();
-        assert!(metrics.contains("akvorado_inlet_flow_input_udp_packets_total"), "{metrics}");
+        assert!(metrics.contains("flowscope_inlet_flow_input_udp_packets_total"), "{metrics}");
     }
 }

@@ -103,15 +103,15 @@ module2:
     )
     .unwrap();
     let vars = env(&[
-        ("AKVORADO_CFG_DUMMY_MODULE1_LISTEN", "127.0.0.1:9000"),
-        ("AKVORADO_CFG_DUMMY_MODULE1_TOPIC", "something"),
-        ("AKVORADO_CFG_DUMMY_MODULE2_DETAILS_INTERVALVALUE", "10m"),
-        ("AKVORADO_CFG_DUMMY_MODULE2_STUFF", "bye"),
-        ("AKVORADO_CFG_DUMMY_MODULE2_ELEMENTS_0_NAME", "something"),
-        ("AKVORADO_CFG_DUMMY_MODULE2_ELEMENTS_0_GAUGE", "18"),
-        ("AKVORADO_CFG_DUMMY_MODULE2_ELEMENTS_1_NAME", "something else"),
-        ("AKVORADO_CFG_DUMMY_MODULE2_ELEMENTS_1_GAUGE", "7"),
-        ("AKVORADO_CFG_OTHER_MODULE1_TOPIC", "ignored"),
+        ("FLOWSCOPE_CFG_DUMMY_MODULE1_LISTEN", "127.0.0.1:9000"),
+        ("FLOWSCOPE_CFG_DUMMY_MODULE1_TOPIC", "something"),
+        ("FLOWSCOPE_CFG_DUMMY_MODULE2_DETAILS_INTERVALVALUE", "10m"),
+        ("FLOWSCOPE_CFG_DUMMY_MODULE2_STUFF", "bye"),
+        ("FLOWSCOPE_CFG_DUMMY_MODULE2_ELEMENTS_0_NAME", "something"),
+        ("FLOWSCOPE_CFG_DUMMY_MODULE2_ELEMENTS_0_GAUGE", "18"),
+        ("FLOWSCOPE_CFG_DUMMY_MODULE2_ELEMENTS_1_NAME", "something else"),
+        ("FLOWSCOPE_CFG_DUMMY_MODULE2_ELEMENTS_1_GAUGE", "7"),
+        ("FLOWSCOPE_CFG_OTHER_MODULE1_TOPIC", "ignored"),
     ]);
     let got: Dummy = decode(tree, "dummy", vars).unwrap();
     let expected = Dummy {
@@ -128,9 +128,24 @@ module2:
     assert_eq!(got, expected);
 }
 
+/// The names of Akvorado still work. The ones of FlowScope win.
+#[test]
+fn env_override_old_prefix() {
+    let vars = env(&[("AKVORADO_CFG_DUMMY_MODULE1_TOPIC", "old"), ("AKVORADO_CFG_DUMMY_MODULE2_STUFF", "old")]);
+    let got: Dummy = decode(Value::Null, "dummy", vars).unwrap();
+    assert_eq!((got.module1.topic.as_str(), got.module2.stuff.as_str()), ("old", "old"));
+    let vars = env(&[
+        ("AKVORADO_CFG_DUMMY_MODULE1_TOPIC", "old"),
+        ("FLOWSCOPE_CFG_DUMMY_MODULE1_TOPIC", "new"),
+        ("AKVORADO_CFG_DUMMY_MODULE2_STUFF", "old"),
+    ]);
+    let got: Dummy = decode(Value::Null, "dummy", vars).unwrap();
+    assert_eq!((got.module1.topic.as_str(), got.module2.stuff.as_str()), ("new", "old"));
+}
+
 #[test]
 fn env_override_extends_list() {
-    let vars = env(&[("AKVORADO_CFG_DUMMY_MODULE2_ELEMENTS_3_NAME", "fourth")]);
+    let vars = env(&[("FLOWSCOPE_CFG_DUMMY_MODULE2_ELEMENTS_3_NAME", "fourth")]);
     let got: Dummy = decode(Value::Null, "dummy", vars).unwrap();
     assert_eq!(
         got.module2.elements,

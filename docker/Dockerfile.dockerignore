@@ -3,5 +3,4 @@ target
 **/node_modules
 web/.next
 web/out
-console/data/frontend
-console/frontend
+crates/flowscope-console/data/frontend

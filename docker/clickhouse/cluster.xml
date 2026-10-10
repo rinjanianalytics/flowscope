@@ -1,6 +1,6 @@
 <clickhouse>
   <remote_servers replace="true">
-    <akvorado>
+    <flowscope>
       <!-- Cluster with two shards, each having two replicas. On a real setup,
            you should use more shards to balance the additional complexity
            introduced by using a cluster. -->
@@ -26,7 +26,7 @@
           <port>9000</port>
         </replica>
       </shard>
-    </akvorado>
+    </flowscope>
   </remote_servers>
   <zookeeper>
     <node>

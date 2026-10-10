@@ -72,5 +72,5 @@ fn udp_to_kafka() {
         assert_eq!(f.source_address, std::net::Ipv4Addr::LOCALHOST.to_ipv6_mapped().octets());
     }
     let metrics = r.render_metrics();
-    assert!(metrics.contains("akvorado_inlet_kafka_sent_messages_total{exporter=\"127.0.0.1\"} 20"), "{metrics}");
+    assert!(metrics.contains("flowscope_inlet_kafka_sent_messages_total{exporter=\"127.0.0.1\"} 20"), "{metrics}");
 }

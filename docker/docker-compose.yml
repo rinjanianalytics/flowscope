@@ -115,8 +115,8 @@ services:
     volumes:
       - flowscope-console-db:/run/flowscope
     environment:
-      AKVORADO_CFG_CONSOLE_DATABASE_DSN: /run/flowscope/console.sqlite
-      AKVORADO_CFG_CONSOLE_BRANDING: ${AKVORADO_CFG_CONSOLE_BRANDING-false}
+      FLOWSCOPE_CFG_CONSOLE_DATABASE_DSN: /run/flowscope/console.sqlite
+      FLOWSCOPE_CFG_CONSOLE_BRANDING: ${FLOWSCOPE_CFG_CONSOLE_BRANDING-false}
     healthcheck:
       disable: ${CONSOLE_HEALTHCHECK_DISABLED-false}
     labels:
@@ -189,8 +189,8 @@ services:
       - flowscope-run:/run/flowscope
       - flowscope-geoip:/usr/share/GeoIP:ro
     environment:
-      AKVORADO_CFG_OUTLET_METADATA_CACHEPERSISTFILE: /run/flowscope/metadata.cache
-      AKVORADO_CFG_OUTLET_FLOW_STATEPERSISTFILE: /run/flowscope/flow.state
+      FLOWSCOPE_CFG_OUTLET_METADATA_CACHEPERSISTFILE: /run/flowscope/metadata.cache
+      FLOWSCOPE_CFG_OUTLET_FLOW_STATEPERSISTFILE: /run/flowscope/flow.state
     labels:
       - traefik.enable=true
       # Disable access logging of /api/v0/outlet/metrics
@@ -212,7 +212,7 @@ services:
     volumes:
       - flowscope-clickhouse:/var/lib/clickhouse
       - ./clickhouse/observability.xml:/etc/clickhouse-server/config.d/observability.xml
-      - ./clickhouse/server.xml:/etc/clickhouse-server/config.d/akvorado.xml
+      - ./clickhouse/server.xml:/etc/clickhouse-server/config.d/flowscope.xml
     environment:
       CLICKHOUSE_INIT_TIMEOUT: 60
       CLICKHOUSE_SKIP_USER_SETUP: 1

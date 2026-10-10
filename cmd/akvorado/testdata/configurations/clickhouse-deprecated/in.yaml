@@ -1,3 +1,0 @@
-clickhouse:
-  prometheus-endpoint: /metrics
-  system-log-ttl: 24h

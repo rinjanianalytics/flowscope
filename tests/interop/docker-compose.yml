@@ -2,7 +2,7 @@
 # Services for the Rust integration tests. Start with:
 #   docker compose -f tests/interop/docker-compose.yml up -d --wait
 # Tests marked #[ignore] use them: cargo test -- --ignored
-name: akvorado-rs-test
+name: flowscope-test
 services:
   kafka:
     image: apache/kafka:4.3.1

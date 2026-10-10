@@ -6,7 +6,7 @@
     "grammar": "lezer-generator --typeScript --output src/lib/codemirror/lang-filter/parser.ts src/lib/codemirror/lang-filter/syntax.grammar",
     "api": "openapi-typescript ../crates/flowscope-sdk/openapi.json --output src/lib/api-schema.ts",
     "dev": "pnpm run grammar && next dev",
-    "build": "pnpm run grammar && next build && rm -rf ../console/data/frontend && cp -r out ../console/data/frontend",
+    "build": "pnpm run grammar && next build && rm -rf ../crates/flowscope-console/data/frontend && cp -r out ../crates/flowscope-console/data/frontend",
     "lint": "eslint",
     "test": "pnpm run grammar && vitest run"
   },

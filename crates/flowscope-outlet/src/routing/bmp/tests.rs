@@ -93,7 +93,7 @@ fn metrics(r: &Reporter) -> BTreeMap<String, String> {
     r.render_metrics()
         .lines()
         .filter(|l| !l.starts_with('#'))
-        .filter_map(|l| l.strip_prefix("akvorado_outlet_routing_provider_bmp_"))
+        .filter_map(|l| l.strip_prefix("flowscope_outlet_routing_provider_bmp_"))
         .filter(|l| !["locked_duration", "buffer_size", "message_queue"].iter().any(|p| l.starts_with(p)))
         .filter_map(|l| l.rsplit_once(' ').map(|(k, v)| (k.to_string(), v.to_string())))
         .collect()
@@ -145,7 +145,7 @@ fn golden() {
                 }
                 "send" => {
                     let i: usize = f[1].parse().unwrap();
-                    let payload = pcap_tcp_payload(&root().join("outlet/routing/provider/bmp/testdata").join(f[2]));
+                    let payload = pcap_tcp_payload(&root().join("tests/data/bmp").join(f[2]));
                     conns[i].as_mut().unwrap().write_all(&payload).unwrap();
                     sleep(30);
                 }

@@ -492,7 +492,7 @@ async fn mock_gnmi_server() {
     let m: std::collections::BTreeMap<String, String> = r
         .render_metrics()
         .lines()
-        .filter_map(|l| l.strip_prefix("akvorado_outlet_metadata_provider_gnmi_"))
+        .filter_map(|l| l.strip_prefix("flowscope_outlet_metadata_provider_gnmi_"))
         .filter_map(|l| l.rsplit_once(' ').map(|(k, v)| (k.to_string(), v.to_string())))
         .collect();
     assert_eq!(m.get(r#"model_info{exporter="127.0.0.1",model="OpenConfig"}"#).map(|s| s.as_str()), Some("1"));

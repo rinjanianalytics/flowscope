@@ -150,7 +150,7 @@ mod tests {
 
     #[test]
     fn persist() {
-        let dir = std::env::temp_dir().join(format!("akvorado-cache-{}", std::process::id()));
+        let dir = std::env::temp_dir().join(format!("flowscope-cache-{}", std::process::id()));
         let path = dir.to_string_lossy().to_string();
         let c: Cache<(String, u32), String> = Cache::new();
         c.put(SystemTime::now(), ("a".into(), 1), "x".into());

@@ -64,11 +64,11 @@ fn run(decoder: &dyn Decoder, inputs: &[Vec<u8>]) {
 #[test]
 fn netflow_never_panics() {
     let r = Reporter::new_mock();
-    run(&NetflowDecoder::new(&r), &packets("outlet/flow/decoder/netflow/testdata"));
+    run(&NetflowDecoder::new(&r), &packets("tests/data/netflow"));
 }
 
 #[test]
 fn sflow_never_panics() {
     let r = Reporter::new_mock();
-    run(&SflowDecoder::new(&r), &packets("outlet/flow/decoder/sflow/testdata"));
+    run(&SflowDecoder::new(&r), &packets("tests/data/sflow"));
 }

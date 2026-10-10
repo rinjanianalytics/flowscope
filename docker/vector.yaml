@@ -28,7 +28,7 @@ transforms:
     inputs:
       - base
     route:
-      akvorado: 'starts_with(string!(.service_name), "flowscope-")'
+      flowscope: 'starts_with(string!(.service_name), "flowscope-")'
       kafka: '.service_name == "kafka"'
       redis: '.service_name == "redis"'
       alloy: '.service_name == "alloy"'
@@ -40,21 +40,21 @@ transforms:
       traefik: '.service_name == "traefik"'
       clickhouse: '.service_name == "clickhouse" || .service_name == "clickhouse-keeper"'
 
-  from_akvorado:
+  from_flowscope:
     type: remap
     inputs:
-      - routes.akvorado
+      - routes.flowscope
     source: |
       parsed = parse_json!(.message)
-      .timestamp = parse_timestamp!(parsed.time, format: "%+")
+      .timestamp = parse_timestamp!(parsed.timestamp, format: "%+")
       .message = parsed.message
-      ._labels.level = parsed.level
-      ._labels.module = parsed.module
+      ._labels.level = downcase!(parsed.level)
+      ._labels.module = parsed.target
       ._metadata = parsed
       del(._metadata.message)
-      del(._metadata.time)
+      del(._metadata.timestamp)
       del(._metadata.level)
-      del(._metadata.module)
+      del(._metadata.target)
 
   from_kafka_multiline:
     type: reduce
@@ -223,7 +223,7 @@ transforms:
   combine:
     type: remap
     inputs:
-      - from_akvorado
+      - from_flowscope
       - from_kafka
       - from_redis
       - from_logfmt

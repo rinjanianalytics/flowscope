@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 //! RawFlow protobuf message. Port of `common/pb`. The definition is in
-//! `common/pb/rawflow.proto`; it is written by hand here to avoid a build
+//! `rawflow.proto`, next to the manifest of this crate; it is written by hand here to avoid a build
 //! dependency on protoc. Field numbers must not change.
 
 use serde::{Deserialize, Serialize};

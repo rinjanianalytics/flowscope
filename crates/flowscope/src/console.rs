@@ -160,7 +160,7 @@ default-visualize-options:
   dimensions: [ExporterName]
 database:
   driver: mysql
-  dsn: akvorado:akvorado@tcp(mysql:3306)/akvorado
+  dsn: flowscope:flowscope@tcp(mysql:3306)/flowscope
 auth:
   headers:
     login: X-User

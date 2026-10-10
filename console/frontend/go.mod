@@ -1,1 +1,0 @@
-module akvorado/console/frontend

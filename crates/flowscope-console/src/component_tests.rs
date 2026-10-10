@@ -180,8 +180,9 @@ async fn same_as_go() {
         if case.resp_body.starts_with('<') && case.resp_body.ends_with(" bytes>") {
             continue;
         }
-        // The rendered documentation is compared in docs.rs.
-        if case.url.contains("/docs/") && case.headers.contains_key("Accept") {
+        // The documentation changes after the answers were recorded. Its
+        // rendering is compared in docs.rs, on a copy taken with them.
+        if case.url.contains("/docs/") && status == 200 {
             continue;
         }
         let same = match (serde_json::from_str::<Json>(&text), serde_json::from_str::<Json>(&case.resp_body)) {

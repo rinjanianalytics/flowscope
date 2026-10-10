@@ -1,23 +1,18 @@
 // SPDX-FileCopyrightText: 2026 Free Mobile
 // SPDX-License-Identifier: AGPL-3.0-only
 
-//! The Rust migrations give the same database as the Go ones, and each
-//! version accepts the database of the other without changes. Needs the
-//! ClickHouse of `tests/interop` and the Go binary in `target/go/akvorado`
-//! (`go build -o target/go/akvorado ./cmd/akvorado`).
+//! The Rust migrations give the same database as the ones of Akvorado, and
+//! each version accepts the database of the other without changes. Needs the
+//! ClickHouse of `tests/interop` and an Akvorado binary, from one of its
+//! releases, given in `FLOWSCOPE_TEST_AKVORADO_BIN`.
 
 use flowscope_common::clickhousedb::{self, ClickHouseDb};
 use flowscope_common::reporter::Reporter;
 use flowscope_orchestrator::clickhouse::{ClickHouse, Configuration};
 use std::collections::BTreeMap;
-use std::path::{Path, PathBuf};
 use std::process::Command;
 use std::sync::Arc;
 use std::time::{Duration, Instant};
-
-fn root() -> PathBuf {
-    Path::new(env!("CARGO_MANIFEST_DIR")).join("../..")
-}
 
 fn server() -> String {
     std::env::var("FLOWSCOPE_TEST_CLICKHOUSE").unwrap_or_else(|_| "127.0.0.1:19000".into())
@@ -108,7 +103,7 @@ fn indent(yaml: &str) -> String {
 /// Run the Go orchestrator until its migrations are done. Returns the steps
 /// applied.
 fn migrate_go(database: &str, setup: &Setup) -> u64 {
-    let dir = std::env::temp_dir().join(format!("akvorado-parity-{}", std::process::id()));
+    let dir = std::env::temp_dir().join(format!("flowscope-parity-{}", std::process::id()));
     std::fs::create_dir_all(&dir).unwrap();
     let config = dir.join(format!("{database}.yaml"));
     std::fs::write(
@@ -122,12 +117,13 @@ fn migrate_go(database: &str, setup: &Setup) -> u64 {
         ),
     )
     .unwrap();
-    let mut child = Command::new(root().join("target/go/akvorado"))
+    let binary = std::env::var("FLOWSCOPE_TEST_AKVORADO_BIN").expect("FLOWSCOPE_TEST_AKVORADO_BIN: an Akvorado binary");
+    let mut child = Command::new(binary)
         .args(["orchestrator", config.to_str().unwrap()])
         .stdout(std::fs::File::create(dir.join(format!("{database}.out"))).unwrap())
         .stderr(std::fs::File::create(dir.join(format!("{database}.log"))).unwrap())
         .spawn()
-        .expect("Go binary in target/go/akvorado");
+        .expect("the Akvorado binary starts");
     let deadline = Instant::now() + Duration::from_secs(60);
     let metric = |name: &str, body: &str| -> Option<u64> {
         body.lines().find(|l| l.starts_with(name)).and_then(|l| l.rsplit_once(' ')).and_then(|(_, v)| v.parse().ok())
@@ -165,7 +161,7 @@ mod reqwest {
 }
 
 #[test]
-#[ignore = "needs ClickHouse and the Go binary"]
+#[ignore = "needs ClickHouse and an Akvorado binary"]
 fn same_database_as_go() {
     let id = std::process::id();
     let (go_db, rust_db) = (format!("parity_go_{id}"), format!("parity_rust_{id}"));
@@ -211,7 +207,7 @@ fn compare(go_db: &str, rust_db: &str) {
 
 /// Both versions upgrade a database created by Go the same way.
 #[test]
-#[ignore = "needs ClickHouse and the Go binary"]
+#[ignore = "needs ClickHouse and an Akvorado binary"]
 fn same_upgrade_as_go() {
     let id = std::process::id();
     let (go_db, rust_db) = (format!("upgrade_go_{id}"), format!("upgrade_rust_{id}"));
@@ -220,7 +216,7 @@ fn same_upgrade_as_go() {
         exec(&format!("CREATE DATABASE {d}"));
         migrate_go(d, &Setup::default());
     }
-    let dict = std::env::temp_dir().join(format!("akvorado-parity-dict-{id}.csv"));
+    let dict = std::env::temp_dir().join(format!("flowscope-parity-dict-{id}.csv"));
     std::fs::write(&dict, "addr,role\n2001:db8::1,core\n").unwrap();
     let setup = Setup {
         clickhouse: "resolutions:\n  - {interval: 0, ttl: 240h}\n  - {interval: 1m, ttl: 168h, table-settings: {min_bytes_for_wide_part: 1000}}\n  \

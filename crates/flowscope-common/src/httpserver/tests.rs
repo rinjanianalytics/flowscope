@@ -36,7 +36,7 @@ async fn handlers_and_metrics() {
 
     let metrics = reqwest::get(format!("{base}/api/v0/metrics")).await.unwrap().text().await.unwrap();
     assert!(
-        metrics.contains("akvorado_common_httpserver_requests_total{code=\"200\",handler=\"/api/\",method=\"get\"} 2"),
+        metrics.contains("flowscope_common_httpserver_requests_total{code=\"200\",handler=\"/api/\",method=\"get\"} 2"),
         "{metrics}"
     );
     daemon.terminate();
@@ -78,7 +78,7 @@ async fn cache_by_body() {
     );
     let metrics = r.render_metrics();
     assert!(
-        metrics.contains("akvorado_common_httpserver_cache_hit_total{method=\"POST\",path=\"/api/v0/test/cached\"} 2"),
+        metrics.contains("flowscope_common_httpserver_cache_hit_total{method=\"POST\",path=\"/api/v0/test/cached\"} 2"),
         "{metrics}"
     );
     daemon.terminate();

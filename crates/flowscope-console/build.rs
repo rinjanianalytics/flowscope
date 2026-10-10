@@ -25,9 +25,9 @@ fn main() {
     let repo = manifest.join("../..").canonicalize().unwrap();
     let mut code = String::new();
     for (name, dir) in [
-        ("AVATARS", "console/authentication/data/avatars"),
-        ("DOCS", "console/data/docs"),
-        ("FRONTEND", "console/data/frontend"),
+        ("AVATARS", "crates/flowscope-console/data/avatars"),
+        ("DOCS", "docs"),
+        ("FRONTEND", "crates/flowscope-console/data/frontend"),
     ] {
         let dir = repo.join(dir);
         println!("cargo:rerun-if-changed={}", dir.display());

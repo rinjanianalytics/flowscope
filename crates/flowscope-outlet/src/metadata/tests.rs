@@ -78,7 +78,7 @@ async fn static_lookups() {
     assert_eq!(got[4], Answer::default());
     let metrics = r.render_metrics();
     assert!(
-        metrics.contains("akvorado_outlet_metadata_provider_skips_total{exporter=\"2001:db8:3::10\"} 1"),
+        metrics.contains("flowscope_outlet_metadata_provider_skips_total{exporter=\"2001:db8:3::10\"} 1"),
         "{metrics}"
     );
 }

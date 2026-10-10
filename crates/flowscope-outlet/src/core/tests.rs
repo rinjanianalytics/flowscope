@@ -40,7 +40,7 @@ struct Options {
 }
 
 fn geoip_path(db: &str) -> String {
-    Path::new(env!("CARGO_MANIFEST_DIR")).join("../../outlet/geoip/testdata").join(db).to_string_lossy().to_string()
+    Path::new(env!("CARGO_MANIFEST_DIR")).join("../../tests/data/geoip").join(db).to_string_lossy().to_string()
 }
 
 impl Harness {
@@ -117,7 +117,7 @@ impl Harness {
             .render_metrics()
             .lines()
             .filter(|l| !l.starts_with('#'))
-            .filter_map(|l| l.strip_prefix("akvorado_outlet_core_"))
+            .filter_map(|l| l.strip_prefix("flowscope_outlet_core_"))
             .filter(|l| prefixes.iter().any(|p| l.starts_with(p)))
             .filter_map(|l| l.rsplit_once(' ').map(|(k, v)| (k.to_string(), v.to_string())))
             .collect()
@@ -812,9 +812,7 @@ fn decode_path() {
     let input = kafkainput::Mock::new();
     let builder = h.core.worker_builder();
     kafkainput::Component::start_workers(&*input, builder).unwrap();
-    let packets = pcap_udp_payloads(
-        &Path::new(env!("CARGO_MANIFEST_DIR")).join("../../outlet/flow/decoder/netflow/testdata/nfv5.pcap"),
-    );
+    let packets = pcap_udp_payloads(&Path::new(env!("CARGO_MANIFEST_DIR")).join("../../tests/data/netflow/nfv5.pcap"));
     for p in &packets {
         let raw = flowscope_pb::RawFlow {
             time_received: 1_700_000_000,

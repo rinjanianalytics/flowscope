@@ -1,9 +1,0 @@
-FROM gcr.io/distroless/static:latest
-LABEL org.opencontainers.image.title="Akvorado"
-LABEL org.opencontainers.image.description="Flow collector, enricher and visualizer (dev)"
-LABEL org.opencontainers.image.source=https://github.com/akvorado/akvorado
-LABEL org.opencontainers.image.licenses=AGPL-3.0-only
-COPY bin/akvorado /usr/local/bin/
-EXPOSE 8080
-HEALTHCHECK --interval=20s CMD [ "/usr/local/bin/akvorado", "healthcheck" ]
-ENTRYPOINT [ "/usr/local/bin/akvorado" ]

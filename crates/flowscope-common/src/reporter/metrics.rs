@@ -649,37 +649,37 @@ mod tests {
     #[test]
     fn render() {
         let r = Registry::new();
-        let c = r.counter("akvorado_test_packets_total", "Packets.");
+        let c = r.counter("flowscope_test_packets_total", "Packets.");
         c.inc();
         c.inc_by(2.0);
         // Same name returns the same counter.
-        r.counter("akvorado_test_packets_total", "Packets.").inc();
-        let v = r.gauge_vec("akvorado_test_queue", "Queue size.", &["worker"]);
+        r.counter("flowscope_test_packets_total", "Packets.").inc();
+        let v = r.gauge_vec("flowscope_test_queue", "Queue size.", &["worker"]);
         v.with_label_values(&["2"]).set(5.0);
         v.with_label_values(&["1"]).set(1.5);
-        r.gauge_func("akvorado_test_uptime", "Up.", || 42.0);
-        let h = r.histogram("akvorado_test_latency", "Latency.", &[0.1, 1.0]);
+        r.gauge_func("flowscope_test_uptime", "Up.", || 42.0);
+        let h = r.histogram("flowscope_test_latency", "Latency.", &[0.1, 1.0]);
         h.observe(0.05);
         h.observe(0.5);
         h.observe(5.0);
         let got = r.render();
-        let expected = "# HELP akvorado_test_latency Latency.
-# TYPE akvorado_test_latency histogram
-akvorado_test_latency_bucket{le=\"0.1\"} 1
-akvorado_test_latency_bucket{le=\"1\"} 2
-akvorado_test_latency_bucket{le=\"+Inf\"} 3
-akvorado_test_latency_sum 5.55
-akvorado_test_latency_count 3
-# HELP akvorado_test_packets_total Packets.
-# TYPE akvorado_test_packets_total counter
-akvorado_test_packets_total 4
-# HELP akvorado_test_queue Queue size.
-# TYPE akvorado_test_queue gauge
-akvorado_test_queue{worker=\"1\"} 1.5
-akvorado_test_queue{worker=\"2\"} 5
-# HELP akvorado_test_uptime Up.
-# TYPE akvorado_test_uptime gauge
-akvorado_test_uptime 42
+        let expected = "# HELP flowscope_test_latency Latency.
+# TYPE flowscope_test_latency histogram
+flowscope_test_latency_bucket{le=\"0.1\"} 1
+flowscope_test_latency_bucket{le=\"1\"} 2
+flowscope_test_latency_bucket{le=\"+Inf\"} 3
+flowscope_test_latency_sum 5.55
+flowscope_test_latency_count 3
+# HELP flowscope_test_packets_total Packets.
+# TYPE flowscope_test_packets_total counter
+flowscope_test_packets_total 4
+# HELP flowscope_test_queue Queue size.
+# TYPE flowscope_test_queue gauge
+flowscope_test_queue{worker=\"1\"} 1.5
+flowscope_test_queue{worker=\"2\"} 5
+# HELP flowscope_test_uptime Up.
+# TYPE flowscope_test_uptime gauge
+flowscope_test_uptime 42
 ";
         assert_eq!(got, expected);
     }
