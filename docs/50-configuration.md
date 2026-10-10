@@ -19,7 +19,9 @@ Write durations as strings, like `10h20m` or `5s`. Valid time units are `ms`,
 
 You can also override configuration settings with environment variables. Remove
 any `-` from key names and use `_` for nesting. Then, add the prefix
-`FLOWSCOPE_CFG_ORCHESTRATOR_`. Let's consider this configuration file:
+`FLOWSCOPE_CFG_ORCHESTRATOR_`. A service refuses to start when a variable
+with the prefix of Akvorado, `AKVORADO_CFG_`, is set: rename it. Let's consider
+this configuration file:
 
 ```yaml
 http:

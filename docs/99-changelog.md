@@ -24,7 +24,8 @@ and serves the same HTTP API.
 - 💥 *all*: metrics are prefixed with `flowscope_` instead of `akvorado_`.
   Dashboards and alerts need the new prefix
 - 💥 *all*: configuration overrides use `FLOWSCOPE_CFG_*` environment
-  variables. The `AKVORADO_CFG_*` ones are not read: rename them
+  variables. A service refuses to start when an `AKVORADO_CFG_*` variable
+  is set: rename them
 - 💥 *outlet*: the default Kafka consumer group is `flowscope-outlet`. Set
   `kafka.consumer-group` to `akvorado-outlet` to resume from the offsets of an
   Akvorado outlet

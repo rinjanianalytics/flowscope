@@ -42,6 +42,8 @@ pub enum Error {
     Override { name: String, source: de::Error },
     #[error("invalid configuration:\n{0}")]
     Invalid(String),
+    #[error("{} not read: rename {} to start with FLOWSCOPE_CFG_", if .0.len() == 1 { "this variable of Akvorado is" } else { "these variables of Akvorado are" }, .0.join(", "))]
+    OldOverrides(Vec<String>),
     #[error("unable to dump configuration: {0}")]
     Dump(String),
 }
@@ -276,6 +278,9 @@ fn merge(base: &mut Value, overlay: Value, mode: MergeMode) {
 
 /// Prefix of the environment variables overriding the configuration.
 const ENV_PREFIX: &str = "FLOWSCOPE_CFG_";
+/// The prefix Akvorado uses. A service refuses to start with such a
+/// variable: ignoring it would run with a setting the user did not ask for.
+const OLD_ENV_PREFIX: &str = "AKVORADO_CFG_";
 
 /// Build the override tree for an environment variable, if it applies to the
 /// component. `FLOWSCOPE_CFG_INLET_FLOW_INPUTS_0_LISTEN=:2055` gives
@@ -360,6 +365,12 @@ where
     merge(&mut base, tree, MergeMode::Defaults);
     // Check the file alone decodes, to report errors before overrides.
     let mut config: T = from_value(base.clone())?;
+    let env: Vec<(String, String)> = env.into_iter().collect();
+    let mut old: Vec<String> = env.iter().map(|(k, _)| k.clone()).filter(|k| k.starts_with(OLD_ENV_PREFIX)).collect();
+    if !old.is_empty() {
+        old.sort();
+        return Err(Error::OldOverrides(old));
+    }
     let mut overrides: Vec<(String, String)> = env.into_iter().filter(|(k, _)| k.starts_with(ENV_PREFIX)).collect();
     overrides.sort();
     for (name, value) in overrides {

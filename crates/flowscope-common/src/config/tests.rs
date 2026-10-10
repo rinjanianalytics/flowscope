@@ -128,13 +128,27 @@ module2:
     assert_eq!(got, expected);
 }
 
-/// The variables of Akvorado are not read.
+/// A variable of Akvorado stops the service, whatever the component it is
+/// for: it would be ignored otherwise.
 #[test]
-fn env_override_old_prefix_ignored() {
-    let vars = env(&[("AKVORADO_CFG_DUMMY_MODULE1_TOPIC", "old"), ("FLOWSCOPE_CFG_DUMMY_MODULE2_STUFF", "new")]);
-    let got: Dummy = decode(Value::Null, "dummy", vars).unwrap();
-    assert_eq!(got.module1.topic, Dummy::default().module1.topic);
-    assert_eq!(got.module2.stuff, "new");
+fn env_override_old_prefix_refused() {
+    let vars = env(&[
+        ("AKVORADO_CFG_DUMMY_MODULE1_TOPIC", "old"),
+        ("FLOWSCOPE_CFG_DUMMY_MODULE2_STUFF", "new"),
+        ("AKVORADO_CFG_OTHER_MODULE1_TOPIC", "old"),
+    ]);
+    let error = decode::<Dummy>(Value::Null, "dummy", vars).unwrap_err().to_string();
+    assert_eq!(
+        error,
+        "these variables of Akvorado are not read: rename AKVORADO_CFG_DUMMY_MODULE1_TOPIC, \
+         AKVORADO_CFG_OTHER_MODULE1_TOPIC to start with FLOWSCOPE_CFG_"
+    );
+    let vars = env(&[("AKVORADO_CFG_DUMMY_MODULE1_TOPIC", "old")]);
+    let error = decode::<Dummy>(Value::Null, "dummy", vars).unwrap_err().to_string();
+    assert_eq!(
+        error,
+        "this variable of Akvorado is not read: rename AKVORADO_CFG_DUMMY_MODULE1_TOPIC to start with FLOWSCOPE_CFG_"
+    );
 }
 
 #[test]
