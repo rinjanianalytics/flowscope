@@ -1,6 +1,6 @@
 # Web console
 
-The console is the web interface of *Akvorado*. It queries ClickHouse to display
+The console is the web interface of *FlowScope*. It queries ClickHouse to display
 the collected flows. This page describes what each page shows and how to write
 filters. If you have never used it, start with the [guided
 tour](01-explore.md).
@@ -79,7 +79,7 @@ appearance.
   to select at least two dimensions. The button next to the *dimensions* label
   reverses their direction.
 
-- Akvorado only retrieves a limited number of series. The "limit"
+- FlowScope only retrieves a limited number of series. The "limit"
   parameter defines how many. The remaining values are categorized as "Other".
 
 - The `limitType` parameter, used with the `limit` parameter, helps find

@@ -1,6 +1,6 @@
 # Collect your first flows
 
-In this tutorial, you install *Akvorado* on your own server and connect one
+In this tutorial, you install *FlowScope* on your own server and connect one
 router to it. At the end, the graphs you learned to read in the [first
 tutorial](01-explore.md) show your own traffic.
 
@@ -23,7 +23,7 @@ Homebrew.
 > Check your version of Docker with `docker version -f '{{ .Server.Version }}'`.
 > Anything older than v23 fails in ways that are hard to diagnose.
 
-## Start Akvorado
+## Start FlowScope
 
 Download the *Docker Compose* setup and start it:
 
@@ -41,9 +41,9 @@ Open `http://127.0.0.1:8081` in a browser (or replace `127.0.0.1` with the IP
 address of your server). You should get the same interface as the demo site,
 with empty graphs. This is expected: no router sends anything yet.
 
-## Let Akvorado talk to your router
+## Let FlowScope talk to your router
 
-Flows contain interface indexes, not interface names. *Akvorado* polls your
+Flows contain interface indexes, not interface names. *FlowScope* polls your
 router with SNMP to translate them. Open `config/outlet.yaml` and set your read
 community:
 
@@ -64,7 +64,7 @@ in the [configuration reference](50-configuration.md#snmp-provider).
 
 This step decides whether the console shows anything at all, so do not skip it.
 
-*Akvorado* needs to know which interfaces face the outside world. It marks each
+*FlowScope* needs to know which interfaces face the outside world. It marks each
 one as external or internal, and by default the console only counts the traffic
 entering through an external interface. Without this, the home page and the
 graphs will be empty.
@@ -104,11 +104,11 @@ IF-MIB::ifAlias.11 = STRING: PNI: Netflix (WL6-1190)
 IF-MIB::ifAlias.20 = STRING: core
 ```
 
-Some routers do not implement `ifAlias`. *Akvorado* then uses `ifDescr`, so walk
+Some routers do not implement `ifAlias`. *FlowScope* then uses `ifDescr`, so walk
 that one instead to see what the rules receive.
 
 Copy one of them into [regex101](https://regex101.com/), and build your pattern
-there. Set the flavor to “Golang” in the left panel: *Akvorado* uses the [Go
+there. Set the flavor to “Golang” in the left panel: *FlowScope* uses the [Go
 syntax](https://github.com/google/re2/wiki/Syntax). Put the value you want to
 keep inside a group, then select the “List” function and type `$1` in its box.
 You get one line per description, holding what the third argument of the rule
@@ -130,7 +130,7 @@ example below, they do not follow the convention of the shipped rules: the
 provider comes first and the type of connection is in brackets.
 
 ```
-Read this page about the classification language of Akvorado:
+Read this page about the classification language of FlowScope:
 https://demo.akvorado.net/api/v0/console/docs/configuration
 
 Here are the descriptions of the interfaces of my router:
@@ -158,7 +158,7 @@ After applying a change, you need to restart the outlet:
 ## Send flows from your router
 
 Configure your router to sample its traffic and to send it to the machine that
-runs *Akvorado*. The ports are:
+runs *FlowScope*. The ports are:
 
 - 2055 for NetFlow,
 - 4739 for IPFIX,
@@ -209,6 +209,6 @@ numbers.
 You now have a working collector. From here:
 
 - add your other routers, one at a time,
-- give *Akvorado* your BGP routes over BMP to get AS paths and communities, as
+- give *FlowScope* your BGP routes over BMP to get AS paths and communities, as
   described in the [configuration reference](50-configuration.md#routing),
 - read the [operating guide](13-operating.md) before you rely on this setup.

@@ -1,4 +1,4 @@
-# Troubleshoot Akvorado
+# Troubleshoot FlowScope
 
 > [!WARNING]
 > Please read this page carefully before you open an issue or start a discussion.
@@ -6,7 +6,7 @@
 > [!TIP]
 > This guide assumes that you use the *Docker Compose* setup. If you use a different setup, adapt the commands as needed.
 
-As explained in [how Akvorado works](80-design.md), Akvorado has several
+As explained in [how FlowScope works](80-design.md), FlowScope has several
 components. To troubleshoot an issue, inspect each component.
 
 ![Functional view](troubleshoot.svg)
@@ -76,14 +76,14 @@ The *inlet*, *outlet*, *orchestrator*, and *console* expose metrics. Get them wi
 
 ```console
 $ curl -s http://127.0.0.1:8080/api/v0/inlet/metrics
-​# HELP akvorado_cmd_info Akvorado build information
+​# HELP akvorado_cmd_info FlowScope build information
 ​# TYPE akvorado_cmd_info gauge
 akvorado_cmd_info{compiler="go1.24.4",version="v1.11.5-134-gaf3869cd701c"} 1
 [...]
 ```
 
 > [!CAUTION]
-> Run the `curl` commands on the same host that runs Akvorado, and change
+> Run the `curl` commands on the same host that runs FlowScope, and change
 > `inlet` to the name of the component that you are interested in. Port 8080
 > exposes the metrics and the configuration without authentication, so it is
 > only published on the loopback interface. Only port 8081, the console, is
@@ -131,7 +131,7 @@ address of the exporter and the port with the correct port (2055 for NetFlow,
 0 packets dropped by kernel
 ```
 
-If you receive flows but they do not reach Akvorado, check you are running
+If you receive flows but they do not reach FlowScope, check you are running
 Docker Engine v23 or more recent:
 
 ```console
@@ -273,7 +273,7 @@ Here is a list of errors that you may find:
   likely cause is that the exporter does not accept SNMP requests or the SNMP
   community is configured incorrectly.
 - `sampling rate missing` means that the sampling rate information is not present. This
-  is normal when Akvorado starts, but it should not keep increasing. With NetFlow,
+  is normal when FlowScope starts, but it should not keep increasing. With NetFlow,
   the sampling rate is sent in an options data packet. Make sure that your exporter
   sends them (look for `sampler-table` in the documentation). Alternatively,
   you can configure `outlet`→`core`→`default-sampling-rate` to work around this issue.

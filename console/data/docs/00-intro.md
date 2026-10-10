@@ -1,38 +1,38 @@
 # Introduction
 
-*Akvorado* receives network flows, such as NetFlow/IPFIX and sFlow. It enriches
+*FlowScope* receives network flows, such as NetFlow/IPFIX and sFlow. It enriches
 them with interface names (using SNMP), and geographic information (using
 [IPinfo](https://ipinfo.io/) or MaxMind). Then, it exports them to ClickHouse via
 Kafka. It also provides a web interface to explore the data.
 
 A public instance filled with generated traffic runs on
 [demo.akvorado.net](https://demo.akvorado.net). It is the best place to see what
-*Akvorado* looks like before installing anything.
+*FlowScope* looks like before installing anything.
 
 ## Tutorials
 
-The tutorials get your started. Start here if you have never used *Akvorado* and
+The tutorials get your started. Start here if you have never used *FlowScope* and
 want to get results quickly.
 
 - [Explore the demo site](01-explore.md): learn to read the graphs, without
   installing anything.
-- [Collect your first flows](02-collect.md): install *Akvorado* and connect your
+- [Collect your first flows](02-collect.md): install *FlowScope* and connect your
   first router to it.
 
 ## How-to guides
 
 The guides are recipes for a specific goal. They assume you already have
-*Akvorado* running.
+*FlowScope* running.
 
-- [Install Akvorado](10-install.md): the deployment options, the requirements,
+- [Install FlowScope](10-install.md): the deployment options, the requirements,
   and the upgrade procedure.
 - [Configure your exporters](11-exporters.md): the configuration snippets for
   Cisco, Juniper, Arista, Nokia, and a few others.
-- [Troubleshoot Akvorado](12-troubleshooting.md): find which component is at
+- [Troubleshoot FlowScope](12-troubleshooting.md): find which component is at
   fault when the flows do not arrive.
-- [Operate Akvorado](13-operating.md): keep Kafka, ClickHouse and the Docker
+- [Operate FlowScope](13-operating.md): keep Kafka, ClickHouse and the Docker
   Compose setup in good shape.
-- [Scale Akvorado](14-scaling.md): what to tune when packets are dropped or
+- [Scale FlowScope](14-scaling.md): what to tune when packets are dropped or
   flows are late.
 
 ## Reference
@@ -52,7 +52,7 @@ it.
 The following guides are for when you want to understand what happens behind the
 scenes.
 
-- [How Akvorado works](80-design.md): the four services, the path of a flow, and
+- [How FlowScope works](80-design.md): the four services, the path of a flow, and
   how the data is stored.
 - [Internal design](81-internals.md): how the code is organized and why.
 
@@ -73,6 +73,8 @@ commands from the troubleshooting guide.
 
 ## Colophon
 
-[Akvorado][] means "water wheel" in Esperanto.
+*FlowScope* is based on [Akvorado][], developed by Free Mobile and licensed
+under the [AGPLv3 license][]. FlowScope is licensed under the same terms.
 
-[Akvorado]: https://eo.wikipedia.org/wiki/Akvorado
+[Akvorado]: https://github.com/akvorado/akvorado
+[AGPLv3 license]: https://www.gnu.org/licenses/agpl-3.0.html

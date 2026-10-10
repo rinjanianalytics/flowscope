@@ -1,6 +1,6 @@
-# How Akvorado works
+# How FlowScope works
 
-*Akvorado* receives network flows, adds the information the flows do not carry,
+*FlowScope* receives network flows, adds the information the flows do not carry,
 and stores the result in a database you can query from a web interface. This
 page explains how the pieces fit together. For the code-level view, read the
 [internal design](81-internals.md).
@@ -9,7 +9,7 @@ page explains how the pieces fit together. For the code-level view, read the
 
 ![General design](design.svg)
 
-*Akvorado* is split into four components:
+*FlowScope* is split into four components:
 
 - The **inlet service** receives flows from exporters and sends them to Kafka
   without parsing them.
@@ -75,7 +75,7 @@ Flows are stored in a ClickHouse database, in a table named `flows`. The
 orchestrator keeps its schema up-to-date. You can check it with `SHOW CREATE
 TABLE flows`.
 
-Next to it, *Akvorado* maintains consolidated tables, one per resolution:
+Next to it, *FlowScope* maintains consolidated tables, one per resolution:
 `flows_1m0s`, `flows_5m0s` and `flows_1h0m0s`. They hold the same flows
 aggregated over a time interval, without the columns that have too many
 different values, like IP addresses and ports. Each table has its own retention,

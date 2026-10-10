@@ -143,7 +143,7 @@ flow:
        - /tmp/flow2.raw
 ```
 
-Without configuration, *Akvorado* listens for incoming NetFlow/IPFIX and sFlow
+Without configuration, *FlowScope* listens for incoming NetFlow/IPFIX and sFlow
 flows on a random port. Check the logs to see which port is used.
 
 ### Kafka
@@ -289,7 +289,7 @@ kafka-output:
 
 The routing component can get the source and destination AS numbers, AS paths,
 and communities. Not all exporters provide this information. Currently, the
-default provider is BMP. *Akvorado* tries to select the best route using the
+default provider is BMP. *FlowScope* tries to select the best route using the
 next hop from the flow. If it is not found, it will use any other next hop.
 
 The component has a `provider` key that defines the provider
@@ -332,7 +332,7 @@ For the BMP provider, the following keys are accepted:
 If you do not need AS paths and communities, you can disable them to save memory
 and disk space in ClickHouse.
 
-*Akvorado* supports receiving AdjRIB-in, with or without
+*FlowScope* supports receiving AdjRIB-in, with or without
 filtering. It can also work with a LocRIB.
 
 For example:
@@ -443,7 +443,7 @@ The `snmp` provider accepts these configuration keys:
 - `poller-retries` is the number of retries for unsuccessful SNMP requests.
 - `poller-timeout` defines how long the poller should wait for an answer.
 
-*Akvorado* uses SNMPv2 if `communities` is present and SNMPv3 if `user-name` is
+*FlowScope* uses SNMPv2 if `communities` is present and SNMPv3 if `user-name` is
 present. You need one of them.
 
 For example, with SNMPv2, you can try both `private` and `@private` SNMPv2
@@ -817,7 +817,7 @@ GeoIP2), [IPinfo][] and [DB-IP][] databases are supported.
 [IPinfo]: https://ipinfo.io/
 [DB-IP]: https://db-ip.com/
 
-If the files are updated while *Akvorado* is running, they are automatically
+If the files are updated while *FlowScope* is running, they are automatically
 refreshed.
 
 The content of the databases is merged with the [networks](#networks) to populate
@@ -911,7 +911,7 @@ if there are any. It is enabled by default.
 
 ### Schema
 
-It is possible to alter the data schema used by *Akvorado* by adding and
+It is possible to alter the data schema used by *FlowScope* by adding and
 removing columns. For example, to add the `SrcVlan` and `DstVlan` columns while
 removing the `SrcCountry` and `DstCountry`, one can use:
 
@@ -961,7 +961,7 @@ console (like `echo-reply` or `frag-needed`).
 #### Data-skipping indexes
 
 ClickHouse [data-skipping indexes][] can be added to columns in the main flows
-table. *Akvorado* ships with sensible defaults already enabled:
+table. *FlowScope* ships with sensible defaults already enabled:
 
 | Column | Index |
 |---|---|
@@ -998,7 +998,7 @@ schema:
 ```
 
 Indexes are idempotent: changing the type or removing an entry will cause
-*Akvorado* to drop and recreate (or drop) the index on the next startup.
+*FlowScope* to drop and recreate (or drop) the index on the next startup.
 
 > [!NOTE]
 > Skip indexes only load begin to work on data inserted after its creation.
@@ -1044,7 +1044,7 @@ addr,role
 ```
 
 > [!NOTE]
-> For IPv4 addresses, you need to use `::ffff:a.b.c.d`. Internally, Akvorado
+> For IPv4 addresses, you need to use `::ffff:a.b.c.d`. Internally, FlowScope
 > uses only IPv6 addresses.
 
 If `SrcAddr` has the value `2001:db8::1` (matches the key), the dimension
@@ -1225,7 +1225,7 @@ the raw data (the one in the `flows` table). For each resolution, a materialized
 view `flows_DDDD` is created with the specified interval. It should be noted that
 consolidated tables do not contain information about source/destination IP
 addresses and ports by default. That's why you may want to keep the interval-0
-table data a bit longer. *Akvorado* will still use the consolidated tables if the
+table data a bit longer. *FlowScope* will still use the consolidated tables if the
 query do not require the raw table, for performance reason.
 
 The `table-settings` key is optional and allows overriding or extending the
@@ -1296,7 +1296,7 @@ The console itself accepts the following keys:
  - `url-prefix` sets the URL path prefix under which the console is hosted
    (e.g. `/akvorado/`).  The value must start and end with a slash. The default
    is `/`.  When set, a stripping reverse proxy is required: the proxy must
-   remove the prefix before forwarding requests to Akvorado.  Akvorado uses the
+   remove the prefix before forwarding requests to FlowScope.  FlowScope uses the
    prefix only to inject a `<base href="…">` tag into `index.html` so that the
    browser correctly resolves relative asset and API paths.  Example nginx
    snippet:
@@ -1384,7 +1384,7 @@ To prevent access when not authenticated, the `login` field for the
 There are several systems providing user management with all the bells
 and whistles, including OAuth2 support, multi-factor authentication
 and API tokens. Here is a short selection of solutions able to act as
-an authenticating reverse-proxy for Akvorado:
+an authenticating reverse-proxy for FlowScope:
 
 - [Authelia](https://www.authelia.com/)
 - [Authentik](https://goauthentik.io/)
@@ -1537,7 +1537,7 @@ useful.
 
 ### Reporting
 
-Reporting encompasses logging and metrics. Currently, as *Akvorado* is expected
+Reporting encompasses logging and metrics. Currently, as *FlowScope* is expected
 to be run inside Docker, logging is done on the standard output and is not
 configurable. As for metrics, they are reported by the HTTP component on the
 `/api/v0/XXX/metrics` endpoint (where `XXX` is the service name) and there is

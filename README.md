@@ -1,60 +1,58 @@
-# Akvorado: flow collector, enricher and visualizer &middot; [![Build status](https://img.shields.io/github/actions/workflow/status/akvorado/akvorado/ci.yml?branch=main&style=flat-square)](https://github.com/akvorado/akvorado/actions/workflows/ci.yml) [![Codecov](https://img.shields.io/codecov/c/github/akvorado/akvorado?style=flat-square)](https://codecov.io/gh/akvorado/akvorado) [![License](https://img.shields.io/github/license/akvorado/akvorado?style=flat-square)](LICENSE.txt) [![Latest release](https://img.shields.io/github/v/release/akvorado/akvorado?style=flat-square)](https://github.com/akvorado/akvorado/releases)
+# FlowScope: flow collector, enricher and visualizer
 
-This program receives flows (currently NetFlow/IPFIX and sFlow), enriches them
-with interface names (using SNMP), geo information (using IPinfo.io), and
-exports them to ClickHouse. It also exposes a web interface to browse the
-collected data.
+FlowScope receives network flows (NetFlow v5/v9, IPFIX and sFlow), enriches
+them with interface names (SNMP or gNMI), routing information (BMP or BioRIS)
+and geographic information, and stores them in ClickHouse through Kafka. A web
+console lets you explore the collected flows with time series and sankey
+graphs.
 
-![Timeseries graph](console/data/docs/timeseries.png)
+FlowScope is a rewrite in Rust of [Akvorado](https://github.com/akvorado/akvorado),
+developed by Free Mobile. It keeps the configuration format, the ClickHouse
+schema, the Kafka messages and the HTTP API of Akvorado, so both can run side by
+side and a deployment can move from one to the other.
 
-![Sankey graph](console/data/docs/sankey.png)
+## Status
 
-*Akvorado* is developed by [Free](https://www.free.fr), a French ISP,
-and is licensed under the [AGPLv3 license](LICENSE.txt).
+The backend services are ported: inlet, outlet, orchestrator and console API.
+The web interface, the SDK, the demo exporter and the packaging are in
+progress. See [RUST_PORT_PLAN.md](RUST_PORT_PLAN.md) for the progress and the
+differences with Akvorado.
 
-A demo site using fake data and running the latest stable version is
-available on [demo.akvorado.net](https://demo.akvorado.net). It is the
-direct result of running `docker compose up` on a fresh checkout but
-flow ports are not accessible (you cannot send your own flows). Please,
-be gentle with this resource. The demo site also enables you to browse
-the [documentation](https://demo.akvorado.net/docs) for the current version
-(the one in `docs/` is for the next version).
+## Build
 
-By default, *Akvorado* is using [IPinfo](https://ipinfo.io) databases for
-geolocation data.
+FlowScope needs Rust (see `rust-toolchain.toml`) and CMake for the Kafka
+client.
 
-A [Grafana plugin](https://github.com/ovh/grafana-akvorado) is available.
-
-> [!CAUTION]
-> Be sure to always read the [changelog](console/data/docs/99-changelog.md)
-> before upgrading.
-
-## Getting help
-
-The first step is to read the [documentation](https://demo.akvorado.net/docs).
-It ships with *Akvorado*: the running console serves the version you use, under
-the “Documentation” tab.
-
-[![Documentation](console/data/docs/documentation.png)](https://demo.akvorado.net/docs)
-
-It is organized with the [Diátaxis](https://diataxis.fr) framework, in four
-parts: tutorials, how-to guides, reference and explanation. Good entry points
-are:
-
-- the [introduction](https://demo.akvorado.net/docs/intro),
-- the [tutorial](https://demo.akvorado.net/docs/collect),
-- the [configuration reference](https://demo.akvorado.net/docs/configuration), and
-- the [troubleshooting guide](https://demo.akvorado.net/docs/troubleshooting).
-
-If you still need help, you can use the
-[discussions](https://github.com/akvorado/akvorado/discussions/categories/q-a).
-Be sure to explain what you tried to solve your problem. Enclose code using
-triple backticks:
-
-````
+```console
+$ cargo build --release
+$ target/release/flowscope version
 ```
-# akvorado version | head -2
-akvorado v1.11.2
- Built with: go1.23.2 X:loopvar
-```
-````
+
+The `flowscope` binary runs every service: `flowscope orchestrator`,
+`flowscope inlet`, `flowscope outlet` and `flowscope console`, each with a
+configuration file or the URL of the orchestrator.
+
+## Compatibility with Akvorado
+
+Some names are kept from Akvorado on purpose, so existing deployments keep
+working:
+
+- metrics are prefixed with `akvorado_`, so dashboards and alerts still apply,
+- configuration overrides use `AKVORADO_CFG_*` environment variables,
+- the outlet uses the `akvorado-outlet` Kafka consumer group, so it resumes
+  from the offsets of an Akvorado outlet,
+- the ClickHouse tables, the dictionaries and the Kafka topics have the same
+  names.
+
+## Repository layout
+
+- `crates/`: the Rust workspace (`flowscope` binary and `flowscope-*`
+  libraries),
+- `console/data/docs`: the documentation, served by the console,
+- `tests/golden`: data dumped from Akvorado, used to check FlowScope gives
+  the same results,
+- the Go source of Akvorado is kept as the reference for these checks.
+
+## License
+
+FlowScope is licensed under the [AGPLv3 license](LICENSE.txt), like Akvorado.

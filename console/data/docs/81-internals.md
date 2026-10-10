@@ -1,6 +1,6 @@
 # Internal design
 
-*Akvorado* is written in Go. Each service has its code in a separate directory
+*FlowScope* is written in Go. Each service has its code in a separate directory
 (`inlet/`, `outlet/`, `orchestrator/`, `console/`, and `demoexporter/`). The
 `common/` directory contains components that are common to several services. The
 `cmd/` directory contains the main entry points.
@@ -15,7 +15,7 @@ Each component has the following pieces of code:
 
 - A `Component` structure that contains its state.
 - A `Configuration` structure that contains the configuration of the
-  component. It maps to a section of the [Akvorado configuration
+  component. It maps to a section of the [FlowScope configuration
   file](50-configuration.md).
 - A `DefaultConfiguration` function with the default values for the
   configuration.
@@ -203,7 +203,7 @@ peer going down. [A blog
 post](https://vincent.bernat.ch/en/blog/2026-akvorado-rib-sharding) describes
 the two steps of this work and the benchmarks.
 
-To save memory, *Akvorado* "interns" next-hops, origin AS, AS paths, and
+To save memory, *FlowScope* "interns" next-hops, origin AS, AS paths, and
 communities. Each unique combination is associated with a reference-counted
 32-bit integer, which is used in the RIB instead of the original information.
 Reference counting is explicit. The `unique` package of the standard library
@@ -212,7 +212,7 @@ support.
 
 ## Schema
 
-The *Akvorado* schema is a bit dynamic. You can add or remove columns of data.
+The *FlowScope* schema is a bit dynamic. You can add or remove columns of data.
 However, everything needs to be predefined in the code. To add a new column, you
 need to follow these steps:
 
@@ -327,7 +327,7 @@ section](51-usage.md).
 The daemon component handles the lifecycle of the whole application.
 It watches for the various goroutines (through tombs, see below)
 that are spawned by the other components and waits for signals to terminate. If
-*Akvorado* had a systemd integration, it would also take place here.
+*FlowScope* had a systemd integration, it would also take place here.
 
 ## Other interesting dependencies
 

@@ -1,6 +1,6 @@
 # Configure your exporters
 
-An exporter is a device that sends flows to *Akvorado*. This page collects the
+An exporter is a device that sends flows to *FlowScope*. This page collects the
 configuration snippets for the platforms we know about. Each exporter should be
 configured to send flows to the inlet service and to accept SNMP requests. For a
 device that is not listed here, look at the [configuration
@@ -34,7 +34,7 @@ source IP. This might happen with Docker or Kubernetes networking.
 You can enable NetFlow with the following configuration:
 
 ```cisco
-flow record Akvorado
+flow record FlowScope
     match ipv4 tos
     match ipv4 protocol
     match ipv4 source address
@@ -52,7 +52,7 @@ flow record Akvorado
     collect timestamp sys-uptime first
     collect timestamp sys-uptime last
 !
-flow record Akvorado-IPV6
+flow record FlowScope-IPV6
     match ipv6 protocol
     match ipv6 source address
     match ipv6 destination address
@@ -72,24 +72,24 @@ flow record Akvorado-IPV6
 sampler random1in100
     mode random 1 out-of 100
 !
-flow exporter AkvoradoExport
+flow exporter FlowScopeExport
     destination <akvorado-ip> vrf monitoring
     source Loopback20
     transport udp 2055
     version 9
     option sampler-table timeout 10
 !
-flow monitor AkvoradoMonitor
-    exporter AkvoradoExport
+flow monitor FlowScopeMonitor
+    exporter FlowScopeExport
     cache timeout inactive 10
     cache timeout active 10
-    record Akvorado
+    record FlowScope
 ! 
-flow monitor AkvoradoMonitor-IPV6
-    exporter AkvoradoExport
+flow monitor FlowScopeMonitor-IPV6
+    exporter FlowScopeExport
     cache timeout inactive 10
     cache timeout active 10
-    record Akvorado-IPV6
+    record FlowScope-IPV6
 !
 ```
 
@@ -97,10 +97,10 @@ To enable NetFlow on an interface, use this snippet:
 
 ```cisco
 interface GigabitEthernet0/0/3
-    ip flow monitor AkvoradoMonitor sampler random1in100 input
-    ip flow monitor AkvoradoMonitor sampler random1in100 output
-    ipv6 flow monitor AkvoradoMonitor-IPV6 sampler random1in100 input
-    ipv6 flow monitor AkvoradoMonitor-IPV6 sampler random1in100 output
+    ip flow monitor FlowScopeMonitor sampler random1in100 input
+    ip flow monitor FlowScopeMonitor sampler random1in100 output
+    ipv6 flow monitor FlowScopeMonitor-IPV6 sampler random1in100 input
+    ipv6 flow monitor FlowScopeMonitor-IPV6 sampler random1in100 output
 !
 ```
 
@@ -330,7 +330,7 @@ interfaces {
 }
 ```
 
-If `inet.0` is not enough to reach *Akvorado*, you need to add a specific route:
+If `inet.0` is not enough to reach *FlowScope*, you need to add a specific route:
 
 ```junos
 routing-options {
@@ -343,7 +343,7 @@ routing-options {
 ### IPFIX 315
 
 Another option is using IPFIX 315. Juniper calls that inline monitoring. In this
-case, Akvorado will decode the sampled packets. This is more lightweight.
+case, FlowScope will decode the sampled packets. This is more lightweight.
 
 ```junos
 services {
@@ -464,7 +464,7 @@ snmp {
 ### BMP
 
 If needed, you can configure BMP on one router to send all AdjRIB-in
-to Akvorado.
+to FlowScope.
 
 ```junos
 routing-options {
@@ -723,7 +723,7 @@ ifindex=4 ifname=eth1 direction=out
 
 We set the interface indexes manually based on the interface names to
 avoid running an SNMP daemon. Use the static metadata provider to match the
-exporter and provide interface names and descriptions to Akvorado:
+exporter and provide interface names and descriptions to FlowScope:
 
 ```yaml
 outlet:
@@ -761,10 +761,10 @@ ipfixprobe \
 
 You need to run one `ipfixprobe` instance for each interface. Each interface
 should have its own `id` and `dir`. As with *pmacct*, use the static metadata
-provider to provide interface names and descriptions to Akvorado.
+provider to provide interface names and descriptions to FlowScope.
 
 By default, ipfixprobe utilises bidirectional flows (RFC 5103) which are
-supported by Akvorado.
+supported by FlowScope.
 
 > [!WARNING]
 > The `split` option for the cache plugin results to incorrect input interfaces

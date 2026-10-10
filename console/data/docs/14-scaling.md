@@ -1,4 +1,4 @@
-# Scale Akvorado
+# Scale FlowScope
 
 Various bottlenecks can cause dropped packets. This is problematic because the
 reported sampling rate becomes incorrect, and you cannot reliably calculate the
@@ -59,7 +59,7 @@ Each listening queue has a fixed number of receive buffers (212992 bytes by
 default) to keep packets before they are handled by the application. When this
 buffer is full, packets are dropped.
 
-*Akvorado* reports the number of drops for each listening socket with the
+*FlowScope* reports the number of drops for each listening socket with the
 `akvorado_inlet_flow_input_udp_in_dropped_packets_total` counter. This should be
 compared to `akvorado_inlet_flow_input_udp_packets_total`. Another way to get
 the same information is to use `ss -lunepm` and look at the drop counter:
@@ -125,7 +125,7 @@ akvorado_outlet_routing_provider_bmp_message_queue_notfull_total{exporter="247.1
 
 ## Profiling
 
-On a large-scale installation, you may want to check if *Akvorado* is using too
+On a large-scale installation, you may want to check if *FlowScope* is using too
 much CPU or memory. You can do this with `pprof`, the [Go
 profiler](https://go.dev/blog/pprof). You need a working [Go
 installation](https://go.dev/doc/install) on your workstation.

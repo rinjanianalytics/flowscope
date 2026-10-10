@@ -1,17 +1,17 @@
-# Install Akvorado
+# Install FlowScope
 
-*Akvorado* is written in Go. It provides its 4 components in a single binary or
+*FlowScope* is written in Go. It provides its 4 components in a single binary or
 Docker image. It also requires [Kafka](https://kafka.apache.org/quickstart)
 (1.0+) and [ClickHouse](https://clickhouse.com/docs/en/getting-started/install/)
 (22.4+).
 
-If you only want to try *Akvorado*, follow the [tutorial](02-collect.md)
+If you only want to try *FlowScope*, follow the [tutorial](02-collect.md)
 instead. It uses the `docker compose` setup and covers the first configuration
 steps.
 
 ## Requirements
 
-*Akvorado* itself does not need much memory and disk space, but Kafka and
+*FlowScope* itself does not need much memory and disk space, but Kafka and
 ClickHouse do. The recommended configuration for the complete setup is:
 
 - 4 vCPUs (AMD64 or ARM64)
@@ -25,7 +25,7 @@ ClickHouse do. The recommended configuration for the complete setup is:
 
 ## Docker image
 
-You can use the *Akvorado* [Docker](https://docs.docker.com/engine/install/) image.
+You can use the *FlowScope* [Docker](https://docs.docker.com/engine/install/) image.
 
 ```console
 # docker pull quay.io/akvorado/akvorado:latest
@@ -33,7 +33,7 @@ You can use the *Akvorado* [Docker](https://docs.docker.com/engine/install/) ima
 ```
 
 Check the `docker/docker-compose.yml` file for an example of how to deploy
-*Akvorado* using containers. If you want to use `docker compose`, see the
+*FlowScope* using containers. If you want to use `docker compose`, see the
 [tutorial](02-collect.md). This documentation assumes you are using the `docker
 compose` setup.
 

@@ -1,6 +1,6 @@
 # Command line and endpoints
 
-*Akvorado* uses a subcommand system. Each subcommand has its own set of options.
+*FlowScope* uses a subcommand system. Each subcommand has its own set of options.
 You can get help with `akvorado --help`. Start each service with the matching
 subcommand. When started from a TTY, a service displays logs in a special
 format. Without a TTY, logs are formatted as JSON.
@@ -32,7 +32,7 @@ Each service has an HTTP server that exposes a few endpoints. All services
 expose these endpoints in addition to the service-specific endpoints:
 
 - `/api/v0/metrics`: Prometheus metrics
-- `/api/v0/version`: *Akvorado* version
+- `/api/v0/version`: *FlowScope* version
 - `/api/v0/healthcheck`: are we alive?
 
 Each endpoint is also exposed under the service namespace. The idea is to
@@ -108,7 +108,7 @@ than one shard, it also creates the matching distributed tables. Without a
 cluster name, you can still configure several servers, but they are managed as
 if they are copies of each other.
 
-*Akvorado* also handles database migration during upgrades. When the protobuf
+*FlowScope* also handles database migration during upgrades. When the protobuf
 schema is updated, new Kafka tables and the associated materialized view should
 be created. Older tables should be kept, especially during rolling upgrades
 when some *akvorado* instances are still running an older version.

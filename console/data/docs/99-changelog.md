@@ -1,5 +1,8 @@
 # Changelog
 
+*FlowScope* is based on [Akvorado](https://github.com/akvorado/akvorado). The
+versions below are the ones of Akvorado.
+
 For each version, changes are listed in order of importance. Minor
 changes are not listed here. Each change is mapped to a category
 identified with a specific icon:

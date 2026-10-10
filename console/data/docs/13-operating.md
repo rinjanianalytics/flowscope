@@ -1,6 +1,6 @@
-# Operate Akvorado
+# Operate FlowScope
 
-*Akvorado* itself needs little attention once it runs. Kafka and ClickHouse need
+*FlowScope* itself needs little attention once it runs. Kafka and ClickHouse need
 more. This page explains how to keep an eye on them and how to adapt the Docker
 Compose setup to your needs.
 
@@ -31,7 +31,7 @@ with other tips.
 > compose exec clickhouse clickhouse-client`.
 
 > [!WARNING]
-> Do not create your own tables with a name starting with `flows`. *Akvorado*
+> Do not create your own tables with a name starting with `flows`. *FlowScope*
 > uses this prefix for its own tables.
 
 ### Memory usage
