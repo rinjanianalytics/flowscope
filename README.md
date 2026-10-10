@@ -73,8 +73,6 @@ API. A deployment can move one service at a time. Three names differ:
   `kafka.consumer-group` to `akvorado-outlet` to resume from the offsets of an
   Akvorado outlet.
 
-See [RUST_PORT_PLAN.md](RUST_PORT_PLAN.md) for the other differences.
-
 ## Repository layout
 
 - `crates/`: the Rust workspace (`flowscope` binary and `flowscope-*`

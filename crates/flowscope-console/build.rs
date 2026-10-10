@@ -22,14 +22,11 @@ fn files(dir: &Path, out: &mut Vec<PathBuf>) {
 
 fn main() {
     let manifest = PathBuf::from(std::env::var("CARGO_MANIFEST_DIR").unwrap());
-    let repo = manifest.join("../..").canonicalize().unwrap();
     let mut code = String::new();
-    for (name, dir) in [
-        ("AVATARS", "crates/flowscope-console/data/avatars"),
-        ("DOCS", "docs"),
-        ("FRONTEND", "crates/flowscope-console/data/frontend"),
-    ] {
-        let dir = repo.join(dir);
+    // `data/docs` is a link to the `docs` directory of the repository. The
+    // published package has a copy of it.
+    for (name, dir) in [("AVATARS", "data/avatars"), ("DOCS", "data/docs"), ("FRONTEND", "data/frontend")] {
+        let dir = manifest.join(dir).canonicalize().unwrap_or_else(|_| manifest.join(dir));
         println!("cargo:rerun-if-changed={}", dir.display());
         let mut list = vec![];
         files(&dir, &mut list);

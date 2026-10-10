@@ -54,6 +54,23 @@ $ FLOWSCOPE_UPDATE_OPENAPI=1 cargo test -p rinjani-flowscope-sdk
 $ cd web && pnpm run api
 ```
 
+## Packages
+
+The Cargo packages carry the `rinjani-` prefix: `rinjani-flowscope` for the
+binary, `rinjani-flowscope-sdk` for the client library. The libraries keep
+their short names in the code (`flowscope_sdk`).
+
+The console package embeds the web interface, which is not in git. Build it
+before you package, or the published console has no interface:
+
+```console
+$ cd web && pnpm install && pnpm build && cd ..
+$ cargo package --workspace
+```
+
+`cargo package` builds each package from its archive. Remove
+`target/package` first if it fails with "no hash listed".
+
 ## Compatibility with Akvorado
 
 FlowScope reads the configuration of Akvorado and shares its ClickHouse

@@ -4,5 +4,8 @@
 # The web interface, built from web/ and embedded in the console
 /crates/flowscope-console/data/frontend/
 
+# Working notes of the port
+/RUST_PORT_PLAN.md
+
 *~
 __pycache__/
