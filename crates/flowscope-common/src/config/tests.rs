@@ -128,19 +128,13 @@ module2:
     assert_eq!(got, expected);
 }
 
-/// The names of Akvorado still work. The ones of FlowScope win.
+/// The variables of Akvorado are not read.
 #[test]
-fn env_override_old_prefix() {
-    let vars = env(&[("AKVORADO_CFG_DUMMY_MODULE1_TOPIC", "old"), ("AKVORADO_CFG_DUMMY_MODULE2_STUFF", "old")]);
+fn env_override_old_prefix_ignored() {
+    let vars = env(&[("AKVORADO_CFG_DUMMY_MODULE1_TOPIC", "old"), ("FLOWSCOPE_CFG_DUMMY_MODULE2_STUFF", "new")]);
     let got: Dummy = decode(Value::Null, "dummy", vars).unwrap();
-    assert_eq!((got.module1.topic.as_str(), got.module2.stuff.as_str()), ("old", "old"));
-    let vars = env(&[
-        ("AKVORADO_CFG_DUMMY_MODULE1_TOPIC", "old"),
-        ("FLOWSCOPE_CFG_DUMMY_MODULE1_TOPIC", "new"),
-        ("AKVORADO_CFG_DUMMY_MODULE2_STUFF", "old"),
-    ]);
-    let got: Dummy = decode(Value::Null, "dummy", vars).unwrap();
-    assert_eq!((got.module1.topic.as_str(), got.module2.stuff.as_str()), ("new", "old"));
+    assert_eq!(got.module1.topic, Dummy::default().module1.topic);
+    assert_eq!(got.module2.stuff, "new");
 }
 
 #[test]

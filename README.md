@@ -68,7 +68,7 @@ API. A deployment can move one service at a time. Three names differ:
 - metrics are prefixed with `flowscope_` instead of `akvorado_`: dashboards
   and alerts need the new prefix,
 - configuration overrides are `FLOWSCOPE_CFG_*` environment variables. The
-  `AKVORADO_CFG_*` ones are still read,
+  `AKVORADO_CFG_*` ones are not read: rename them,
 - the outlet uses the `flowscope-outlet` Kafka consumer group. Set
   `kafka.consumer-group` to `akvorado-outlet` to resume from the offsets of an
   Akvorado outlet.

@@ -6,7 +6,7 @@
 //!
 //! A configuration is read from a YAML file (with `!include` support) or
 //! fetched from the orchestrator. It is merged on top of the default
-//! configuration, then `AKVORADO_CFG_<COMPONENT>_<PATH>` environment variables
+//! configuration, then `FLOWSCOPE_CFG_<COMPONENT>_<PATH>` environment variables
 //! are applied. The result is decoded with the weakly-typed deserializer from
 //! `de`.
 
@@ -274,10 +274,8 @@ fn merge(base: &mut Value, overlay: Value, mode: MergeMode) {
     }
 }
 
-/// Prefixes of the environment variables overriding the configuration. The
-/// second one is the name used by Akvorado: it still works, so a deployment
-/// can move without changing its environment. The first one wins.
-const ENV_PREFIXES: [&str; 2] = ["FLOWSCOPE", "AKVORADO"];
+/// Prefix of the environment variables overriding the configuration.
+const ENV_PREFIX: &str = "FLOWSCOPE_CFG_";
 
 /// Build the override tree for an environment variable, if it applies to the
 /// component. `FLOWSCOPE_CFG_INLET_FLOW_INPUTS_0_LISTEN=:2055` gives
@@ -285,7 +283,7 @@ const ENV_PREFIXES: [&str; 2] = ["FLOWSCOPE", "AKVORADO"];
 fn env_override(component: &str, name: &str, value: &str) -> Option<Value> {
     let parts: Vec<&str> = name.split('_').collect();
     let component = component.to_uppercase().replace('-', "");
-    if parts.len() < 4 || !ENV_PREFIXES.contains(&parts[0]) || parts[1] != "CFG" || parts[2] != component {
+    if parts.len() < 4 || parts[0] != "FLOWSCOPE" || parts[1] != "CFG" || parts[2] != component {
         return None;
     }
     let mut tree = Value::String(value.to_string());
@@ -362,10 +360,8 @@ where
     merge(&mut base, tree, MergeMode::Defaults);
     // Check the file alone decodes, to report errors before overrides.
     let mut config: T = from_value(base.clone())?;
-    let rank = |name: &str| ENV_PREFIXES.iter().rposition(|p| name.starts_with(&format!("{p}_CFG_")));
-    let mut overrides: Vec<(String, String)> = env.into_iter().filter(|(k, _)| rank(k).is_some()).collect();
-    // The names of Akvorado first, so the ones of FlowScope are applied last.
-    overrides.sort_by(|a, b| rank(&b.0).cmp(&rank(&a.0)).then_with(|| a.cmp(b)));
+    let mut overrides: Vec<(String, String)> = env.into_iter().filter(|(k, _)| k.starts_with(ENV_PREFIX)).collect();
+    overrides.sort();
     for (name, value) in overrides {
         if let Some(tree) = env_override(component, &name, &value) {
             merge(&mut base, tree, MergeMode::Override);
