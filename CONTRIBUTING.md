@@ -54,6 +54,31 @@ $ FLOWSCOPE_UPDATE_OPENAPI=1 cargo test -p rinjani-flowscope-sdk
 $ cd web && pnpm run api
 ```
 
+## Branches and pull requests
+
+Nothing is pushed to `main`. Every change comes from a branch, through a pull
+request:
+
+1. Create a branch: `git switch -c outlet/fix-something`.
+2. Push it and open a pull request to `main`.
+3. The `test` and `web` checks have to pass, on a branch up to date with
+   `main`.
+4. The owner of the repository reviews, tries the change and approves.
+5. The owner merges. `main` is what gets built and released.
+
+GitHub enforces this with two rule sets, kept in `.github/rulesets`. The first
+one applies to everyone: a pull request and passing checks, no force push, no
+deletion of `main`. The second one asks for the approval of the owner
+(`.github/CODEOWNERS`). The owner cannot approve their own pull request, so
+they can merge it without one, but still not push to `main`.
+
+To apply the rule sets to a repository:
+
+```console
+$ gh api -X POST repos/OWNER/REPO/rulesets --input .github/rulesets/main-checks.json
+$ gh api -X POST repos/OWNER/REPO/rulesets --input .github/rulesets/main-review.json
+```
+
 ## Packages
 
 The Cargo packages carry the `rinjani-` prefix: `rinjani-flowscope` for the
