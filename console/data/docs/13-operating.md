@@ -348,7 +348,7 @@ You can disable some services by using profiles:
 
 ```yaml
 services:
-  akvorado-inlet:
+  flowscope-inlet:
     profiles: [ disabled ]
 ```
 
@@ -356,7 +356,7 @@ It is possible to remove a value with the `!reset` tag:
 
 ```yaml
 services:
-  akvorado-console:
+  flowscope-console:
     environment:
       AKVORADO_CFG_CONSOLE_DATABASE_DSN: !reset null
 ```

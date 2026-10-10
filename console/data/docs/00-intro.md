@@ -5,9 +5,11 @@ them with interface names (using SNMP), and geographic information (using
 [IPinfo](https://ipinfo.io/) or MaxMind). Then, it exports them to ClickHouse via
 Kafka. It also provides a web interface to explore the data.
 
-A public instance filled with generated traffic runs on
-[demo.akvorado.net](https://demo.akvorado.net). It is the best place to see what
-*FlowScope* looks like before installing anything.
+*FlowScope* is a Rust rewrite of [Akvorado][]. It keeps its configuration
+format, its ClickHouse schema, its Kafka messages and its HTTP API.
+
+There is no public demo site yet. The [first tutorial](01-explore.md) starts a
+demo with generated traffic on your own machine.
 
 ## Tutorials
 
@@ -66,15 +68,18 @@ before every upgrade.
 > various chapters of the documentation, notably the [troubleshooting
 > guide](12-troubleshooting.md).
 
-Questions go to the [discussions on
-GitHub](https://github.com/akvorado/akvorado/discussions/categories/q-a).
+Questions go to the [issues on
+GitHub](https://github.com/rinjanianalytics/flowscope/issues).
 Explain what you tried and what you observed, and include the output of the
 commands from the troubleshooting guide.
 
 ## Colophon
 
-*FlowScope* is based on [Akvorado][], developed by Free Mobile and licensed
-under the [AGPLv3 license][]. FlowScope is licensed under the same terms.
+*FlowScope* is a Rust rewrite of [Akvorado][], which is written in Go, developed
+by Free Mobile and licensed under the [AGPLv3 license][]. Akvorado is the
+origin of this project: the design, the data model and most of this
+documentation come from it. *FlowScope* is licensed under the same terms. It is
+built by Rinjani Analytics and is not affiliated with Akvorado or Free Mobile.
 
 [Akvorado]: https://github.com/akvorado/akvorado
 [AGPLv3 license]: https://www.gnu.org/licenses/agpl-3.0.html

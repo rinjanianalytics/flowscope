@@ -1,7 +1,7 @@
 # Install FlowScope
 
-*FlowScope* is written in Go. It provides its 4 components in a single binary or
-Docker image. It also requires [Kafka](https://kafka.apache.org/quickstart)
+*FlowScope* is written in Rust. It provides its 4 components in a single binary
+or Docker image. It also requires [Kafka](https://kafka.apache.org/quickstart)
 (1.0+) and [ClickHouse](https://clickhouse.com/docs/en/getting-started/install/)
 (22.4+).
 
@@ -18,92 +18,60 @@ ClickHouse do. The recommended configuration for the complete setup is:
 - 8 GB of RAM, 32 GB or more is better
 - 100 GB of disk, 50 GB is the minimum
 
-> [!NOTE]
-> `demo.akvorado.net` currently runs on a bare-metal host with a quad-core Intel
-> Xeon E3-1231 v3, 1TB of disk, and 32 GB of RAM. But it was previously running
-> on a virtual machine matching the minimal specs.
-
 ## Docker image
 
-You can use the *FlowScope* [Docker](https://docs.docker.com/engine/install/) image.
+There is no published image yet. Build it from the repository, with
+[Docker](https://docs.docker.com/engine/install/):
 
 ```console
-# docker pull quay.io/akvorado/akvorado:latest
-# docker run --rm quay.io/akvorado/akvorado:latest help
+# git clone https://github.com/rinjanianalytics/flowscope
+# cd flowscope
+# docker build -f docker/Dockerfile -t ghcr.io/rinjanianalytics/flowscope:main .
+# docker run --rm ghcr.io/rinjanianalytics/flowscope:main help
 ```
 
 Check the `docker/docker-compose.yml` file for an example of how to deploy
-*FlowScope* using containers. If you want to use `docker compose`, see the
+*FlowScope* using containers. `docker compose up` builds the image when it is
+missing. If you want to use `docker compose`, see the
 [tutorial](02-collect.md). This documentation assumes you are using the `docker
 compose` setup.
 
 The minimum supported version for Docker Engine is v23.
 Check with `docker version -f {{ .Server.Version }}`.
 
-If you want to compile the Docker image yourself, use `make docker`.
-
-## Pre-built binary
-
-The second option is to download a pre-built binary from the [release page
-on GitHub](https://github.com/akvorado/akvorado/releases).
-Currently, only a pre-built binary for Linux x86-64 is provided.
-
 ## Compilation from source
 
-You need to install [Go](https://go.dev/doc/install) (1.21+), and
-[NodeJS](https://nodejs.org/en/download/) (22+). For example, on Debian:
+You need [Rust](https://www.rust-lang.org/tools/install) (the version is in
+`rust-toolchain.toml`), CMake and a C compiler for the Kafka client, and
+[NodeJS](https://nodejs.org/en/download/) (22+) with
+[pnpm](https://pnpm.io/installation) for the web interface. For example, on
+Debian:
 
 ```console
-# apt install golang nodejs npm
-# go version
-go version go1.24.1 linux/amd64
-# node --version
-v22.22.0
+# apt install cmake build-essential nodejs npm
+# npm install -g pnpm
+# curl -sSf https://sh.rustup.rs | sh
 ```
 
-Then, type:
+Build the web interface first: the binary embeds it.
 
 ```console
-# make
-▶ building golang.org/x/tools/cmd/goimports@latest…
-▶ fetching node modules…
-▶ formatting code…
-▶ building github.com/mgechev/revive@latest…
-▶ running lint…
-▶ building google.golang.org/protobuf/cmd/protoc-gen-go@v1.28.0…
-▶ compiling protocol buffers definition…
-▶ building github.com/golang/mock/mockgen@v1.6.0…
-▶ generate mocks for ClickHouse driver…
-▶ generate ASN map…
-▶ building github.com/mna/pigeon@v1.1.0…
-▶ generate PEG parser for filters…
-▶ generate list of selectable fields…
-▶ building console frontend…
-vite v3.0.0 building for production...
-✓ 2384 modules transformed.
-../data/frontend/assets/akvorado.399701ee.svg   93.44 KiB
-../data/frontend/index.html                     0.54 KiB
-../data/frontend/assets/index.26bdc6d7.css      68.11 KiB / gzip: 9.84 KiB
-../data/frontend/assets/index.64c3c8d1.js       1273.41 KiB / gzip: 429.70 KiB
-▶ building executable…
+# cd web
+# pnpm install
+# pnpm build
+# cd ..
+# cargo build --release
 ```
 
-The resulting executable is `bin/akvorado`.
+The resulting executable is `target/release/flowscope`. Without the first
+step, the binary still works but its console has no web interface.
 
-The following `make` targets are available:
+The checks are:
 
-- `make help` to get help
-- `make` to build the binary (in `bin/`)
-- `make test` to run tests
-- `make test-verbose` to run tests in verbose mode
-- `make test-race` for race tests
-- `make test-xml` for tests with xUnit-compatible output
-- `make test-coverage` for test coverage (will output `index.html`,
-  `coverage.xml` and `profile.out` in `test/coverage.*/`.
-- `make test PKG=helloworld/hello` to restrict test to a package
-- `make clean`
-- `make lint` to lint source code
-- `make fmt` to format source code
+- `cargo test --workspace` to run the tests
+- `cargo clippy --workspace --all-targets` to lint the Rust code
+- `cargo fmt --all` to format the Rust code
+- `pnpm lint` and `pnpm test`, in `web/`, for the web interface
 
 ## Upgrade
 
@@ -111,21 +79,20 @@ Read the [changelog](99-changelog.md) before you upgrade.
 Upgrade the orchestrator first. This will update the ClickHouse database if
 needed. Then, upgrade all inlets and outlets. Then the console.
 
-When using `docker compose`, use the following commands to get an updated
-`docker-compose.yml` file and update your installation.
+When using `docker compose`, use the following commands to update your
+installation.
 
 ```console
-# cd akvorado
-# curl -sL https://github.com/akvorado/akvorado/releases/latest/download/docker-compose-upgrade.tar.gz | tar zxvf -
-# docker compose pull
-# docker compose stop akvorado-orchestrator
+# cd flowscope
+# git pull
+# docker compose build
+# docker compose pull --ignore-buildable
+# docker compose stop flowscope-orchestrator
 # docker compose up --wait
 ```
 
-The `docker-compose-upgrade.tar.gz` tarball contains `.env.dist` instead of
-`.env`, and `docker/docker-compose-local.yml.dist` instead of
-`docker/docker-compose-local.yml`. You may want to check for differences
-with your setup.
+Your changes to `.env`, `config/` and `docker/docker-compose-local.yml` are
+kept by Git. Fix the conflicts it reports, if any.
 
 > [!NOTE]
 > The upgrade can be done from any version to any more recent version. Downgrading is not supported.

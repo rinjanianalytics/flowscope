@@ -45,10 +45,10 @@ Check that all components are running and healthy:
 ```console
 $ docker compose ps --format "table {{.Service}}\t{{.Status}}"
 SERVICE                    STATUS
-akvorado-console           Up 27 minutes (healthy)
-akvorado-inlet             Up 27 minutes (healthy)
-akvorado-orchestrator      Up 27 minutes (healthy)
-akvorado-outlet            Up 27 minutes (healthy)
+flowscope-console           Up 27 minutes (healthy)
+flowscope-inlet             Up 27 minutes (healthy)
+flowscope-orchestrator      Up 27 minutes (healthy)
+flowscope-outlet            Up 27 minutes (healthy)
 clickhouse                 Up 28 minutes (healthy)
 geoip                      Up 28 minutes (healthy)
 kafka                      Up 28 minutes (healthy)
@@ -61,7 +61,7 @@ Make sure that all components are present. If a component is missing, restarting
 unhealthy, or not working correctly, check its logs:
 
 ```console
-$ docker compose logs akvorado-inlet
+$ docker compose logs flowscope-inlet
 ```
 
 When the orchestrator refuses to start, the configuration file is the first
@@ -69,7 +69,7 @@ suspect. This command parses it, prints the result with the default values, and
 stops:
 
 ```console
-$ docker compose run --rm --no-deps akvorado-orchestrator orchestrator --check --dump /etc/akvorado/akvorado.yaml
+$ docker compose run --rm --no-deps flowscope-orchestrator orchestrator --check --dump /etc/flowscope/flowscope.yaml
 ```
 
 The *inlet*, *outlet*, *orchestrator*, and *console* expose metrics. Get them with this command:
@@ -94,12 +94,6 @@ To see only error metrics, filter them:
 ```console
 $ curl -s http://127.0.0.1:8080/api/v0/inlet/metrics | grep 'akvorado_.*_error'
 ```
-
-> [!TIP]
-> To see what these metrics look like on a working system, replace
-> `http://127.0.0.1:8080` with `https://demo.akvorado.net`. Only the `metrics`
-> endpoints are public there. The other ones, like `/api/v0/outlet/flows`, stay
-> on the private port and answer 404.
 
 ### Inlet service
 
@@ -167,7 +161,7 @@ Kafka](https://github.com/provectus/kafka-ui). You can access it at
 > port, uncomment the block about Kafka-UI in `docker/docker-compose-local.yml`.
 > You can then reach it with [SSH port
 > forwarding](https://www.digitalocean.com/community/tutorials/ssh-port-forwarding):
-> `ssh -L 8080:127.0.0.1:8080 akvorado`. Then, you can use
+> `ssh -L 8080:127.0.0.1:8080 flowscope`. Then, you can use
 > `http://127.0.0.1:8080/kafka-ui` directly from your workstation.
 
 Check the various tabs (brokers, topics, and consumers) to make sure that everything is
@@ -284,7 +278,7 @@ A convenient way to check if the SNMP configuration is correct is to use
 `tcpdump`.
 
 ```console
-# nsenter -t $(pgrep -fo "akvorado outlet") -n tcpdump -c3 -pni eth0 port 161
+# nsenter -t $(pgrep -fo "flowscope outlet") -n tcpdump -c3 -pni eth0 port 161
 20:46:44.812243 IP 240.0.2.11.34554 > 240.0.2.13.161: C="private" GetRequest(95) .1.3.6.1.2.1.1.5.0 .1.3.6.1.2.1.2.2.1.2.11 .1.3.6.1.2.1.31.1.1.1.1.11 .1.3.6.1.2.1.31.1.1.1.18.11 .1.3.6.1.2.1.31.1.1.1.15.11
 20:46:45.144567 IP 240.0.2.13.161 > 240.0.2.11.34554: C="private" GetResponse(153) .1.3.6.1.2.1.1.5.0="dc3-edge1.example.com" .1.3.6.1.2.1.2.2.1.2.11="Gi0/0/0/11" .1.3.6.1.2.1.31.1.1.1.1.11="Gi0/0/0/11" .1.3.6.1.2.1.31.1.1.1.18.11="Transit: Lumen" .1.3.6.1.2.1.31.1.1.1.15.11=10000
 ^C

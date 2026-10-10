@@ -25,17 +25,16 @@ Homebrew.
 
 ## Start FlowScope
 
-Download the *Docker Compose* setup and start it:
+Get the *Docker Compose* setup and start it:
 
 ```console
-# mkdir akvorado
-# cd akvorado
-# curl -sL https://github.com/akvorado/akvorado/releases/latest/download/docker-compose-quickstart.tar.gz | tar zxvf -
+# git clone https://github.com/rinjanianalytics/flowscope
+# cd flowscope
 # docker compose up --wait
 ```
 
-The first start takes a few minutes: the images are downloaded and started. The
-command returns when every service is healthy.
+The first start takes a while: the *FlowScope* image is built and the other
+images are downloaded. The command returns when every service is healthy.
 
 Open `http://127.0.0.1:8081` in a browser (or replace `127.0.0.1` with the IP
 address of your server). You should get the same interface as the demo site,
@@ -131,7 +130,7 @@ provider comes first and the type of connection is in brackets.
 
 ```
 Read this page about the classification language of FlowScope:
-https://demo.akvorado.net/api/v0/console/docs/configuration
+<paste the output of "curl http://127.0.0.1:8081/api/v0/console/docs/configuration">
 
 Here are the descriptions of the interfaces of my router:
 

@@ -11,7 +11,7 @@ The orchestrator service is configured through YAML files (provided in the
 > a configuration change is not applied.
 
 You can get the default configuration with `docker compose run --rm --no-deps
-akvorado-orchestrator orchestrator --dump --check /dev/null`. Note that
+flowscope-orchestrator orchestrator --dump --check /dev/null`. Note that
 some sections are generated from the configuration of other sections. It is
 better to not use the generated configuration as a base for your configuration.
 Write durations as strings, like `10h20m` or `5s`. Valid time units are `ms`,
@@ -50,7 +50,7 @@ Each service has several functional components. Each component has a section in
 the configuration file with the same name.
 
 The default Docker Compose setup splits the configuration into several files
-using `!include` directives. The main file `config/akvorado.yaml` contains
+using `!include` directives. The main file `config/flowscope.yaml` contains
 orchestrator settings (such as `schema`, `kafka`, and `clickhouse`) and
 includes the service-specific files:
 
@@ -904,7 +904,7 @@ The flow component decodes flows received from Kafka. There is only one setting:
 ## Orchestrator service
 
 The orchestrator settings are at the top level of the main configuration file
-(`config/akvorado.yaml` with the default Docker Compose setup). Its three main
+(`config/flowscope.yaml` with the default Docker Compose setup). Its three main
 components are `schema`, `clickhouse`, and `kafka`. The `automatic-restart`
 directive tells the orchestrator to watch for configuration changes and restart
 if there are any. It is enabled by default.
@@ -933,9 +933,9 @@ dimensions (e.g. `SrcNetPrefix` and `DstNetPrefix`) is computed at query time
 (the default) or materialized at ingest time. This reduces the query time, but
 increases the storage needs.
 
-You can get the list of columns you can enable or disable with `akvorado version
+You can get the list of columns you can enable or disable with `flowscope version
 -d`. When using Docker Compose, run `docker compose run --rm --no-deps
-akvorado-orchestrator version -d`. Disabling a column won't delete existing
+flowscope-orchestrator version -d`. Disabling a column won't delete existing
 data.
 
 It is also possible to make some columns available on the main table only
@@ -1029,7 +1029,7 @@ schema:
           type: String
           default: DefaultRole
           label: IPRole
-      source: /etc/akvorado/ips_annotation.csv
+      source: /etc/flowscope/ips_annotation.csv
       dimensions:
         - SrcAddr
         - DstAddr
@@ -1090,7 +1090,7 @@ schema:
         - name: information # OutIfInformation/InIfInformation
           type: String
           # No default. If no match of both agent and interface, the dimension is empty
-      source: /etc/akvorado/interfaces.csv
+      source: /etc/flowscope/interfaces.csv
 ```
 
 ### Kafka
@@ -1294,14 +1294,14 @@ components are `console`, `authentication` and `database`.
 The console itself accepts the following keys:
 
  - `url-prefix` sets the URL path prefix under which the console is hosted
-   (e.g. `/akvorado/`).  The value must start and end with a slash. The default
+   (e.g. `/flowscope/`).  The value must start and end with a slash. The default
    is `/`.  When set, a stripping reverse proxy is required: the proxy must
    remove the prefix before forwarding requests to FlowScope.  FlowScope uses the
    prefix only to inject a `<base href="…">` tag into `index.html` so that the
    browser correctly resolves relative asset and API paths.  Example nginx
    snippet:
    ```nginx
-   location /akvorado/ {
+   location /flowscope/ {
        proxy_pass http://127.0.0.1:8081/;   # trailing slash strips the prefix
    }
    ```
@@ -1417,7 +1417,7 @@ lost on restart. Supported drivers are `sqlite`, `mysql`, and `postgresql`.
 ```yaml
 database:
   driver: sqlite
-  dsn: /var/lib/akvorado/console.sqlite
+  dsn: /var/lib/flowscope/console.sqlite
 ```
 
 The `dsn` field for `sqlite` should be the path to the database. For `mysql`,
@@ -1431,7 +1431,7 @@ for more details.
 
 > [!IMPORTANT]
 > With the Docker Compose setup, SQLite is configured by default with DSN
-> `/run/akvorado/console.sqlite` using environment variable. To override this,
+> `/run/flowscope/console.sqlite` using environment variable. To override this,
 > uncomment the appropriate configuration snippet in
 > `docker/docker-compose-local.yml`.
 
@@ -1494,7 +1494,7 @@ In the `snmp` section, all fields are mandatory. The `interfaces`
 section maps interface indexes to their descriptions. In the `bmp`
 session, for each set of prefixes, the `aspath` is mandatory, but the
 `communities` are optional. In the `flows` section, all fields are
-mandatory. Have a look at the provided `akvorado.yaml` configuration
+mandatory. Have a look at the provided `flowscope.yaml` configuration
 file for a more complete example. As generating many flows is quite
 verbose, it may be useful to rely on [YAML anchors][] to avoid
 repeating a lot of stuff.
@@ -1512,10 +1512,9 @@ The builtin HTTP server serves various pages. Its configuration
 supports the following keys:
 
 - `listen` defines the address and port to listen to.
-- `profiler` enables [Go profiler HTTP
-  interface](https://pkg.go.dev/net/http/pprof). Check the [troubleshooting
-  section](14-scaling.md#profiling) for details. It is enabled by
-  default.
+- `profiler` is accepted for compatibility with Akvorado and does nothing:
+  the Rust version has no built-in profiler. Check the [scaling
+  guide](14-scaling.md#profiling) for an alternative.
 - `cache` defines the cache backend to use for some HTTP requests. It accepts a
   `type` key which can be either `memory` (the default value) or `redis`. When
   using the Redis backend, the following additional keys are also accepted:
@@ -1527,8 +1526,8 @@ http:
   listen: :8000
   cache:
     type: redis
-    username: akvorado
-    password: akvorado
+    username: flowscope
+    password: flowscope
 ```
 
 Note that the cache backend is currently only useful with the console. You need

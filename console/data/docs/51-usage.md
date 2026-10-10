@@ -1,7 +1,7 @@
 # Command line and endpoints
 
 *FlowScope* uses a subcommand system. Each subcommand has its own set of options.
-You can get help with `akvorado --help`. Start each service with the matching
+You can get help with `flowscope --help`. Start each service with the matching
 subcommand. When started from a TTY, a service displays logs in a special
 format. Without a TTY, logs are formatted as JSON.
 
@@ -21,11 +21,11 @@ Only the orchestrator service should get a configuration file. The other
 services should point to it.
 
 ```console
-$ akvorado orchestrator /etc/akvorado/akvorado.yaml
-$ akvorado inlet http://orchestrator:8080
-$ akvorado outlet http://orchestrator:8080
-$ akvorado console http://orchestrator:8080
-$ akvorado console http://orchestrator:8080#2
+$ flowscope orchestrator /etc/flowscope/flowscope.yaml
+$ flowscope inlet http://orchestrator:8080
+$ flowscope outlet http://orchestrator:8080
+$ flowscope console http://orchestrator:8080
+$ flowscope console http://orchestrator:8080#2
 ```
 
 Each service has an HTTP server that exposes a few endpoints. All services
@@ -43,13 +43,13 @@ proxy. For example, the `inlet` service also exposes its metrics under
 
 ## Inlet service
 
-`akvorado inlet` starts the inlet service. It receives NetFlow/IPFIX/sFlow
+`flowscope inlet` starts the inlet service. It receives NetFlow/IPFIX/sFlow
 packets and sends them to Kafka. The inlet service does not expose any
 service-specific HTTP endpoints.
 
 ## Outlet service
 
-`akvorado outlet` starts the outlet service. It takes flows from Kafka,
+`flowscope outlet` starts the outlet service. It takes flows from Kafka,
 parses them, adds metadata and routing information, and sends them to
 ClickHouse. The HTTP component in the service exposes these endpoints:
 
@@ -83,7 +83,7 @@ high 64 bits then low 64 bits, big-endian.
 
 ## Orchestrator service
 
-`akvorado orchestrator` starts the orchestrator service. It runs as a service
+`flowscope orchestrator` starts the orchestrator service. It runs as a service
 and exposes an HTTP service for other components (internal and external) to
 configure themselves. The Kafka topic is configured at startup and does not
 need the service to be running.
@@ -111,11 +111,11 @@ if they are copies of each other.
 *FlowScope* also handles database migration during upgrades. When the protobuf
 schema is updated, new Kafka tables and the associated materialized view should
 be created. Older tables should be kept, especially during rolling upgrades
-when some *akvorado* instances are still running an older version.
+when some *FlowScope* instances are still running an older version.
 
 ## Console service
 
-`akvorado console` starts the console service. It provides the web interface to
+`flowscope console` starts the console service. It provides the web interface to
 explore the flows stored in ClickHouse. The pages and the filter language are
 described in the [console reference](52-console.md).
 
@@ -137,4 +137,4 @@ a BMP exporter.
 
 ## Other commands
 
-- `akvorado version` displays the version.
+- `flowscope version` displays the version.

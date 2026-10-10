@@ -1,21 +1,26 @@
 # Explore the demo site
 
-This tutorial is a guided tour of the web interface. You do not need to install
-anything: it uses [demo.akvorado.net](https://demo.akvorado.net), a public
-instance filled with generated traffic. Nothing you do there is saved, so you
-can try everything without risk.
+This tutorial is a guided tour of the web interface. It uses the demo setup:
+four simulated routers send generated traffic to a *FlowScope* running on your
+machine. You need [Docker](https://docs.docker.com/engine/install/) with
+*Docker Compose*.
+
+```console
+# git clone https://github.com/rinjanianalytics/flowscope
+# cd flowscope
+# COMPOSE_PROFILES=demo docker compose up --wait
+```
+
+The first start builds the image, which takes a while. The graphs fill up after
+a few minutes.
 
 Count about 10 minutes. At the end, you will know how to build a graph and how
 to read it. The [next tutorial](02-collect.md) shows how to do the same with the
 traffic of your own network.
 
-> [!NOTE]
-> The demo runs on a small virtual machine shared with everybody. Please be
-> gentle with it.
-
 ## Look at the home page
 
-Open [demo.akvorado.net](https://demo.akvorado.net). The home page shows:
+Open `http://127.0.0.1:8081`. The home page shows:
 
 - the number of flows received per second and the number of exporters,
 - a graph of the last 24 hours,

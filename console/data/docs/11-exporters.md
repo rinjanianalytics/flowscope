@@ -73,7 +73,7 @@ sampler random1in100
     mode random 1 out-of 100
 !
 flow exporter FlowScopeExport
-    destination <akvorado-ip> vrf monitoring
+    destination <flowscope-ip> vrf monitoring
     source Loopback20
     transport udp 2055
     version 9
@@ -106,7 +106,7 @@ interface GigabitEthernet0/0/3
 
 According to [issue #89](https://github.com/akvorado/akvorado/issues/89), the
 sampling rate is not reported correctly on this platform. The solution is to set
-a default sampling rate in `akvorado.yaml`. See the
+a default sampling rate in `flowscope.yaml`. See the
 [documentation](50-configuration.md#core) for more details.
 
 ```yaml
@@ -124,18 +124,18 @@ important to use a power of two for the sampling rate (at least on NCS).
 sampler-map sampler1
  random 1 out-of 32768
 !
-flow exporter-map akvorado
+flow exporter-map flowscope
  version v9
   options sampler-table timeout 10
   template options timeout 10
  !
  transport udp 2055
  source Loopback20
- destination <akvorado-ip> vrf private
+ destination <flowscope-ip> vrf private
 !
 flow monitor-map monitor1
  record ipv4
- exporter akvorado
+ exporter flowscope
  cache entries 100000
  cache timeout active 10
  cache timeout inactive 10
@@ -143,7 +143,7 @@ flow monitor-map monitor1
 !
 flow monitor-map monitor2
  record ipv6
- exporter akvorado
+ exporter flowscope
  cache entries 100000
  cache timeout active 10
  cache timeout inactive 10
@@ -185,14 +185,14 @@ control-plane
   inband
    interface all
     allow SNMP peer
-     address ipv4 <akvorado-ip>
+     address ipv4 <flowscope-ip>
 ```
 
 To configure BMP, adapt this snippet:
 
 ```cisco
 bmp server 1
- host <akvorado-ip> port 10179
+ host <flowscope-ip> port 10179
  flapping-delay 60
 bmp server all
  route-monitoring policy post inbound
@@ -363,7 +363,7 @@ services {
       template-name im-template {
         maximum-clip-length 126;
       }
-      collector akvorado {
+      collector flowscope {
         source-address 203.0.113.2;
         destination-address 192.0.2.1;
         destination-port 2055;
@@ -539,7 +539,7 @@ sFlow is not well supported on devices running SR OS. It is best to use IPFIX.
 /configure cflowd inactive-flow-timeout 10
 /configure cflowd sample-profile 1 sample-rate 2000
 /configure cflowd collector 192.0.2.1 port 2055 admin-state enable
-/configure cflowd collector 192.0.2.1 port 2055 description "akvorado.example.net"
+/configure cflowd collector 192.0.2.1 port 2055 description "flowscope.example.net"
 /configure cflowd collector 192.0.2.1 port 2055 router-instance "Base"
 /configure cflowd collector 192.0.2.1 port 2055 version 10
 ```
@@ -583,8 +583,8 @@ to enable TLS for a more secure setup.
 ```
 /configure system grpc admin-state enable
 /configure system grpc allow-unsecure-connection
-/configure system security user-params local-user user "akvorado" access grpc true
-/configure system security user-params local-user user "akvorado" console member ["grpc_ro"]
+/configure system security user-params local-user user "flowscope" access grpc true
+/configure system security user-params local-user user "flowscope" console member ["grpc_ro"]
 /configure system security aaa local-profiles profile "grpc_ro" grpc rpc-authorization gnmi-get permit
 /configure system security aaa local-profiles profile "grpc_ro" grpc rpc-authorization gnmi-set deny
 /configure system security aaa local-profiles profile "grpc_ro" grpc rpc-authorization gnmi-subscribe permit
@@ -600,20 +600,20 @@ to enable TLS for a more secure setup.
 
 ```
 /configure bmp admin-state enable
-/configure bmp station "akvorado" admin-state enable
-/configure bmp station "akvorado" description "akvorado.example.net"
-/configure bmp station "akvorado" stats-report-interval 300
-/configure bmp station "akvorado" connection local-address 192.0.2.42
-/configure bmp station "akvorado" connection station-address ip-address 192.0.2.1
-/configure bmp station "akvorado" connection station-address port 10179
-/configure bmp station "akvorado" family ipv4 true
-/configure bmp station "akvorado" family ipv6 true
+/configure bmp station "flowscope" admin-state enable
+/configure bmp station "flowscope" description "flowscope.example.net"
+/configure bmp station "flowscope" stats-report-interval 300
+/configure bmp station "flowscope" connection local-address 192.0.2.42
+/configure bmp station "flowscope" connection station-address ip-address 192.0.2.1
+/configure bmp station "flowscope" connection station-address port 10179
+/configure bmp station "flowscope" family ipv4 true
+/configure bmp station "flowscope" family ipv6 true
 ```
 
 ```
 /configure router "Base" bgp monitor admin-state enable
 /configure router "Base" bgp monitor route-monitoring post-policy true
-/configure router "Base" bgp monitor station "akvorado" { }
+/configure router "Base" bgp monitor station "flowscope" { }
 ```
 
 ## MikroTik
@@ -694,12 +694,12 @@ slot 1:ipv6 netstream sampler to slot self
 monitoring tools, including an sFlow exporter.
 
 Put the following configuration in `/etc/pmacctd/config.conf`. Replace
-`akvorado-inlet-receiver` and `sfprobe_agentip` with the correct IP.
+`flowscope-inlet-receiver` and `sfprobe_agentip` with the correct IP.
 
 ```yaml
 daemonize: false
 plugins: sfprobe[any]
-sfprobe_receiver: akvorado-inlet-receiver:6343
+sfprobe_receiver: flowscope-inlet-receiver:6343
 aggregate: src_host,dst_host,in_iface,out_iface,src_port,dst_port,proto
 pcap_ifindex: map
 pcap_interfaces_map: /etc/pmacctd/interfaces.map
@@ -756,7 +756,7 @@ Here is an example of how to invoke the `pcap` plugin:
 ipfixprobe \
   -i "pcap;ifc=eth0;snaplen=128" \
   -s "cache;active=10;inactive=10" \
-  -o "ipfix;host=akvorado-inlet-receiver;port=2055;udp;id=1;dir=1"
+  -o "ipfix;host=flowscope-inlet-receiver;port=2055;udp;id=1;dir=1"
 ```
 
 You need to run one `ipfixprobe` instance for each interface. Each interface

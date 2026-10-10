@@ -18,10 +18,20 @@ can move from one to the other.
 
 ## Status
 
-The backend services are ported: inlet, outlet, orchestrator and console API.
-The web interface, the SDK, the demo exporter and the packaging are in
-progress. See [RUST_PORT_PLAN.md](RUST_PORT_PLAN.md) for the progress and the
-differences with Akvorado.
+Every service is ported: inlet, outlet, orchestrator, console and demo
+exporter. The web interface is new. See [RUST_PORT_PLAN.md](RUST_PORT_PLAN.md)
+for the progress and the differences with Akvorado.
+
+## Try it
+
+With Docker and Docker Compose, this starts FlowScope with four simulated
+routers sending traffic:
+
+```console
+$ COMPOSE_PROFILES=demo docker compose up --wait
+```
+
+The first start builds the image. Then open `http://127.0.0.1:8081`.
 
 ## Build
 

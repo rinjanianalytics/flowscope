@@ -65,9 +65,9 @@ compared to `akvorado_inlet_flow_input_udp_packets_total`. Another way to get
 the same information is to use `ss -lunepm` and look at the drop counter:
 
 ```console
-$ nsenter -t $(pgrep -fo "akvorado inlet") -n ss -lunepm
+$ nsenter -t $(pgrep -fo "flowscope inlet") -n ss -lunepm
 State            Recv-Q           Send-Q                       Local Address:Port                        Peer Address:Port           Process
-UNCONN           0                0                                        *:2055                                   *:*               users:(("akvorado",pid=2710961,fd=16)) ino:67643151 sk:89c v6only:0 <->
+UNCONN           0                0                                        *:2055                                   *:*               users:(("flowscope",pid=2710961,fd=16)) ino:67643151 sk:89c v6only:0 <->
          skmem:(r0,rb212992,t0,tb212992,f4096,w0,o0,bl0,d486525)
 ```
 
@@ -126,41 +126,12 @@ akvorado_outlet_routing_provider_bmp_message_queue_notfull_total{exporter="247.1
 ## Profiling
 
 On a large-scale installation, you may want to check if *FlowScope* is using too
-much CPU or memory. You can do this with `pprof`, the [Go
-profiler](https://go.dev/blog/pprof). You need a working [Go
-installation](https://go.dev/doc/install) on your workstation.
-
-When running on Docker, use `docker inspect` to get the IP address of the service
-that you want to profile (inlet or outlet):
+much CPU or memory. The Rust version has no built-in profiler: the
+`/debug/pprof` endpoints of Akvorado are not there. Use a system profiler
+instead, like [perf](https://perf.wiki.kernel.org/), on the process of the
+service:
 
 ```console
-$ docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' akvorado-akvorado-inlet-1
-240.0.4.8
-$ docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' akvorado-akvorado-outlet-1
-240.0.4.9
+$ perf record -g -p $(pgrep -fo "flowscope outlet") -- sleep 30
+$ perf report
 ```
-
-Then, use one of these two commands:
-
-```console
-$ go tool pprof http://240.0.4.8:8080/debug/pprof/profile
-$ go tool pprof http://240.0.4.8:8080/debug/pprof/heap
-```
-
-If your Docker host is remote, you also need to use SSH forwarding to expose the
-HTTP port to your workstation:
-
-```console
-$ ssh -L 6060:240.0.4.8:8080 dockerhost.example.com
-```
-
-Then, use one of these two commands:
-
-```console
-$ go tool pprof http://127.0.0.1:6060/debug/pprof/profile
-$ go tool pprof http://127.0.0.1:6060/debug/pprof/heap
-```
-
-The first one provides a CPU profile. The second one provides a memory profile. On the
-command line, you can type `web` to visualize the result in the browser or `svg`
-to get an SVG file that you can attach to a bug report if needed.

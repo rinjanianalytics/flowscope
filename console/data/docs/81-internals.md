@@ -1,6 +1,13 @@
 # Internal design
 
-*FlowScope* is written in Go. Each service has its code in a separate directory
+> [!NOTE]
+> This page describes the Go implementation of Akvorado, which *FlowScope*
+> ports to Rust. The design is the same, and each Go package has a matching
+> Rust crate in `crates/`. The file names, the libraries and the build steps
+> below are the Go ones. `RUST_PORT_PLAN.md`, at the root of the repository,
+> lists the Rust crates and the differences.
+
+*Akvorado* is written in Go. Each service has its code in a separate directory
 (`inlet/`, `outlet/`, `orchestrator/`, `console/`, and `demoexporter/`). The
 `common/` directory contains components that are common to several services. The
 `cmd/` directory contains the main entry points.
