@@ -251,33 +251,37 @@
   .cm-placeholder {
     @apply text-muted-foreground;
   }
-  .cm-tooltip {
-    @apply z-50 border-0 bg-transparent;
-  }
-  .cm-tooltip-lint {
-    @apply rounded-md border bg-popover text-xs text-popover-foreground shadow-md;
-  }
-  .cm-tooltip-autocomplete {
-    @apply rounded-lg border bg-popover p-1 text-popover-foreground shadow-md;
+}
 
-    ul {
-      @apply font-sans;
+/* The tooltips of the editor are attached to the page, not to the editor:
+   the options panel scrolls and would cut them. */
+.cm-tooltip {
+  @apply z-50 border-0! bg-transparent!;
+}
+.cm-tooltip.cm-tooltip-lint {
+  @apply rounded-md border! bg-popover! text-xs text-popover-foreground shadow-md;
+}
+.cm-tooltip.cm-tooltip-autocomplete {
+  @apply rounded-lg border! bg-popover! p-1 text-popover-foreground shadow-md;
+
+  > ul {
+    @apply font-sans text-sm;
+  }
+  > ul > li {
+    @apply flex flex-row flex-nowrap items-center justify-between gap-3 rounded-md px-1.5 py-0.5;
+
+    .cm-completionLabel {
+      @apply grow font-mono;
     }
-    li {
-      @apply flex flex-row flex-nowrap items-center justify-between gap-3 rounded-md px-1.5 py-0.5;
-
-      .cm-completionLabel {
-        @apply grow;
-      }
-      .cm-completionDetail {
-        @apply shrink text-xs not-italic text-muted-foreground;
-      }
-      &[aria-selected] {
-        @apply bg-primary text-primary-foreground;
-      }
-      &[aria-selected] .cm-completionDetail {
-        @apply text-primary-foreground/80;
-      }
+    .cm-completionDetail {
+      @apply shrink text-xs not-italic text-muted-foreground;
+    }
+    /* The base theme of the editor colors the selection itself. */
+    &[aria-selected] {
+      @apply bg-primary! text-primary-foreground!;
+    }
+    &[aria-selected] .cm-completionDetail {
+      @apply text-primary-foreground;
     }
   }
 }

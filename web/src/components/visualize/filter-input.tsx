@@ -7,7 +7,7 @@ import { useEffect, useRef } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Eye, EyeOff, Trash2 } from "lucide-react";
 import { Compartment, EditorState } from "@codemirror/state";
-import { EditorView, keymap, placeholder } from "@codemirror/view";
+import { EditorView, keymap, placeholder, tooltips } from "@codemirror/view";
 import { HighlightStyle, syntaxHighlighting } from "@codemirror/language";
 import { history, standardKeymap } from "@codemirror/commands";
 import { forceLinting, linter } from "@codemirror/lint";
@@ -108,6 +108,8 @@ export function FilterInput({
           filterLanguage(),
           filterCompletion(),
           autocompletion({ icons: false }),
+          // The panel scrolls: tooltips inside it would be cut.
+          tooltips({ position: "fixed", parent: document.body }),
           linter(async (v) => {
             const code = v.state.doc.toString();
             try {
