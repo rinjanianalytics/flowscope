@@ -14,9 +14,9 @@ identified with a specific icon:
 - 🩹: bug fix
 - 🌱: miscellaneous change
 
-## FlowScope 2.0.0 (unreleased)
+## FlowScope 2.0.0-rs.0 - 2026-10-10
 
-The first version of *FlowScope*. It is Akvorado, as of its 2026.10.0 version
+The first pre-release of *FlowScope*. It is Akvorado, as of its 2026.10.0 version
 and the unreleased changes listed below it, rewritten in Rust. It reads the
 same configuration files, uses the same ClickHouse tables and Kafka messages,
 and serves the same HTTP API.
