@@ -1,0 +1,1372 @@
+[
+ {
+  "method": "GET",
+  "url": "/api/v0/console/configuration",
+  "status": 200,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"branding\":false,\"defaultVisualizeOptions\":{\"graphType\":\"stacked\",\"start\":\"6 hours ago\",\"end\":\"now\",\"filter\":\"InIfBoundary = external\",\"dimensions\":[\"SrcAS\"],\"limit\":10,\"limitType\":\"avg\",\"bidirectional\":false,\"previousPeriod\":false},\"dimensions\":[\"ExporterAddress\",\"ExporterName\",\"ExporterGroup\",\"ExporterRole\",\"ExporterSite\",\"ExporterRegion\",\"ExporterTenant\",\"SrcAddr\",\"DstAddr\",\"SrcNetPrefix\",\"DstNetPrefix\",\"SrcAS\",\"DstAS\",\"SrcNetName\",\"DstNetName\",\"SrcNetRole\",\"DstNetRole\",\"SrcNetSite\",\"DstNetSite\",\"SrcNetRegion\",\"DstNetRegion\",\"SrcNetTenant\",\"DstNetTenant\",\"SrcCountry\",\"DstCountry\",\"SrcGeoCity\",\"DstGeoCity\",\"SrcGeoState\",\"DstGeoState\",\"DstASPath\",\"Dst1stAS\",\"Dst2ndAS\",\"Dst3rdAS\",\"DstCommunities\",\"InIfName\",\"OutIfName\",\"InIfDescription\",\"OutIfDescription\",\"InIfSpeed\",\"OutIfSpeed\",\"InIfConnectivity\",\"OutIfConnectivity\",\"InIfProvider\",\"OutIfProvider\",\"InIfBoundary\",\"OutIfBoundary\",\"EType\",\"Proto\",\"SrcPort\",\"DstPort\",\"PacketSize\",\"PacketSizeBucket\",\"ForwardingStatus\",\"FlowDirection\"],\"dimensionsLimit\":50,\"homepageTopWidgets\":[\"src-as\",\"src-port\",\"protocol\",\"src-country\",\"etype\"],\"truncatable\":[\"SrcAddr\",\"DstAddr\"],\"version\":\"dev\"}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/filter/validate",
+  "body": {
+   "filter": "InIfName = \"Gi0/0/0/1\""
+  },
+  "status": 200,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"message\":\"ok\",\"parsed\":\"InIfName = 'Gi0/0/0/1'\"}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/filter/validate",
+  "body": {
+   "filter": "InIfName = \""
+  },
+  "status": 200,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"message\":\"at line 1, position 12: string literal not terminated\",\"errors\":[{\"message\":\"string literal not terminated\",\"line\":1,\"column\":12,\"offset\":11}]}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/filter/validate",
+  "body": {
+   "filter": "SrcPort \u003e 80 AND \u003c\u003e 1"
+  },
+  "status": 200,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"message\":\"at line 1, position 18: expecting a column name\",\"errors\":[{\"message\":\"expecting a column name\",\"line\":1,\"column\":18,\"offset\":17}]}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/filter/validate",
+  "body": {
+   "filter": "  "
+  },
+  "status": 200,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"message\":\"ok\"}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/filter/validate",
+  "body": {
+   "filter": "Unknown = 1"
+  },
+  "status": 200,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"message\":\"at line 1, position 8: no match found, expected: [A-Za-z0-9] or [A-Za-z_]\",\"errors\":[{\"message\":\"no match found, expected: [A-Za-z0-9] or [A-Za-z_]\",\"line\":1,\"column\":8,\"offset\":7}]}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/filter/validate",
+  "status": 400,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"message\":\"Empty body\"}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/filter/complete",
+  "body": {
+   "prefix": "dSt",
+   "what": "column"
+  },
+  "status": 200,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"completions\":[{\"label\":\"Dst1stAS\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"Dst2ndAS\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"Dst3rdAS\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"DstAS\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"DstASPath\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"DstAddr\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"DstCommunities\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"DstCountry\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"DstGeoCity\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"DstGeoState\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"DstNetName\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"DstNetPrefix\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"DstNetRegion\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"DstNetRole\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"DstNetSite\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"DstNetTenant\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"DstPort\",\"detail\":\"column name\",\"quoted\":false}]}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/filter/complete",
+  "body": {
+   "prefix": "",
+   "what": "column"
+  },
+  "status": 200,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"completions\":[{\"label\":\"Dst1stAS\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"Dst2ndAS\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"Dst3rdAS\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"DstAS\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"DstASPath\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"DstAddr\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"DstCommunities\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"DstCountry\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"DstGeoCity\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"DstGeoState\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"DstNetName\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"DstNetPrefix\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"DstNetRegion\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"DstNetRole\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"DstNetSite\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"DstNetTenant\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"DstPort\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"EType\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"ExporterAddress\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"ExporterGroup\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"ExporterName\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"ExporterRegion\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"ExporterRole\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"ExporterSite\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"ExporterTenant\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"FlowDirection\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"ForwardingStatus\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"InIfBoundary\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"InIfConnectivity\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"InIfDescription\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"InIfName\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"InIfProvider\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"InIfSpeed\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"OutIfBoundary\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"OutIfConnectivity\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"OutIfDescription\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"OutIfName\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"OutIfProvider\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"OutIfSpeed\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"PacketSize\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"Proto\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"SrcAS\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"SrcAddr\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"SrcCountry\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"SrcGeoCity\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"SrcGeoState\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"SrcNetName\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"SrcNetPrefix\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"SrcNetRegion\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"SrcNetRole\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"SrcNetSite\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"SrcNetTenant\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"SrcPort\",\"detail\":\"column name\",\"quoted\":false}]}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/filter/complete",
+  "body": {
+   "column": "SrcAS",
+   "what": "operator"
+  },
+  "status": 200,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"completions\":[{\"label\":\"!=\",\"detail\":\"comparison operator\",\"quoted\":false},{\"label\":\"=\",\"detail\":\"comparison operator\",\"quoted\":false},{\"label\":\"IN (\",\"detail\":\"comparison operator\",\"quoted\":false},{\"label\":\"NOTIN (\",\"detail\":\"comparison operator\",\"quoted\":false}]}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/filter/complete",
+  "body": {
+   "column": "InIfBoundary",
+   "what": "operator"
+  },
+  "status": 200,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"completions\":[{\"label\":\"!=\",\"detail\":\"comparison operator\",\"quoted\":false},{\"label\":\"=\",\"detail\":\"comparison operator\",\"quoted\":false}]}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/filter/complete",
+  "body": {
+   "column": "Proto",
+   "what": "operator"
+  },
+  "status": 200,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"completions\":[{\"label\":\"!=\",\"detail\":\"comparison operator\",\"quoted\":false},{\"label\":\"\\u003c\",\"detail\":\"comparison operator\",\"quoted\":false},{\"label\":\"\\u003c=\",\"detail\":\"comparison operator\",\"quoted\":false},{\"label\":\"=\",\"detail\":\"comparison operator\",\"quoted\":false},{\"label\":\"\\u003e\",\"detail\":\"comparison operator\",\"quoted\":false},{\"label\":\"\\u003e=\",\"detail\":\"comparison operator\",\"quoted\":false},{\"label\":\"IN (\",\"detail\":\"comparison operator\",\"quoted\":false},{\"label\":\"NOTIN (\",\"detail\":\"comparison operator\",\"quoted\":false}]}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/filter/complete",
+  "body": {
+   "column": "DstASPath",
+   "what": "operator"
+  },
+  "status": 200,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"completions\":[{\"label\":\"!=\",\"detail\":\"comparison operator\",\"quoted\":false},{\"label\":\"=\",\"detail\":\"comparison operator\",\"quoted\":false}]}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/filter/complete",
+  "body": {
+   "column": "Unknown",
+   "what": "operator"
+  },
+  "status": 200,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"completions\":[]}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/filter/complete",
+  "body": {
+   "what": "operator"
+  },
+  "status": 400,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"message\":\"Key: 'filterCompleteHandlerInput.Column' Error:Field validation for 'Column' failed on the 'required_unless' tag\"}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/filter/complete",
+  "body": {
+   "column": "x",
+   "what": "other"
+  },
+  "status": 400,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"message\":\"Key: 'filterCompleteHandlerInput.What' Error:Field validation for 'What' failed on the 'oneof' tag\"}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/filter/complete",
+  "body": {
+   "column": "inifboundary",
+   "prefix": "EX",
+   "what": "value"
+  },
+  "status": 200,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"completions\":[{\"label\":\"external\",\"detail\":\"network boundary\",\"quoted\":false}]}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/filter/complete",
+  "body": {
+   "column": "proto",
+   "prefix": "I",
+   "what": "value"
+  },
+  "status": 200,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"completions\":[{\"label\":\"ICMP\",\"detail\":\"protocol\",\"quoted\":true},{\"label\":\"IPv6-ICMP\",\"detail\":\"protocol\",\"quoted\":true},{\"label\":\"IPIP\",\"detail\":\"protocol\",\"quoted\":true},{\"label\":\"IGMP\",\"detail\":\"protocol\",\"quoted\":true},{\"label\":\"IPv4\",\"detail\":\"protocol\",\"quoted\":true},{\"label\":\"IPv6\",\"detail\":\"protocol\",\"quoted\":true}]}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/filter/complete",
+  "body": {
+   "column": "etype",
+   "what": "value"
+  },
+  "status": 200,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"completions\":[{\"label\":\"IPv4\",\"detail\":\"ethernet type\",\"quoted\":false},{\"label\":\"IPv6\",\"detail\":\"ethernet type\",\"quoted\":false}]}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/filter/complete",
+  "body": {
+   "column": "FlowDirection",
+   "prefix": "e",
+   "what": "value"
+  },
+  "status": 200,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"completions\":[{\"label\":\"egress\",\"detail\":\"flow direction\",\"quoted\":false}]}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/filter/complete",
+  "body": {
+   "column": "exporterName",
+   "prefix": "th2-",
+   "what": "value"
+  },
+  "rows_kind": "label",
+  "rows": [
+   {
+    "label": "th2-router1"
+   },
+   {
+    "label": "th2-router2"
+   },
+   {
+    "label": "th2-router3"
+   }
+  ],
+  "status": 200,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"completions\":[{\"label\":\"th2-router1\",\"detail\":\"exporter name\",\"quoted\":true},{\"label\":\"th2-router2\",\"detail\":\"exporter name\",\"quoted\":true},{\"label\":\"th2-router3\",\"detail\":\"exporter name\",\"quoted\":true}]}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/filter/complete",
+  "body": {
+   "column": "srcnetName",
+   "prefix": "c",
+   "what": "value"
+  },
+  "rows_kind": "label",
+  "rows": [
+   {
+    "label": "customer-1"
+   },
+   {
+    "label": "customer-2"
+   }
+  ],
+  "status": 200,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"completions\":[{\"label\":\"customer-1\",\"detail\":\"network name\",\"quoted\":true},{\"label\":\"customer-2\",\"detail\":\"network name\",\"quoted\":true}]}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/filter/complete",
+  "body": {
+   "column": "dstAS",
+   "operator": "=",
+   "prefix": "goog",
+   "what": "value"
+  },
+  "rows_kind": "label-detail",
+  "rows": [
+   {
+    "detail": "Google",
+    "label": "AS15169"
+   },
+   {
+    "detail": "Google",
+    "label": "AS36040"
+   }
+  ],
+  "status": 200,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"completions\":[{\"label\":\"AS15169\",\"detail\":\"Google\",\"quoted\":false},{\"label\":\"AS36040\",\"detail\":\"Google\",\"quoted\":false}]}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/filter/complete",
+  "body": {
+   "column": "dstAS",
+   "operator": "=",
+   "prefix": "srca",
+   "what": "value"
+  },
+  "rows_kind": "label-detail",
+  "status": 200,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"completions\":[{\"label\":\"SrcAS\",\"detail\":\"column name\",\"quoted\":false}]}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/filter/complete",
+  "body": {
+   "column": "dstcommunities",
+   "prefix": "6540",
+   "what": "value"
+  },
+  "rows_kind": "label-detail",
+  "rows": [
+   {
+    "detail": "community",
+    "label": "65401:10"
+   },
+   {
+    "detail": "large community",
+    "label": "65402:200:100"
+   }
+  ],
+  "status": 200,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"completions\":[{\"label\":\"65401:10\",\"detail\":\"community\",\"quoted\":false},{\"label\":\"65402:200:100\",\"detail\":\"large community\",\"quoted\":false}]}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/filter/complete",
+  "body": {
+   "column": "srcPort",
+   "limit": 5,
+   "prefix": "http",
+   "what": "value"
+  },
+  "rows_kind": "label-detail",
+  "rows": [
+   {
+    "detail": "https",
+    "label": "443"
+   },
+   {
+    "detail": "http",
+    "label": "80"
+   }
+  ],
+  "status": 200,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"completions\":[{\"label\":\"443\",\"detail\":\"https\",\"quoted\":false},{\"label\":\"80\",\"detail\":\"http\",\"quoted\":false}]}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/filter/complete",
+  "body": {
+   "column": "SrcPort",
+   "operator": "\u003e",
+   "prefix": "dst",
+   "what": "value"
+  },
+  "rows_kind": "label-detail",
+  "status": 200,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"completions\":[{\"label\":\"DstPort\",\"detail\":\"column name\",\"quoted\":false}]}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/filter/complete",
+  "body": {
+   "column": "ExporterName",
+   "operator": "!=",
+   "prefix": "",
+   "what": "value"
+  },
+  "rows_kind": "label",
+  "rows": [
+   {
+    "label": "edge1"
+   }
+  ],
+  "status": 200,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"completions\":[{\"label\":\"edge1\",\"detail\":\"exporter name\",\"quoted\":true},{\"label\":\"DstCountry\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"DstGeoCity\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"DstGeoState\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"DstNetName\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"DstNetRegion\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"DstNetRole\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"DstNetSite\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"DstNetTenant\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"ExporterGroup\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"ExporterRegion\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"ExporterRole\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"ExporterSite\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"ExporterTenant\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"InIfConnectivity\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"InIfDescription\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"InIfName\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"InIfProvider\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"OutIfConnectivity\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"OutIfDescription\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"OutIfName\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"OutIfProvider\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"SrcCountry\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"SrcGeoCity\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"SrcGeoState\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"SrcNetName\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"SrcNetRegion\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"SrcNetRole\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"SrcNetSite\",\"detail\":\"column name\",\"quoted\":false},{\"label\":\"SrcNetTenant\",\"detail\":\"column name\",\"quoted\":false}]}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/graph/reverse",
+  "body": {
+   "dimensions": [
+    "SrcAS",
+    "InIfProvider",
+    "ExporterName"
+   ],
+   "filter": "SrcAS = 1 AND InIfName = 'x'"
+  },
+  "status": 200,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"dimensions\":[\"DstAS\",\"OutIfProvider\",\"ExporterName\"],\"filter\":\"DstAS = 1 AND OutIfName = 'x'\"}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/graph/reverse",
+  "body": {
+   "filter": "SrcAS = "
+  },
+  "status": 400,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"message\":\"at line 1, position 9: no match found, expected: \\\"--\\\", \\\"/*\\\", \\\"AS\\\"i, [ \\\\n\\\\r\\\\t], [0-9] or [A-Za-z0-9]\"}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/graph/reverse",
+  "body": {
+   "dimensions": [
+    "Nope"
+   ]
+  },
+  "status": 400,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"message\":\"Unknown column name Nope\"}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/graph/table-interval",
+  "body": {
+   "end": "2022-04-11T15:45:10Z",
+   "points": 100,
+   "start": "2022-04-10T15:45:10Z"
+  },
+  "status": 200,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"table\":\"flows\",\"interval\":1}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/graph/table-interval",
+  "body": {
+   "end": "2022-04-11T15:45:10Z",
+   "start": "2022-04-10T15:45:10Z"
+  },
+  "status": 400,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"message\":\"Key: 'tableIntervalInput.Points' Error:Field validation for 'Points' failed on the 'required' tag\"}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/graph/table-interval",
+  "body": {
+   "end": "2022-04-10T15:45:10Z",
+   "points": 3,
+   "start": "2022-04-11T15:45:10Z"
+  },
+  "status": 400,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"message\":\"Key: 'tableIntervalInput.End' Error:Field validation for 'End' failed on the 'gtfield' tag\\nKey: 'tableIntervalInput.Points' Error:Field validation for 'Points' failed on the 'min' tag\"}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/graph/line",
+  "body": {
+   "bidirectional": true,
+   "dimensions": [
+    "ExporterName",
+    "InIfProvider"
+   ],
+   "end": "2022-04-11T15:45:10Z",
+   "filter": "DstCountry = 'FR'",
+   "limit": 10,
+   "limitType": "avg",
+   "points": 100,
+   "previous-period": true,
+   "start": "2022-04-10T15:45:10Z",
+   "units": "l3bps"
+  },
+  "rows_kind": "line",
+  "rows": [
+   {
+    "axis": 1,
+    "dimensions": [
+     "router1",
+     "provider1"
+    ],
+    "time": "2009-11-10T23:00:00Z",
+    "xps": 1000.5
+   },
+   {
+    "axis": 1,
+    "dimensions": [
+     "router1",
+     "provider2"
+    ],
+    "time": "2009-11-10T23:00:00Z",
+    "xps": 2000
+   },
+   {
+    "axis": 1,
+    "dimensions": [
+     "Other",
+     "Other"
+    ],
+    "time": "2009-11-10T23:00:00Z",
+    "xps": 1900
+   },
+   {
+    "axis": 1,
+    "dimensions": [
+     "router1",
+     "provider1"
+    ],
+    "time": "2009-11-10T23:01:00Z",
+    "xps": 500
+   },
+   {
+    "axis": 1,
+    "dimensions": [
+     "router1",
+     "provider2"
+    ],
+    "time": "2009-11-10T23:01:00Z",
+    "xps": 5000
+   },
+   {
+    "axis": 1,
+    "dimensions": [
+     "router1",
+     "provider1"
+    ],
+    "time": "2009-11-10T23:02:00Z",
+    "xps": 100
+   },
+   {
+    "axis": 2,
+    "dimensions": [
+     "router1",
+     "provider1"
+    ],
+    "time": "2009-11-10T23:00:00Z",
+    "xps": 101
+   },
+   {
+    "axis": 2,
+    "dimensions": [
+     "router1",
+     "provider1"
+    ],
+    "time": "2009-11-10T23:01:00Z",
+    "xps": 50
+   },
+   {
+    "axis": 3,
+    "dimensions": [],
+    "time": "2009-11-10T23:00:00Z",
+    "xps": 8000
+   },
+   {
+    "axis": 3,
+    "dimensions": [],
+    "time": "2009-11-10T23:01:00Z",
+    "xps": 6000
+   }
+  ],
+  "status": 200,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"t\":[\"2009-11-10T23:00:00Z\",\"2009-11-10T23:01:00Z\",\"2009-11-10T23:02:00Z\"],\"rows\":[[\"router1\",\"provider2\"],[\"router1\",\"provider1\"],[\"Other\",\"Other\"],[\"router1\",\"provider1\"],[\"Other\",\"Other\"]],\"points\":[[2000,5000,0],[1000,500,100],[1900,0,0],[101,50,0],[8000,6000,0]],\"axis\":[1,1,1,2,3],\"axis-names\":{\"1\":\"Direct\",\"2\":\"Reverse\",\"3\":\"Previous day\"},\"average\":[2333,533,633,50,4666],\"total\":[420000,96000,114000,9060,840000],\"min\":[2000,100,1900,50,6000],\"max\":[5000,1000,1900,101,8000],\"last\":[5000,500,0,50,6000],\"95th\":[4700,950,1710,96,7800]}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/graph/line",
+  "body": {
+   "bidirectional": true,
+   "dimensions": [
+    "ExporterName",
+    "InIfProvider"
+   ],
+   "end": "2022-04-11T15:45:10Z",
+   "filter": "DstCountry = 'FR'",
+   "limit": 10,
+   "limitType": "max",
+   "points": 100,
+   "previous-period": true,
+   "start": "2022-04-10T15:45:10Z",
+   "units": "inl2%"
+  },
+  "rows_kind": "line",
+  "rows": [
+   {
+    "axis": 1,
+    "dimensions": [
+     "router1",
+     "provider1"
+    ],
+    "time": "2009-11-10T23:00:00Z",
+    "xps": 1000.5
+   },
+   {
+    "axis": 1,
+    "dimensions": [
+     "router1",
+     "provider2"
+    ],
+    "time": "2009-11-10T23:00:00Z",
+    "xps": 2000
+   },
+   {
+    "axis": 1,
+    "dimensions": [
+     "Other",
+     "Other"
+    ],
+    "time": "2009-11-10T23:00:00Z",
+    "xps": 1900
+   },
+   {
+    "axis": 1,
+    "dimensions": [
+     "router1",
+     "provider1"
+    ],
+    "time": "2009-11-10T23:01:00Z",
+    "xps": 500
+   },
+   {
+    "axis": 1,
+    "dimensions": [
+     "router1",
+     "provider2"
+    ],
+    "time": "2009-11-10T23:01:00Z",
+    "xps": 5000
+   },
+   {
+    "axis": 1,
+    "dimensions": [
+     "router1",
+     "provider1"
+    ],
+    "time": "2009-11-10T23:02:00Z",
+    "xps": 100
+   },
+   {
+    "axis": 2,
+    "dimensions": [
+     "router1",
+     "provider1"
+    ],
+    "time": "2009-11-10T23:00:00Z",
+    "xps": 101
+   },
+   {
+    "axis": 2,
+    "dimensions": [
+     "router1",
+     "provider1"
+    ],
+    "time": "2009-11-10T23:01:00Z",
+    "xps": 50
+   },
+   {
+    "axis": 3,
+    "dimensions": [],
+    "time": "2009-11-10T23:00:00Z",
+    "xps": 8000
+   },
+   {
+    "axis": 3,
+    "dimensions": [],
+    "time": "2009-11-10T23:01:00Z",
+    "xps": 6000
+   }
+  ],
+  "status": 200,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"t\":[\"2009-11-10T23:00:00Z\",\"2009-11-10T23:01:00Z\",\"2009-11-10T23:02:00Z\"],\"rows\":[[\"router1\",\"provider2\"],[\"router1\",\"provider1\"],[\"Other\",\"Other\"],[\"router1\",\"provider1\"],[\"Other\",\"Other\"]],\"points\":[[2000,5000,0],[1000,500,100],[1900,0,0],[101,50,0],[8000,6000,0]],\"axis\":[1,1,1,2,3],\"axis-names\":{\"1\":\"Direct\",\"2\":\"Reverse\",\"3\":\"Previous day\"},\"average\":[2333,533,633,50,4666],\"min\":[2000,100,1900,50,6000],\"max\":[5000,1000,1900,101,8000],\"last\":[5000,500,0,50,6000],\"95th\":[4700,950,1710,96,7800]}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/graph/line",
+  "body": {
+   "bidirectional": true,
+   "dimensions": [
+    "ExporterName",
+    "InIfProvider"
+   ],
+   "end": "2022-04-11T15:45:10Z",
+   "filter": "DstCountry = 'FR'",
+   "limit": 10,
+   "limitType": "avg",
+   "points": 100,
+   "previous-period": true,
+   "start": "2022-04-10T15:45:10Z"
+  },
+  "status": 400,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"message\":\"Key: 'graphLineHandlerInput.graphCommonHandlerInput.Units' Error:Field validation for 'Units' failed on the 'required' tag\"}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/graph/line",
+  "body": {
+   "bidirectional": true,
+   "dimensions": [
+    "ExporterName",
+    "InIfProvider"
+   ],
+   "end": "2022-04-11T15:45:10Z",
+   "filter": "DstCountry = 'FR'",
+   "limit": 10,
+   "limitType": "avg",
+   "points": 100,
+   "previous-period": true,
+   "start": "2022-04-10T15:45:10Z",
+   "units": "bps"
+  },
+  "status": 400,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"message\":\"Key: 'graphLineHandlerInput.graphCommonHandlerInput.Units' Error:Field validation for 'Units' failed on the 'oneof' tag\"}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/graph/line",
+  "body": {
+   "bidirectional": true,
+   "dimensions": [
+    "ExporterName",
+    "InIfProvider"
+   ],
+   "end": "2022-04-11T15:45:10Z",
+   "filter": "DstCountry = 'FR'",
+   "limit": 10,
+   "limitType": "avg",
+   "points": 3,
+   "previous-period": true,
+   "start": "2022-04-10T15:45:10Z",
+   "units": "l3bps"
+  },
+  "status": 400,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"message\":\"Key: 'graphLineHandlerInput.Points' Error:Field validation for 'Points' failed on the 'min' tag\"}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/graph/line",
+  "body": {
+   "bidirectional": true,
+   "dimensions": [
+    "ExporterName",
+    "InIfProvider"
+   ],
+   "end": "2022-04-11T15:45:10Z",
+   "filter": "DstCountry = 'FR'",
+   "limit": 10,
+   "limitType": "avg",
+   "previous-period": true,
+   "start": "2022-04-10T15:45:10Z",
+   "units": "l3bps"
+  },
+  "status": 400,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"message\":\"Key: 'graphLineHandlerInput.Points' Error:Field validation for 'Points' failed on the 'required' tag\"}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/graph/line",
+  "body": {
+   "bidirectional": true,
+   "dimensions": [
+    "ExporterName",
+    "InIfProvider"
+   ],
+   "end": "2022-04-11T15:45:10Z",
+   "filter": "DstCountry = 'FR'",
+   "limit": 100,
+   "limitType": "avg",
+   "points": 100,
+   "previous-period": true,
+   "start": "2022-04-10T15:45:10Z",
+   "units": "l3bps"
+  },
+  "status": 400,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"message\":\"Limit is set beyond maximum value (50)\"}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/graph/line",
+  "body": {
+   "bidirectional": true,
+   "dimensions": [
+    "ExporterName",
+    "InIfProvider"
+   ],
+   "end": "2022-04-11T15:45:10Z",
+   "filter": "DstCountry = 'FR'",
+   "limit": 0,
+   "limitType": "avg",
+   "points": 100,
+   "previous-period": true,
+   "start": "2022-04-10T15:45:10Z",
+   "units": "l3bps"
+  },
+  "status": 400,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"message\":\"Key: 'graphLineHandlerInput.graphCommonHandlerInput.Limit' Error:Field validation for 'Limit' failed on the 'min' tag\"}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/graph/line",
+  "body": {
+   "bidirectional": true,
+   "dimensions": [
+    "ExporterName",
+    "InIfProvider"
+   ],
+   "end": "2022-04-11T15:45:10Z",
+   "filter": "DstCountry = 'FR'",
+   "limit": 10,
+   "limitType": "min",
+   "points": 100,
+   "previous-period": true,
+   "start": "2022-04-10T15:45:10Z",
+   "units": "l3bps"
+  },
+  "status": 400,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"message\":\"Key: 'graphLineHandlerInput.graphCommonHandlerInput.LimitType' Error:Field validation for 'LimitType' failed on the 'oneof' tag\"}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/graph/line",
+  "body": {
+   "bidirectional": true,
+   "dimensions": [
+    "Nope"
+   ],
+   "end": "2022-04-11T15:45:10Z",
+   "filter": "DstCountry = 'FR'",
+   "limit": 10,
+   "limitType": "avg",
+   "points": 100,
+   "previous-period": true,
+   "start": "2022-04-10T15:45:10Z",
+   "units": "l3bps"
+  },
+  "status": 400,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"message\":\"Unknown column name Nope\"}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/graph/line",
+  "body": {
+   "bidirectional": true,
+   "dimensions": [
+    "ExporterName",
+    "InIfProvider"
+   ],
+   "end": "2022-04-11T15:45:10Z",
+   "filter": "SrcAS =",
+   "limit": 10,
+   "limitType": "avg",
+   "points": 100,
+   "previous-period": true,
+   "start": "2022-04-10T15:45:10Z",
+   "units": "l3bps"
+  },
+  "status": 400,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"message\":\"Cannot parse filter: at line 1, position 8: no match found, expected: \\\"--\\\", \\\"/*\\\", \\\"AS\\\"i, [ \\\\n\\\\r\\\\t], [0-9] or [A-Za-z0-9]\"}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/graph/line",
+  "body": {
+   "bidirectional": true,
+   "dimensions": [
+    "ExporterName",
+    "InIfProvider"
+   ],
+   "end": "2022-04-10T15:45:10Z",
+   "filter": "DstCountry = 'FR'",
+   "limit": 10,
+   "limitType": "avg",
+   "points": 100,
+   "previous-period": true,
+   "start": "2022-04-10T15:45:10Z",
+   "units": "l3bps"
+  },
+  "status": 400,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"message\":\"Key: 'graphLineHandlerInput.graphCommonHandlerInput.End' Error:Field validation for 'End' failed on the 'gtfield' tag\"}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/graph/line",
+  "body": {
+   "bidirectional": true,
+   "dimensions": [
+    "ExporterName",
+    "InIfProvider"
+   ],
+   "end": "2022-04-11T15:45:10Z",
+   "filter": "DstCountry = 'FR'",
+   "limit": 10,
+   "limitType": "avg",
+   "points": 100,
+   "previous-period": true,
+   "start": "2022-04-10T15:45:10Z",
+   "truncate-v4": 40,
+   "units": "l3bps"
+  },
+  "status": 400,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"message\":\"Key: 'graphLineHandlerInput.graphCommonHandlerInput.TruncateAddrV4' Error:Field validation for 'TruncateAddrV4' failed on the 'max' tag\"}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/graph/line",
+  "status": 400,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"message\":\"Empty body\"}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/graph/sankey",
+  "body": {
+   "bidirectional": true,
+   "dimensions": [
+    "SrcAS",
+    "InIfProvider",
+    "ExporterName"
+   ],
+   "end": "2022-04-11T15:45:10Z",
+   "filter": "",
+   "limit": 10,
+   "limitType": "avg",
+   "start": "2022-04-10T15:45:10Z",
+   "units": "l3bps"
+  },
+  "rows_kind": "sankey",
+  "rows": [
+   {
+    "axis": 1,
+    "dimensions": [
+     "AS100",
+     "Other",
+     "France"
+    ],
+    "xps": 9677
+   },
+   {
+    "axis": 1,
+    "dimensions": [
+     "AS300",
+     "provider1",
+     "Other"
+    ],
+    "xps": 9472
+   },
+   {
+    "axis": 1,
+    "dimensions": [
+     "AS300",
+     "provider2",
+     "France"
+    ],
+    "xps": 7593
+   },
+   {
+    "axis": 2,
+    "dimensions": [
+     "AS100",
+     "provider1",
+     "Other"
+    ],
+    "xps": 6006
+   }
+  ],
+  "status": 200,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"rows\":[[\"AS100\",\"Other\",\"France\"],[\"AS300\",\"provider1\",\"Other\"],[\"AS300\",\"provider2\",\"France\"],[\"AS100\",\"provider1\",\"Other\"]],\"xps\":[9677,9472,7593,6006],\"axis\":[1,1,1,2],\"axis-names\":{\"1\":\"Direct\",\"2\":\"Reverse\"},\"nodes\":[{\"name\":\"SrcAS: AS100\",\"axis\":1},{\"name\":\"InIfProvider: Other\",\"axis\":1},{\"name\":\"ExporterName: France\",\"axis\":1},{\"name\":\"SrcAS: AS300\",\"axis\":1},{\"name\":\"InIfProvider: provider1\",\"axis\":1},{\"name\":\"ExporterName: Other\",\"axis\":1},{\"name\":\"InIfProvider: provider2\",\"axis\":1},{\"name\":\"DstAS: AS100\",\"axis\":2},{\"name\":\"OutIfProvider: provider1\",\"axis\":2},{\"name\":\"ExporterName: Other\",\"axis\":2}],\"links\":[{\"source\":\"InIfProvider: Other\",\"target\":\"ExporterName: France\",\"xps\":9677,\"axis\":1},{\"source\":\"SrcAS: AS100\",\"target\":\"InIfProvider: Other\",\"xps\":9677,\"axis\":1},{\"source\":\"InIfProvider: provider1\",\"target\":\"ExporterName: Other\",\"xps\":9472,\"axis\":1},{\"source\":\"SrcAS: AS300\",\"target\":\"InIfProvider: provider1\",\"xps\":9472,\"axis\":1},{\"source\":\"InIfProvider: provider2\",\"target\":\"ExporterName: France\",\"xps\":7593,\"axis\":1},{\"source\":\"SrcAS: AS300\",\"target\":\"InIfProvider: provider2\",\"xps\":7593,\"axis\":1},{\"source\":\"DstAS: AS100\",\"target\":\"OutIfProvider: provider1\",\"xps\":6006,\"axis\":2},{\"source\":\"OutIfProvider: provider1\",\"target\":\"ExporterName: Other\",\"xps\":6006,\"axis\":2}]}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/graph/sankey",
+  "body": {
+   "bidirectional": true,
+   "dimensions": [],
+   "end": "2022-04-11T15:45:10Z",
+   "filter": "",
+   "limit": 10,
+   "limitType": "avg",
+   "start": "2022-04-10T15:45:10Z",
+   "units": "l3bps"
+  },
+  "status": 400,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"message\":\"At least one dimension is required.\"}\n"
+ },
+ {
+  "method": "GET",
+  "url": "/api/v0/console/widget/top/src-as",
+  "rows_kind": "top",
+  "rows": [
+   {
+    "Name": "2906: Netflix",
+    "Percent": 12.5
+   },
+   {
+    "Name": "36040: Youtube",
+    "Percent": 10
+   }
+  ],
+  "status": 200,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"top\":[{\"name\":\"2906: Netflix\",\"percent\":12.5},{\"name\":\"36040: Youtube\",\"percent\":10}]}\n"
+ },
+ {
+  "method": "GET",
+  "url": "/api/v0/console/widget/top/notexist",
+  "status": 400,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"message\":\"Notexist does not belong to HomepageTopWidget values\"}\n"
+ },
+ {
+  "method": "GET",
+  "url": "/api/v0/console/widget/exporters",
+  "rows_kind": "exporters",
+  "rows": [
+   {
+    "ExporterName": "exporter1"
+   },
+   {
+    "ExporterName": "exporter2"
+   }
+  ],
+  "status": 200,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\n    \"exporters\": [\n        \"exporter1\",\n        \"exporter2\"\n    ]\n}\n"
+ },
+ {
+  "method": "GET",
+  "url": "/api/v0/console/widget/graph",
+  "rows_kind": "graph",
+  "rows": [
+   {
+    "Gbps": 1.5,
+    "Time": "2009-11-10T23:00:00Z"
+   },
+   {
+    "Gbps": 2.25,
+    "Time": "2009-11-10T23:01:00Z"
+   }
+  ],
+  "status": 200,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"data\":[{\"t\":\"2009-11-10T23:00:00Z\",\"gbps\":1.5},{\"t\":\"2009-11-10T23:01:00Z\",\"gbps\":2.25}]}\n"
+ },
+ {
+  "method": "GET",
+  "url": "/api/v0/console/filter/saved",
+  "headers": {
+   "Remote-User": "alfred"
+  },
+  "status": 200,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"filters\":[]}\n"
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/filter/saved",
+  "headers": {
+   "Remote-User": "alfred"
+  },
+  "body": {
+   "content": "SrcAS = 1",
+   "description": "mine"
+  },
+  "status": 204,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": ""
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/filter/saved",
+  "headers": {
+   "Remote-User": "bob"
+  },
+  "body": {
+   "content": "SrcAS = 2",
+   "description": "shared",
+   "shared": true
+  },
+  "status": 204,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": ""
+ },
+ {
+  "method": "POST",
+  "url": "/api/v0/console/filter/saved",
+  "headers": {
+   "Remote-User": "alfred"
+  },
+  "body": {
+   "content": "SrcAS = 1"
+  },
+  "status": 400,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"message\":\"Key: 'SavedFilter.Description' Error:Field validation for 'Description' failed on the 'required' tag\"}\n"
+ },
+ {
+  "method": "GET",
+  "url": "/api/v0/console/filter/saved",
+  "headers": {
+   "Remote-User": "alfred"
+  },
+  "status": 200,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"filters\":[{\"id\":1,\"user\":\"alfred\",\"shared\":false,\"description\":\"mine\",\"content\":\"SrcAS = 1\"},{\"id\":2,\"user\":\"bob\",\"shared\":true,\"description\":\"shared\",\"content\":\"SrcAS = 2\"}]}\n"
+ },
+ {
+  "method": "DELETE",
+  "url": "/api/v0/console/filter/saved/abc",
+  "headers": {
+   "Remote-User": "alfred"
+  },
+  "status": 400,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"message\":\"bad ID format\"}\n"
+ },
+ {
+  "method": "DELETE",
+  "url": "/api/v0/console/filter/saved/2",
+  "headers": {
+   "Remote-User": "alfred"
+  },
+  "status": 404,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"message\":\"filter not found\"}\n"
+ },
+ {
+  "method": "DELETE",
+  "url": "/api/v0/console/filter/saved/1",
+  "headers": {
+   "Remote-User": "alfred"
+  },
+  "status": 204,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": ""
+ },
+ {
+  "method": "GET",
+  "url": "/api/v0/console/filter/saved",
+  "headers": {
+   "Remote-User": "alfred"
+  },
+  "status": 200,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"filters\":[{\"id\":2,\"user\":\"bob\",\"shared\":true,\"description\":\"shared\",\"content\":\"SrcAS = 2\"}]}\n"
+ },
+ {
+  "method": "GET",
+  "url": "/api/v0/console/user/info",
+  "status": 200,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"login\":\"__default\",\"name\":\"Default User\"}\n"
+ },
+ {
+  "method": "GET",
+  "url": "/api/v0/console/user/info",
+  "headers": {
+   "Remote-Email": "alfred@example.com",
+   "Remote-Name": "Alfred Pennyworth",
+   "Remote-User": "alfred"
+  },
+  "status": 200,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"login\":\"alfred\",\"name\":\"Alfred Pennyworth\",\"email\":\"alfred@example.com\"}\n"
+ },
+ {
+  "method": "GET",
+  "url": "/api/v0/console/user/info",
+  "headers": {
+   "Remote-Email": "nope",
+   "Remote-User": "alfred"
+  },
+  "status": 200,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8"
+  },
+  "resp_body": "{\"login\":\"__default\",\"name\":\"Default User\"}\n"
+ },
+ {
+  "method": "GET",
+  "url": "/api/v0/console/user/avatar",
+  "headers": {
+   "Remote-User": "alfred"
+  },
+  "status": 200,
+  "resp_headers": {
+   "Content-Type": "image/png",
+   "Etag": "\"b2e72a535032fa89\""
+  },
+  "resp_body": "\u003c7764 bytes\u003e"
+ },
+ {
+  "method": "GET",
+  "url": "/api/v0/console/user/avatar",
+  "headers": {
+   "If-None-Match": "\"b2e72a535032fa89\"",
+   "Remote-User": "alfred"
+  },
+  "status": 304,
+  "resp_headers": {
+   "Etag": "\"b2e72a535032fa89\""
+  },
+  "resp_body": ""
+ },
+ {
+  "method": "GET",
+  "url": "/api/v0/console/docs/intro",
+  "headers": {
+   "Accept": "application/json"
+  },
+  "status": 200,
+  "resp_headers": {
+   "Cache-Control": "max-age=300, public",
+   "Content-Type": "application/json; charset=utf-8",
+   "Vary": "Accept"
+  },
+  "resp_body": "{\"markdown\":\"\u003ch1 id=\\\"introduction\\\"\u003eIntroduction\u003c/h1\u003e\\n\u003cp\u003e\u003cem\u003eFlowScope\u003c/em\u003e receives network flows, such as NetFlow/IPFIX and sFlow. It enriches\\nthem with interface names (using SNMP), and geographic information (using\\n\u003ca href=\\\"https://ipinfo.io/\\\"\u003eIPinfo\u003c/a\u003e or MaxMind). Then, it exports them to ClickHouse via\\nKafka. It also provides a web interface to explore the data.\u003c/p\u003e\\n\u003cp\u003eA public instance filled with generated traffic runs on\\n\u003ca href=\\\"https://demo.akvorado.net\\\"\u003edemo.akvorado.net\u003c/a\u003e. It is the best place to see what\\n\u003cem\u003eFlowScope\u003c/em\u003e looks like before installing anything.\u003c/p\u003e\\n\u003ch2 id=\\\"tutorials\\\"\u003eTutorials\u003c/h2\u003e\\n\u003cp\u003eThe tutorials get your started. Start here if you have never used \u003cem\u003eFlowScope\u003c/em\u003e and\\nwant to get results quickly.\u003c/p\u003e\\n\u003cul\u003e\\n\u003cli\u003e\u003ca href=\\\"docs/explore\\\"\u003eExplore the demo site\u003c/a\u003e: learn to read the graphs, without\\ninstalling anything.\u003c/li\u003e\\n\u003cli\u003e\u003ca href=\\\"docs/collect\\\"\u003eCollect your first flows\u003c/a\u003e: install \u003cem\u003eFlowScope\u003c/em\u003e and connect your\\nfirst router to it.\u003c/li\u003e\\n\u003c/ul\u003e\\n\u003ch2 id=\\\"how-to-guides\\\"\u003eHow-to guides\u003c/h2\u003e\\n\u003cp\u003eThe guides are recipes for a specific goal. They assume you already have\\n\u003cem\u003eFlowScope\u003c/em\u003e running.\u003c/p\u003e\\n\u003cul\u003e\\n\u003cli\u003e\u003ca href=\\\"docs/install\\\"\u003eInstall FlowScope\u003c/a\u003e: the deployment options, the requirements,\\nand the upgrade procedure.\u003c/li\u003e\\n\u003cli\u003e\u003ca href=\\\"docs/exporters\\\"\u003eConfigure your exporters\u003c/a\u003e: the configuration snippets for\\nCisco, Juniper, Arista, Nokia, and a few others.\u003c/li\u003e\\n\u003cli\u003e\u003ca href=\\\"docs/troubleshooting\\\"\u003eTroubleshoot FlowScope\u003c/a\u003e: find which component is at\\nfault when the flows do not arrive.\u003c/li\u003e\\n\u003cli\u003e\u003ca href=\\\"docs/operating\\\"\u003eOperate FlowScope\u003c/a\u003e: keep Kafka, ClickHouse and the Docker\\nCompose setup in good shape.\u003c/li\u003e\\n\u003cli\u003e\u003ca href=\\\"docs/scaling\\\"\u003eScale FlowScope\u003c/a\u003e: what to tune when packets are dropped or\\nflows are late.\u003c/li\u003e\\n\u003c/ul\u003e\\n\u003ch2 id=\\\"reference\\\"\u003eReference\u003c/h2\u003e\\n\u003cp\u003eReference guides are technical descriptions of the machinery and how to operate\\nit.\u003c/p\u003e\\n\u003cul\u003e\\n\u003cli\u003e\u003ca href=\\\"docs/configuration\\\"\u003eConfiguration\u003c/a\u003e: every configuration settings.\u003c/li\u003e\\n\u003cli\u003e\u003ca href=\\\"docs/usage\\\"\u003eCommand line and endpoints\u003c/a\u003e: the subcommands and the HTTP\\nendpoints of each service.\u003c/li\u003e\\n\u003cli\u003e\u003ca href=\\\"docs/console\\\"\u003eWeb console\u003c/a\u003e: the manual of the web interface and the filter\\nlanguage.\u003c/li\u003e\\n\u003cli\u003e\u003ca href=\\\"docs/metrics\\\"\u003eMetrics\u003c/a\u003e: every metric exported for monitoring.\u003c/li\u003e\\n\u003c/ul\u003e\\n\u003ch2 id=\\\"explanation\\\"\u003eExplanation\u003c/h2\u003e\\n\u003cp\u003eThe following guides are for when you want to understand what happens behind the\\nscenes.\u003c/p\u003e\\n\u003cul\u003e\\n\u003cli\u003e\u003ca href=\\\"docs/design\\\"\u003eHow FlowScope works\u003c/a\u003e: the four services, the path of a flow, and\\nhow the data is stored.\u003c/li\u003e\\n\u003cli\u003e\u003ca href=\\\"docs/internals\\\"\u003eInternal design\u003c/a\u003e: how the code is organized and why.\u003c/li\u003e\\n\u003c/ul\u003e\\n\u003cp\u003eThe \u003ca href=\\\"docs/changelog\\\"\u003echangelog\u003c/a\u003e lists the changes of each version. Read it\\nbefore every upgrade.\u003c/p\u003e\\n\u003ch2 id=\\\"getting-help\\\"\u003eGetting help\u003c/h2\u003e\\n\\n\u003cdiv class=\\\"admonition admonition-important\\\" dir=\\\"auto\\\"\u003e\\n  \u003cp class=\\\"admonition-title\\\" dir=\\\"auto\\\"\u003e\\n    \u003csvg viewBox=\\\"0 0 24 24\\\" fill=\\\"none\\\" stroke=\\\"currentColor\\\" stroke-width=\\\"2\\\" aria-hidden=\\\"true\\\"\u003e\\n      \u003cpath stroke-linecap=\\\"round\\\" stroke-linejoin=\\\"round\\\" d=\\\"M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z\\\" /\u003e\\n    \u003c/svg\u003e\\nImportant\\n  \u003c/p\u003e\u003cp\u003ePlease, do not open an issue or start a discussion unless you have read the\\nvarious chapters of the documentation, notably the \u003ca href=\\\"docs/troubleshooting\\\"\u003etroubleshooting\\nguide\u003c/a\u003e.\u003c/p\u003e\\n\u003c/div\u003e\u003cp\u003eQuestions go to the \u003ca href=\\\"https://github.com/akvorado/akvorado/discussions/categories/q-a\\\"\u003ediscussions on\\nGitHub\u003c/a\u003e.\\nExplain what you tried and what you observed, and include the output of the\\ncommands from the troubleshooting guide.\u003c/p\u003e\\n\u003ch2 id=\\\"colophon\\\"\u003eColophon\u003c/h2\u003e\\n\u003cp\u003e\u003cem\u003eFlowScope\u003c/em\u003e is based on \u003ca href=\\\"https://github.com/akvorado/akvorado\\\"\u003eAkvorado\u003c/a\u003e, developed by Free Mobile and licensed\\nunder the \u003ca href=\\\"https://www.gnu.org/licenses/agpl-3.0.html\\\"\u003eAGPLv3 license\u003c/a\u003e. FlowScope is licensed under the same terms.\u003c/p\u003e\\n\",\"toc\":[{\"name\":\"intro\",\"section\":\"\",\"headers\":[{\"level\":1,\"id\":\"introduction\",\"title\":\"Introduction\"},{\"level\":2,\"id\":\"tutorials\",\"title\":\"Tutorials\"},{\"level\":2,\"id\":\"how-to-guides\",\"title\":\"How-to guides\"},{\"level\":2,\"id\":\"reference\",\"title\":\"Reference\"},{\"level\":2,\"id\":\"explanation\",\"title\":\"Explanation\"},{\"level\":2,\"id\":\"getting-help\",\"title\":\"Getting help\"},{\"level\":2,\"id\":\"colophon\",\"title\":\"Colophon\"}]},{\"name\":\"explore\",\"section\":\"Tutorials\",\"headers\":[{\"level\":1,\"id\":\"explore-the-demo-site\",\"title\":\"Explore the demo site\"},{\"level\":2,\"id\":\"look-at-the-home-page\",\"title\":\"Look at the home page\"},{\"level\":2,\"id\":\"draw-your-first-graph\",\"title\":\"Draw your first graph\"},{\"level\":2,\"id\":\"change-what-the-graph-shows\",\"title\":\"Change what the graph shows\"},{\"level\":2,\"id\":\"keep-only-the-traffic-you-care-about\",\"title\":\"Keep only the traffic you care about\"},{\"level\":2,\"id\":\"see-where-the-traffic-comes-from-and-where-it-goes\",\"title\":\"See where the traffic comes from and where it goes\"},{\"level\":2,\"id\":\"share-what-you-found\",\"title\":\"Share what you found\"},{\"level\":2,\"id\":\"what-you-learned\",\"title\":\"What you learned\"}]},{\"name\":\"collect\",\"section\":\"Tutorials\",\"headers\":[{\"level\":1,\"id\":\"collect-your-first-flows\",\"title\":\"Collect your first flows\"},{\"level\":2,\"id\":\"start-flowscope\",\"title\":\"Start FlowScope\"},{\"level\":2,\"id\":\"let-flowscope-talk-to-your-router\",\"title\":\"Let FlowScope talk to your router\"},{\"level\":2,\"id\":\"describe-your-interfaces\",\"title\":\"Describe your interfaces\"},{\"level\":2,\"id\":\"send-flows-from-your-router\",\"title\":\"Send flows from your router\"},{\"level\":2,\"id\":\"check-that-the-flows-arrive\",\"title\":\"Check that the flows arrive\"},{\"level\":2,\"id\":\"look-at-your-traffic\",\"title\":\"Look at your traffic\"}]},{\"name\":\"install\",\"section\":\"How-to guides\",\"headers\":[{\"level\":1,\"id\":\"install-flowscope\",\"title\":\"Install FlowScope\"},{\"level\":2,\"id\":\"requirements\",\"title\":\"Requirements\"},{\"level\":2,\"id\":\"docker-image\",\"title\":\"Docker image\"},{\"level\":2,\"id\":\"pre-built-binary\",\"title\":\"Pre-built binary\"},{\"level\":2,\"id\":\"compilation-from-source\",\"title\":\"Compilation from source\"},{\"level\":2,\"id\":\"upgrade\",\"title\":\"Upgrade\"}]},{\"name\":\"exporters\",\"section\":\"How-to guides\",\"headers\":[{\"level\":1,\"id\":\"configure-your-exporters\",\"title\":\"Configure your exporters\"},{\"level\":2,\"id\":\"exporter-address\",\"title\":\"Exporter address\"},{\"level\":2,\"id\":\"cisco-ios-xe\",\"title\":\"Cisco IOS-XE\"},{\"level\":2,\"id\":\"cisco-ncs-5500-and-asr-9000\",\"title\":\"Cisco NCS 5500 and ASR 9000\"},{\"level\":2,\"id\":\"juniper\",\"title\":\"Juniper\"},{\"level\":3,\"id\":\"netflow\",\"title\":\"NetFlow\"},{\"level\":3,\"id\":\"ipfix-315\",\"title\":\"IPFIX 315\"},{\"level\":3,\"id\":\"sflow\",\"title\":\"sFlow\"},{\"level\":3,\"id\":\"snmp\",\"title\":\"SNMP\"},{\"level\":3,\"id\":\"bmp\",\"title\":\"BMP\"},{\"level\":2,\"id\":\"arista\",\"title\":\"Arista\"},{\"level\":3,\"id\":\"sflow-1\",\"title\":\"sFlow\"},{\"level\":3,\"id\":\"snmp-1\",\"title\":\"SNMP\"},{\"level\":3,\"id\":\"bmp-1\",\"title\":\"BMP\"},{\"level\":2,\"id\":\"nokia-sr-os\",\"title\":\"Nokia SR OS\"},{\"level\":3,\"id\":\"flows\",\"title\":\"Flows\"},{\"level\":3,\"id\":\"snmp-2\",\"title\":\"SNMP\"},{\"level\":3,\"id\":\"gnmi\",\"title\":\"gNMI\"},{\"level\":3,\"id\":\"bmp-2\",\"title\":\"BMP\"},{\"level\":2,\"id\":\"mikrotik\",\"title\":\"MikroTik\"},{\"level\":2,\"id\":\"huawei\",\"title\":\"Huawei\"},{\"level\":2,\"id\":\"gnulinux\",\"title\":\"GNU/Linux\"},{\"level\":3,\"id\":\"pmacct\",\"title\":\"pmacct\"},{\"level\":3,\"id\":\"ipfixprobe\",\"title\":\"ipfixprobe\"}]},{\"name\":\"troubleshooting\",\"section\":\"How-to guides\",\"headers\":[{\"level\":1,\"id\":\"troubleshoot-flowscope\",\"title\":\"Troubleshoot FlowScope\"},{\"level\":2,\"id\":\"basic-checks\",\"title\":\"Basic checks\"},{\"level\":3,\"id\":\"inlet-service\",\"title\":\"Inlet service\"},{\"level\":3,\"id\":\"kafka\",\"title\":\"Kafka\"},{\"level\":3,\"id\":\"outlet\",\"title\":\"Outlet\"},{\"level\":3,\"id\":\"clickhouse\",\"title\":\"ClickHouse\"},{\"level\":3,\"id\":\"console\",\"title\":\"Console\"},{\"level\":2,\"id\":\"next-steps\",\"title\":\"Next steps\"}]},{\"name\":\"operating\",\"section\":\"How-to guides\",\"headers\":[{\"level\":1,\"id\":\"operate-flowscope\",\"title\":\"Operate FlowScope\"},{\"level\":2,\"id\":\"kafka\",\"title\":\"Kafka\"},{\"level\":2,\"id\":\"clickhouse\",\"title\":\"ClickHouse\"},{\"level\":3,\"id\":\"memory-usage\",\"title\":\"Memory usage\"},{\"level\":3,\"id\":\"space-usage\",\"title\":\"Space usage\"},{\"level\":3,\"id\":\"cpu-usage\",\"title\":\"CPU usage\"},{\"level\":3,\"id\":\"old-tables\",\"title\":\"Old tables\"},{\"level\":3,\"id\":\"update-the-database-schema\",\"title\":\"Update the database schema\"},{\"level\":4,\"id\":\"preparation\",\"title\":\"Preparation\"},{\"level\":4,\"id\":\"rename-the-old-table\",\"title\":\"Rename the old table\"},{\"level\":4,\"id\":\"create-the-new-table\",\"title\":\"Create the new table\"},{\"level\":4,\"id\":\"create-an-intermediate-table\",\"title\":\"Create an intermediate table\"},{\"level\":4,\"id\":\"generate-the-migration-statements\",\"title\":\"Generate the migration statements\"},{\"level\":4,\"id\":\"execute-the-migration-statements\",\"title\":\"Execute the migration statements\"},{\"level\":4,\"id\":\"drop-the-old-table\",\"title\":\"Drop the old table\"},{\"level\":2,\"id\":\"docker-compose\",\"title\":\"Docker Compose\"},{\"level\":3,\"id\":\"networking\",\"title\":\"Networking\"}]},{\"name\":\"scaling\",\"section\":\"How-to guides\",\"headers\":[{\"level\":1,\"id\":\"scale-flowscope\",\"title\":\"Scale FlowScope\"},{\"level\":2,\"id\":\"exporters\",\"title\":\"Exporters\"},{\"level\":3,\"id\":\"ncs5500-routers\",\"title\":\"NCS5500 routers\"},{\"level\":3,\"id\":\"other-routers\",\"title\":\"Other routers\"},{\"level\":2,\"id\":\"inlet\",\"title\":\"Inlet\"},{\"level\":2,\"id\":\"outlet\",\"title\":\"Outlet\"},{\"level\":2,\"id\":\"profiling\",\"title\":\"Profiling\"}]},{\"name\":\"configuration\",\"section\":\"Reference\",\"headers\":[{\"level\":1,\"id\":\"configuration\",\"title\":\"Configuration\"},{\"level\":2,\"id\":\"inlet-service\",\"title\":\"Inlet service\"},{\"level\":3,\"id\":\"flow\",\"title\":\"Flow\"},{\"level\":3,\"id\":\"kafka\",\"title\":\"Kafka\"},{\"level\":2,\"id\":\"outlet-service\",\"title\":\"Outlet service\"},{\"level\":3,\"id\":\"kafka-input\",\"title\":\"Kafka input\"},{\"level\":3,\"id\":\"kafka-output\",\"title\":\"Kafka output\"},{\"level\":3,\"id\":\"routing\",\"title\":\"Routing\"},{\"level\":4,\"id\":\"bmp-provider\",\"title\":\"BMP provider\"},{\"level\":4,\"id\":\"bioris-provider\",\"title\":\"BioRIS provider\"},{\"level\":3,\"id\":\"metadata\",\"title\":\"Metadata\"},{\"level\":4,\"id\":\"snmp-provider\",\"title\":\"SNMP provider\"},{\"level\":4,\"id\":\"gnmi-provider\",\"title\":\"gNMI provider\"},{\"level\":4,\"id\":\"static-provider\",\"title\":\"Static provider\"},{\"level\":3,\"id\":\"core\",\"title\":\"Core\"},{\"level\":4,\"id\":\"classification\",\"title\":\"Classification\"},{\"level\":3,\"id\":\"geoip\",\"title\":\"GeoIP\"},{\"level\":3,\"id\":\"networks\",\"title\":\"Networks\"},{\"level\":3,\"id\":\"clickhouse\",\"title\":\"ClickHouse\"},{\"level\":3,\"id\":\"flow-1\",\"title\":\"Flow\"},{\"level\":2,\"id\":\"orchestrator-service\",\"title\":\"Orchestrator service\"},{\"level\":3,\"id\":\"schema\",\"title\":\"Schema\"},{\"level\":4,\"id\":\"data-skipping-indexes\",\"title\":\"Data-skipping indexes\"},{\"level\":4,\"id\":\"custom-dictionaries\",\"title\":\"Custom dictionaries\"},{\"level\":3,\"id\":\"kafka-1\",\"title\":\"Kafka\"},{\"level\":3,\"id\":\"clickhouse-database\",\"title\":\"ClickHouse database\"},{\"level\":3,\"id\":\"clickhouse-1\",\"title\":\"ClickHouse\"},{\"level\":2,\"id\":\"console-service\",\"title\":\"Console service\"},{\"level\":3,\"id\":\"authentication\",\"title\":\"Authentication\"},{\"level\":3,\"id\":\"database\",\"title\":\"Database\"},{\"level\":2,\"id\":\"demo-exporter-service\",\"title\":\"Demo exporter service\"},{\"level\":2,\"id\":\"common-configuration-settings\",\"title\":\"Common configuration settings\"},{\"level\":3,\"id\":\"http\",\"title\":\"HTTP\"},{\"level\":3,\"id\":\"reporting\",\"title\":\"Reporting\"}]},{\"name\":\"usage\",\"section\":\"Reference\",\"headers\":[{\"level\":1,\"id\":\"command-line-and-endpoints\",\"title\":\"Command line and endpoints\"},{\"level\":2,\"id\":\"common-options\",\"title\":\"Common options\"},{\"level\":2,\"id\":\"inlet-service\",\"title\":\"Inlet service\"},{\"level\":2,\"id\":\"outlet-service\",\"title\":\"Outlet service\"},{\"level\":2,\"id\":\"orchestrator-service\",\"title\":\"Orchestrator service\"},{\"level\":2,\"id\":\"console-service\",\"title\":\"Console service\"},{\"level\":2,\"id\":\"demo-exporter-service\",\"title\":\"Demo exporter service\"},{\"level\":2,\"id\":\"other-commands\",\"title\":\"Other commands\"}]},{\"name\":\"console\",\"section\":\"Reference\",\"headers\":[{\"level\":1,\"id\":\"web-console\",\"title\":\"Web console\"},{\"level\":2,\"id\":\"home-page\",\"title\":\"Home page\"},{\"level\":2,\"id\":\"visualize-page\",\"title\":\"Visualize page\"},{\"level\":2,\"id\":\"filter-language\",\"title\":\"Filter language\"}]},{\"name\":\"design\",\"section\":\"Explanation\",\"headers\":[{\"level\":1,\"id\":\"how-flowscope-works\",\"title\":\"How FlowScope works\"},{\"level\":2,\"id\":\"big-picture\",\"title\":\"Big picture\"},{\"level\":2,\"id\":\"life-of-a-flow\",\"title\":\"Life of a flow\"},{\"level\":2,\"id\":\"why-the-inlet-and-the-outlet-are-separate\",\"title\":\"Why the inlet and the outlet are separate\"},{\"level\":2,\"id\":\"where-the-data-is-stored\",\"title\":\"Where the data is stored\"},{\"level\":2,\"id\":\"schema-versions\",\"title\":\"Schema versions\"}]},{\"name\":\"internals\",\"section\":\"Explanation\",\"headers\":[{\"level\":1,\"id\":\"internal-design\",\"title\":\"Internal design\"},{\"level\":2,\"id\":\"reporter\",\"title\":\"Reporter\"},{\"level\":2,\"id\":\"cli\",\"title\":\"CLI\"},{\"level\":2,\"id\":\"flow-processing\",\"title\":\"Flow processing\"},{\"level\":3,\"id\":\"inlet-flow-reception\",\"title\":\"Inlet flow reception\"},{\"level\":3,\"id\":\"outlet-flow-decoding\",\"title\":\"Outlet flow decoding\"},{\"level\":2,\"id\":\"kafka\",\"title\":\"Kafka\"},{\"level\":2,\"id\":\"clickhouse\",\"title\":\"ClickHouse\"},{\"level\":2,\"id\":\"metadata\",\"title\":\"Metadata\"},{\"level\":2,\"id\":\"bmp\",\"title\":\"BMP\"},{\"level\":2,\"id\":\"schema\",\"title\":\"Schema\"},{\"level\":2,\"id\":\"web-console\",\"title\":\"Web console\"},{\"level\":3,\"id\":\"rest-api\",\"title\":\"REST API\"},{\"level\":3,\"id\":\"single-page-application\",\"title\":\"Single page application\"},{\"level\":3,\"id\":\"filter-language\",\"title\":\"Filter language\"},{\"level\":2,\"id\":\"other-components\",\"title\":\"Other components\"},{\"level\":2,\"id\":\"other-interesting-dependencies\",\"title\":\"Other interesting dependencies\"},{\"level\":2,\"id\":\"dependency-versions\",\"title\":\"Dependency versions\"}]},{\"name\":\"changelog\",\"section\":\"\",\"headers\":[{\"level\":1,\"id\":\"changelog\",\"title\":\"Changelog\"},{\"level\":2,\"id\":\"unreleased\",\"title\":\"Unreleased\"},{\"level\":2,\"id\":\"2026100---2026-10-03\",\"title\":\"2026.10.0 - 2026-10-03\"},{\"level\":2,\"id\":\"202681---2026-08-29\",\"title\":\"2026.8.1 - 2026-08-29\"},{\"level\":2,\"id\":\"202680---2026-08-12\",\"title\":\"2026.8.0 - 2026-08-12\"},{\"level\":2,\"id\":\"241---2026-07-14\",\"title\":\"2.4.1 - 2026-07-14\"},{\"level\":2,\"id\":\"240---2026-05-27\",\"title\":\"2.4.0 - 2026-05-27\"},{\"level\":2,\"id\":\"230---2026-04-14\",\"title\":\"2.3.0 - 2026-04-14\"},{\"level\":2,\"id\":\"220---2026-03-16\",\"title\":\"2.2.0 - 2026-03-16\"},{\"level\":2,\"id\":\"212---2026-02-24\",\"title\":\"2.1.2 - 2026-02-24\"},{\"level\":2,\"id\":\"211---2026-01-17\",\"title\":\"2.1.1 - 2026-01-17\"},{\"level\":2,\"id\":\"210---2026-01-10\",\"title\":\"2.1.0 - 2026-01-10\"},{\"level\":2,\"id\":\"204---2025-12-04\",\"title\":\"2.0.4 - 2025-12-04\"},{\"level\":2,\"id\":\"203---2025-11-19\",\"title\":\"2.0.3 - 2025-11-19\"},{\"level\":2,\"id\":\"202---2025-10-29\",\"title\":\"2.0.2 - 2025-10-29\"},{\"level\":2,\"id\":\"201---2025-10-02\",\"title\":\"2.0.1 - 2025-10-02\"},{\"level\":2,\"id\":\"200---2025-09-22\",\"title\":\"2.0.0 - 2025-09-22\"},{\"level\":2,\"id\":\"1115---2025-05-11\",\"title\":\"1.11.5 - 2025-05-11\"},{\"level\":2,\"id\":\"1114---2025-04-26\",\"title\":\"1.11.4 - 2025-04-26\"},{\"level\":2,\"id\":\"1113---2025-02-04\",\"title\":\"1.11.3 - 2025-02-04\"},{\"level\":2,\"id\":\"1112---2024-11-01\",\"title\":\"1.11.2 - 2024-11-01\"},{\"level\":2,\"id\":\"1111---2024-09-01\",\"title\":\"1.11.1 - 2024-09-01\"},{\"level\":2,\"id\":\"1110---2024-06-26\",\"title\":\"1.11.0 - 2024-06-26\"},{\"level\":2,\"id\":\"1102---2024-04-27\",\"title\":\"1.10.2 - 2024-04-27\"},{\"level\":2,\"id\":\"1101---2024-04-14\",\"title\":\"1.10.1 - 2024-04-14\"},{\"level\":2,\"id\":\"1100---2024-04-08\",\"title\":\"1.10.0 - 2024-04-08\"},{\"level\":2,\"id\":\"193---2024-01-14\",\"title\":\"1.9.3 - 2024-01-14\"},{\"level\":2,\"id\":\"192---2023-11-28\",\"title\":\"1.9.2 - 2023-11-28\"},{\"level\":2,\"id\":\"191---2023-10-06\",\"title\":\"1.9.1 - 2023-10-06\"},{\"level\":2,\"id\":\"190---2023-08-26\",\"title\":\"1.9.0 - 2023-08-26\"},{\"level\":2,\"id\":\"183---2023-04-28\",\"title\":\"1.8.3 - 2023-04-28\"},{\"level\":2,\"id\":\"182---2023-04-08\",\"title\":\"1.8.2 - 2023-04-08\"},{\"level\":2,\"id\":\"181---2023-03-04\",\"title\":\"1.8.1 - 2023-03-04\"},{\"level\":2,\"id\":\"180---2023-02-25\",\"title\":\"1.8.0 - 2023-02-25\"},{\"level\":2,\"id\":\"172---2023-02-12\",\"title\":\"1.7.2 - 2023-02-12\"},{\"level\":2,\"id\":\"171---2023-01-27\",\"title\":\"1.7.1 - 2023-01-27\"},{\"level\":2,\"id\":\"170---2023-01-26\",\"title\":\"1.7.0 - 2023-01-26\"},{\"level\":2,\"id\":\"164---2022-12-22\",\"title\":\"1.6.4 - 2022-12-22\"},{\"level\":2,\"id\":\"163---2022-11-26\",\"title\":\"1.6.3 - 2022-11-26\"},{\"level\":2,\"id\":\"162---2022-11-03\",\"title\":\"1.6.2 - 2022-11-03\"},{\"level\":2,\"id\":\"161---2022-10-11\",\"title\":\"1.6.1 - 2022-10-11\"},{\"level\":2,\"id\":\"160---2022-09-30\",\"title\":\"1.6.0 - 2022-09-30\"},{\"level\":2,\"id\":\"158---2022-09-18\",\"title\":\"1.5.8 - 2022-09-18\"},{\"level\":2,\"id\":\"157---2022-08-23\",\"title\":\"1.5.7 - 2022-08-23\"},{\"level\":2,\"id\":\"156---2022-08-16\",\"title\":\"1.5.6 - 2022-08-16\"},{\"level\":2,\"id\":\"155---2022-08-09\",\"title\":\"1.5.5 - 2022-08-09\"},{\"level\":2,\"id\":\"154---2022-08-01\",\"title\":\"1.5.4 - 2022-08-01\"},{\"level\":2,\"id\":\"153---2022-07-26\",\"title\":\"1.5.3 - 2022-07-26\"},{\"level\":2,\"id\":\"152---2022-07-26\",\"title\":\"1.5.2 - 2022-07-26\"},{\"level\":2,\"id\":\"151---2022-07-22\",\"title\":\"1.5.1 - 2022-07-22\"},{\"level\":2,\"id\":\"150---2022-07-20\",\"title\":\"1.5.0 - 2022-07-20\"},{\"level\":2,\"id\":\"142---2022-07-16\",\"title\":\"1.4.2 - 2022-07-16\"},{\"level\":2,\"id\":\"141---2022-07-12\",\"title\":\"1.4.1 - 2022-07-12\"},{\"level\":2,\"id\":\"140---2022-07-09\",\"title\":\"1.4.0 - 2022-07-09\"}]}]}\n"
+ },
+ {
+  "method": "GET",
+  "url": "/api/v0/console/docs/operations",
+  "status": 200,
+  "resp_headers": {
+   "Cache-Control": "max-age=300, public",
+   "Content-Type": "text/markdown; charset=utf-8",
+   "Vary": "Accept"
+  },
+  "resp_body": "# Configure your exporters\n\nAn exporter is a device that sends flows to *FlowScope*. This page collects the\nconfiguration snippets for the platforms we know about. Each exporter should be\nconfigured to send flows to the inlet service and to accept SNMP requests. For a\ndevice that is not listed here, look at the [configuration\nsnippets](https://github.com/kentik/config-snippets/) from Kentik.\n\nTwo settings are important on every platform:\n\n- It is better to sample on ingress only. This requires sampling on both\n  external and internal interfaces. This prevents flows from being counted twice\n  when they enter and exit through external ports.\n- With NetFlow or IPFIX, use low timeout values for both active and inactive\n  flows. Values of 5 to 10 seconds should be OK. Higher values create spikes in\n  the graphs.\n\nAfter configuring a device, check that its flows are received with the\n[troubleshooting guide](troubleshooting#inlet-service).\n\n## Exporter address\n\nThe exporter address is set from the field inside the flow message by default\nand is used, for example, for SNMP requests. However, if the set flow address\n(also called agent ID) is wrong, you can use the source IP of the flow packet\ninstead by setting `use-src-addr-for-exporter-addr: true` in the flow\nconfiguration.\n\nPlease note that with this configuration, your deployment must not change the\nsource IP. This might happen with Docker or Kubernetes networking.\n\n## Cisco IOS-XE\n\nYou can enable NetFlow with the following configuration:\n\n```cisco\nflow record FlowScope\n    match ipv4 tos\n    match ipv4 protocol\n    match ipv4 source address\n    match ipv4 destination address\n    match transport source-port\n    match transport destination-port\n    collect routing source as 4-octet\n    collect routing destination as 4-octet\n    collect routing next-hop address ipv4\n    collect transport tcp flags\n    collect interface output\n    collect interface input\n    collect counter bytes\n    collect counter packets\n    collect timestamp sys-uptime first\n    collect timestamp sys-uptime last\n!\nflow record FlowScope-IPV6\n    match ipv6 protocol\n    match ipv6 source address\n    match ipv6 destination address\n    match transport source-port\n    match transport destination-port\n    collect routing source as 4-octet\n    collect routing destination as 4-octet\n    collect routing next-hop address ipv4\n    collect transport tcp flags\n    collect interface output\n    collect interface input\n    collect counter bytes\n    collect counter packets\n    collect timestamp sys-uptime first\n    collect timestamp sys-uptime last\n!\nsampler random1in100\n    mode random 1 out-of 100\n!\nflow exporter FlowScopeExport\n    destination \u003cakvorado-ip\u003e vrf monitoring\n    source Loopback20\n    transport udp 2055\n    version 9\n    option sampler-table timeout 10\n!\nflow monitor FlowScopeMonitor\n    exporter FlowScopeExport\n    cache timeout inactive 10\n    cache timeout active 10\n    record FlowScope\n! \nflow monitor FlowScopeMonitor-IPV6\n    exporter FlowScopeExport\n    cache timeout inactive 10\n    cache timeout active 10\n    record FlowScope-IPV6\n!\n```\n\nTo enable NetFlow on an interface, use this snippet:\n\n```cisco\ninterface GigabitEthernet0/0/3\n    ip flow monitor FlowScopeMonitor sampler random1in100 input\n    ip flow monitor FlowScopeMonitor sampler random1in100 output\n    ipv6 flow monitor FlowScopeMonitor-IPV6 sampler random1in100 input\n    ipv6 flow monitor FlowScopeMonitor-IPV6 sampler random1in100 output\n!\n```\n\nAccording to [issue #89](https://github.com/akvorado/akvorado/issues/89), the\nsampling rate is not reported correctly on this platform. The solution is to set\na default sampling rate in `akvorado.yaml`. See the\n[documentation](configuration#core) for more details.\n\n```yaml\ninlet:\n  core:\n    default-sampling-rate: 100\n```\n\n## Cisco NCS 5500 and ASR 9000\n\nOn each router, you can enable NetFlow with the following configuration. It is\nimportant to use a power of two for the sampling rate (at least on NCS).\n\n```cisco\nsampler-map sampler1\n random 1 out-of 32768\n!\nflow exporter-map akvorado\n version v9\n  options sampler-table timeout 10\n  template options timeout 10\n !\n transport udp 2055\n source Loopback20\n destination \u003cakvorado-ip\u003e vrf private\n!\nflow monitor-map monitor1\n record ipv4\n exporter akvorado\n cache entries 100000\n cache timeout active 10\n cache timeout inactive 10\n cache timeout rate-limit 2000\n!\nflow monitor-map monitor2\n record ipv6\n exporter akvorado\n cache entries 100000\n cache timeout active 10\n cache timeout inactive 10\n cache timeout rate-limit 2000\n!\n```\n\nOptionally, you can push the AS path to the forwarding database, and the source\nand destination AS will be present in NetFlow packets:\n\n```cisco\nrouter bgp \u003casn\u003e\n address-family ipv4 unicast\n  bgp attribute-download\n!\n address-family ipv6 unicast\n  bgp attribute-download\n```\n\nTo enable NetFlow on an interface, use this snippet:\n\n```cisco\ninterface Bundle-Ether4000\n flow ipv4 monitor monitor1 sampler sampler1 ingress\n flow ipv6 monitor monitor2 sampler sampler1 ingress\n!\n```\n\nAlso, see the [scaling guide](scaling#ncs5500-routers) on how to scale\nNetFlow on the NCS 5500.\n\nThen, you need to enable SNMP:\n\n```cisco\nsnmp-server community \u003ccommunity\u003e RO IPv4\nsnmp-server ifindex persist\ncontrol-plane\n management-plane\n  inband\n   interface all\n    allow SNMP peer\n     address ipv4 \u003cakvorado-ip\u003e\n```\n\nTo configure BMP, adapt this snippet:\n\n```cisco\nbmp server 1\n host \u003cakvorado-ip\u003e port 10179\n flapping-delay 60\nbmp server all\n route-monitoring policy post inbound\nrouter bgp 65400\n vrf public\n  neighbor 192.0.2.100\n   bmp-activate server 1\n```\n\n## Juniper\n\n### NetFlow\n\nFor MX and SRX devices, you can use NetFlow v9 to export flows.\n\n```junos\ngroups {\n  sampling {\n    interfaces {\n      \u003c*\u003e {\n        unit \u003c*\u003e {\n          family inet {\n            sampling {\n              input;\n            }\n          }\n          family inet6 {\n            sampling {\n              input;\n            }\n          }\n        }\n      }\n    }\n  }\n}\nforwarding-options {\n  sampling {\n    instance {\n      sample-ins {\n        input {\n          rate 1024;\n          max-packets-per-second 65535;\n        }\n        family inet {\n          output {\n            flow-server 192.0.2.1 {\n              port 2055;\n              autonomous-system-type origin;\n              source-address 203.0.113.2;\n              version9 {\n                template {\n                  ipv4;\n                }\n              }\n            }\n            inline-jflow {\n              source-address 203.0.113.2;\n            }\n          }\n        }\n        family inet6 {\n          output {\n            flow-server 192.0.2.1 {\n              port 2055;\n              autonomous-system-type origin;\n              source-address 203.0.113.2;\n              version9 {\n                template {\n                  ipv6;\n                }\n              }\n            }\n            inline-jflow {\n              source-address 203.0.113.2;\n            }\n          }\n        }\n      }\n    }\n  }\n}\nchassis {\n  fpc 0 {\n    sampling-instance sample-ins;\n    inline-services {\n      flex-flow-sizing;\n    }\n  }\n}\nservices {\n  flow-monitoring {\n    version9 {\n      template ipv4 {\n        nexthop-learning enable;\n        flow-active-timeout 10;\n        flow-inactive-timeout 10;\n        template-refresh-rate {\n          packets 30;\n          seconds 30;\n        }\n        option-refresh-rate {\n          packets 30;\n          seconds 30;\n        }\n        ipv4-template;\n      }\n      template ipv6 {\n        nexthop-learning enable;\n        flow-active-timeout 10;\n        flow-inactive-timeout 10;\n        template-refresh-rate {\n          packets 30;\n          seconds 30;\n        }\n        option-refresh-rate {\n          packets 30;\n          seconds 30;\n        }\n        ipv6-template;\n      }\n    }\n  }\n}\n```\n\nThen, for each interface you want to enable IPFIX on, use this:\n\n```junos\ninterfaces {\n  xe-0/0/0.0 {\n    description \"Transit: Cogent AS179 [3-10109101]\";\n    apply-groups [ sampling ];\n  }\n}\n```\n\nIf `inet.0` is not enough to reach *FlowScope*, you need to add a specific route:\n\n```junos\nrouting-options {\n  static {\n    route 192.0.2.1/32 next-table internet.inet.0;\n  }\n}\n```\n\n### IPFIX 315\n\nAnother option is using IPFIX 315. Juniper calls that inline monitoring. In this\ncase, FlowScope will decode the sampled packets. This is more lightweight.\n\n```junos\nservices {\n  inline-monitoring {\n    template im-template {\n      template-refresh-rate 30;\n      option-template-refresh-rate 30;\n      primary-data-record-fields {\n        cpid-forwarding-exception-code;\n        egress-interface-snmp-id; \n        ingress-interface-snmp-id;\n        direction;\n        datalink-frame-size;\n      }\n    }\n    instance im-instance {\n      template-name im-template {\n        maximum-clip-length 126;\n      }\n      collector akvorado {\n        source-address 203.0.113.2;\n        destination-address 192.0.2.1;\n        destination-port 2055;\n        sampling-rate 1024;\n      }\n    }\n  }\n}\nfirewall {\n  family inet {\n    filter monitoring {\n      term 1 {\n        then {\n          inline-monitoring-instance im-instance;\n          accept;\n        }\n      }\n    }\n  }\n  family inet6 {\n    filter monitoring {\n      term 1 {\n        then {\n          inline-monitoring-instance im-instance;\n          accept;\n        }\n      }\n    }\n  }\n}\ngroups {\n  sampling {\n    interfaces {\n      \u003c*\u003e {\n        unit \u003c*\u003e {\n          family inet {\n            filter {\n              input monitoring;\n            }\n          }\n          family inet6 {\n            filter {\n              input monitoring;\n            }\n          }\n        }\n      }\n    }\n  }\n}\n```\n\nThen, for each interface you want to enable IPFIX on, use this:\n\n```junos\ninterfaces {\n  xe-0/0/0.0 {\n    description \"Transit: Cogent AS179 [3-10109101]\";\n    apply-groups [ sampling ];\n  }\n}\n```\n\n### sFlow\n\nFor QFX devices, you can use sFlow.\n\n```junos\nprotocols {\n    sflow {\n        agent-id 203.0.113.4;\n        polling-interval 5;\n        sample-rate ingress 8192;\n        source-ip 203.0.113.4;\n        collector 192.0.2.1 {\n            udp-port 6343;\n        }\n        interfaces et-0/0/13.0;\n    }\n}\n```\n\n### SNMP\n\nThen, configure SNMP:\n\n```junos\nsnmp {\n  location \"Equinix PA1, FR\";\n  community blipblop {\n    authorization read-only;\n    routing-instance internet;\n  }\n  routing-instance-access;\n}\n```\n\n### BMP\n\nIf needed, you can configure BMP on one router to send all AdjRIB-in\nto FlowScope.\n\n```junos\nrouting-options {\n    bmp {\n        connection-mode active;\n        station-address 203.0.113.1;\n        station-port 10179;\n        station collector;\n        hold-down 30 flaps 10 period 30;\n        route-monitoring post-policy;\n        monitor enable;\n    }\n}\n```\n\nSee [Juniper's documentation](https://www.juniper.net/documentation/us/en/software/junos/bgp/topics/ref/statement/bmp-edit-routing-options.html) for more details.\n\n## Arista\n\n### sFlow\n\nFor Arista devices, you can use sFlow.\n\n```eos\nsflow sample 1024\nsflow sample output subinterface\nsflow sample input subinterface\nsflow vrf VRF-MANAGEMENT destination 192.0.2.1\nsflow vrf VRF-MANAGEMENT source-interface Management1\nsflow interface egress enable default\nsflow run\n```\n\n### SNMP\n\nThen, configure SNMP:\n\n```eos\nsnmp-server community \u003ccommunity\u003e ro\nsnmp-server vrf VRF-MANAGEMENT\n```\n\n### BMP\n\nIf needed, you can also configure BMP.\n\n```eos\nrouter bgp 65001\n   bgp monitoring\n   monitoring station COLLECTOR\n      update-source Management1\n      connection address 10.122.4.51\n      connection mode active port 10179\n      export-policy received routes post-policy\n      export-policy bgp rib bestpaths\n```\n\n## Nokia SR OS\n\nThe syntax below is for the model-driven command line interface (MD-CLI). The\nfull context is provided to make it easier to adapt to the classic CLI.\n\n### Flows\n\nsFlow is not well supported on devices running SR OS. It is best to use IPFIX.\n\n```\n/configure cflowd admin-state enable\n/configure cflowd cache-size 250000\n/configure cflowd template-retransmit 60\n/configure cflowd active-flow-timeout 10\n/configure cflowd inactive-flow-timeout 10\n/configure cflowd sample-profile 1 sample-rate 2000\n/configure cflowd collector 192.0.2.1 port 2055 admin-state enable\n/configure cflowd collector 192.0.2.1 port 2055 description \"akvorado.example.net\"\n/configure cflowd collector 192.0.2.1 port 2055 router-instance \"Base\"\n/configure cflowd collector 192.0.2.1 port 2055 version 10\n```\n\nEither configure sampling on the individual interfaces:\n\n```\n/configure service ies \"internet\" interface \"if1/1/c1/1:0\" cflowd-parameters sampling unicast type interface\n/configure service ies \"internet\" interface \"if1/1/c1/1:0\" cflowd-parameters sampling unicast direction ingress-only\n/configure service ies \"internet\" interface \"if1/1/c1/1:0\" cflowd-parameters sampling unicast sample-profile 1\n```\n\nOr, add it to apply-groups that are probably already in place:\n\n```\n/configure groups group \"peering\" service ies \"internet\" interface \"\u003ci.*\u003e\" cflowd-parameters sampling unicast type interface\n/configure groups group \"peering\" service ies \"internet\" interface \"\u003ci.*\u003e\" cflowd-parameters sampling unicast direction ingress-only\n/configure groups group \"peering\" service ies \"internet\" interface \"\u003ci.*\u003e\" cflowd-parameters sampling unicast sample-profile 1\n\n/configure service ies \"internet\" interface \"if1/1/c1/1:0\" apply-groups [\"peering\"]\n```\n\n### SNMP\n\nNokia routers running SR OS use a different interface index in their flow\nrecords than the SNMP interface index that is usually used by other devices. To\nfix this, you need to use `cflowd use-vrtr-if-index`. You can find more\ninformation in [Nokia's\ndocumentation](https://infocenter.nokia.com/public/7750SR140R4/topic/com.sr.router.config/html/cflowd_cli.html#tgardner5iexrn6muno).\n\n### gNMI\n\nInstead of SNMP, you can use gNMI. The interface index challenge (see `SNMP`\nabove) also applies. See this\n[discussion](https://github.com/akvorado/akvorado/discussions/1275) for more\ndetails and possible workarounds.\n\nIn the example below, unencrypted connections are used. Check the documentation\nto enable TLS for a more secure setup.\n\n```\n/configure system grpc admin-state enable\n/configure system grpc allow-unsecure-connection\n/configure system security user-params local-user user \"akvorado\" access grpc true\n/configure system security user-params local-user user \"akvorado\" console member [\"grpc_ro\"]\n/configure system security aaa local-profiles profile \"grpc_ro\" grpc rpc-authorization gnmi-get permit\n/configure system security aaa local-profiles profile \"grpc_ro\" grpc rpc-authorization gnmi-set deny\n/configure system security aaa local-profiles profile \"grpc_ro\" grpc rpc-authorization gnmi-subscribe permit\n/configure system security aaa local-profiles profile \"grpc_ro\" grpc rpc-authorization gnoi-file-get deny\n/configure system security aaa local-profiles profile \"grpc_ro\" grpc rpc-authorization gnoi-file-transfertoremote deny\n/configure system security aaa local-profiles profile \"grpc_ro\" grpc rpc-authorization gnoi-file-put deny\n/configure system security aaa local-profiles profile \"grpc_ro\" grpc rpc-authorization gnoi-file-stat deny\n/configure system security aaa local-profiles profile \"grpc_ro\" grpc rpc-authorization gnoi-file-remove deny\n/configure system security aaa local-profiles profile \"grpc_ro\" grpc rpc-authorization md-cli-session deny\n```\n\n### BMP\n\n```\n/configure bmp admin-state enable\n/configure bmp station \"akvorado\" admin-state enable\n/configure bmp station \"akvorado\" description \"akvorado.example.net\"\n/configure bmp station \"akvorado\" stats-report-interval 300\n/configure bmp station \"akvorado\" connection local-address 192.0.2.42\n/configure bmp station \"akvorado\" connection station-address ip-address 192.0.2.1\n/configure bmp station \"akvorado\" connection station-address port 10179\n/configure bmp station \"akvorado\" family ipv4 true\n/configure bmp station \"akvorado\" family ipv6 true\n```\n\n```\n/configure router \"Base\" bgp monitor admin-state enable\n/configure router \"Base\" bgp monitor route-monitoring post-policy true\n/configure router \"Base\" bgp monitor station \"akvorado\" { }\n```\n\n## MikroTik\n\nFor MikroTik, if you use RouterOS v6, the sampling rate is incorrectly reported\nand you need to override the sampling rate in the outlet configuration:\n\n```yaml\ncore:\n  override-sampling-rate:\n    192.168.10.10: 10000 # mikrotik1\n    192.168.10.11: 2000  # mikrotik2\n```\n\nThis should not be needed for RouterOS v7 (at least from version 7.10).\n\nHere are a few resources from MikroTik help site to configure a Mikrotik device:\n\n- [Traffic Flow](https://help.mikrotik.com/docs/spaces/ROS/pages/21102653/Traffic+Flow)\n- [SNMP](https://help.mikrotik.com/docs/spaces/ROS/pages/8978519/SNMP)\n\n## Huawei\n\nHuawei routers support NetStream, a protocol compatible with NetFlow v9.\n\n```text\nsystem\nip netstream export version 9 origin-as\nip netstream export index-switch 32\nip netstream as-mode 32\nip netstream mpls-aware label-and-ip\nip netstream timeout active 10\nip netstream timeout inactive 10\nip netstream export template timeout-rate 30\nip netstream export template option sampler\nip netstream export template option timeout-rate 30\nip netstream export template option refresh-rate 30\nip netstream sampler fix-packets 2000 inbound\nip netstream sampler fix-packets 2000 outbound\nip netstream export source X.X.X.X\nip netstream export host Y.Y.Y.Y 2055\nipv6 netstream export version 9 origin-as\nipv6 netstream export index-switch 32\nipv6 netstream as-mode 32\nipv6 netstream mpls-aware label-and-ip\nipv6 netstream timeout active 10\nipv6 netstream timeout inactive 10\nipv6 netstream export template timeout-rate 30\nipv6 netstream export template option sampler\nipv6 netstream export template option timeout-rate 30\nipv6 netstream export template option refresh-rate 30\nipv6 netstream sampler fix-packets 2000 inbound\nipv6 netstream sampler fix-packets 2000 outbound\nipv6 netstream export source X.X.X.X\nipv6 netstream export host Y.Y.Y.Y 2055\n```\n\nOn each interface:\n\n```text\ninterface Eth-Trunk8.545\nip netstream inbound\nipv6 netstream inbound\n```\n\nOn each slot:\n\n```text\nslot 1:ip netstream sampler to slot self\nslot 1:ipv6 netstream sampler to slot self\n```\n\n## GNU/Linux\n\n### pmacct\n\n[pmacct](http://www.pmacct.net/) is a set of multi-purpose passive network\nmonitoring tools, including an sFlow exporter.\n\nPut the following configuration in `/etc/pmacctd/config.conf`. Replace\n`akvorado-inlet-receiver` and `sfprobe_agentip` with the correct IP.\n\n```yaml\ndaemonize: false\nplugins: sfprobe[any]\nsfprobe_receiver: akvorado-inlet-receiver:6343\naggregate: src_host,dst_host,in_iface,out_iface,src_port,dst_port,proto\npcap_ifindex: map\npcap_interfaces_map: /etc/pmacctd/interfaces.map\npcap_interface_wait: true\nsfprobe_agentsubid: 1402\nsfprobe_agentip: 10.25.0.1\nsampling_rate: 1000\nsnaplen: 128\n```\n\nIn `/etc/pmacctd/interfaces.map`, adapt this snippet to your setup:\n\n```ini\nifindex=1 ifname=lo direction=in\nifindex=1 ifname=lo direction=out\nifindex=3 ifname=eth0 direction=in\nifindex=3 ifname=eth0 direction=out\nifindex=4 ifname=eth1 direction=in\nifindex=4 ifname=eth1 direction=out\n```\n\nWe set the interface indexes manually based on the interface names to\navoid running an SNMP daemon. Use the static metadata provider to match the\nexporter and provide interface names and descriptions to FlowScope:\n\n```yaml\noutlet:\n  metadata:\n    providers:\n      - type: static\n        exporters:\n          2001:db8:1::1:\n            name: exporter1\n            ifindexes:\n              3:\n                name: eth0\n                description: PNI Google\n                speed: 10000\n              4:\n                name: eth1\n                description: PNI Netflix\n                speed: 10000\n```\n\n### ipfixprobe\n\n[ipfixprobe](https://ipfixprobe.cesnet.cz/) is a modular IPFIX flow exporter. It\nsupports a `pcap` plugin for low bandwidth use (less than 1 Gbps) and a\n`dpdk` plugin for 100 Gbps or more.\n\nHere is an example of how to invoke the `pcap` plugin:\n\n```sh\nipfixprobe \\\n  -i \"pcap;ifc=eth0;snaplen=128\" \\\n  -s \"cache;active=10;inactive=10\" \\\n  -o \"ipfix;host=akvorado-inlet-receiver;port=2055;udp;id=1;dir=1\"\n```\n\nYou need to run one `ipfixprobe` instance for each interface. Each interface\nshould have its own `id` and `dir`. As with *pmacct*, use the static metadata\nprovider to provide interface names and descriptions to FlowScope.\n\nBy default, ipfixprobe utilises bidirectional flows (RFC 5103) which are\nsupported by FlowScope.\n\n\u003e [!WARNING]\n\u003e The `split` option for the cache plugin results to incorrect input interfaces\n\u003e for outgoing flows.\n\n"
+ },
+ {
+  "method": "GET",
+  "url": "/api/v0/console/docs/notexist",
+  "status": 404,
+  "resp_headers": {
+   "Content-Type": "application/json; charset=utf-8",
+   "Vary": "Accept"
+  },
+  "resp_body": "{\"message\":\"Document not found.\"}\n"
+ }
+]

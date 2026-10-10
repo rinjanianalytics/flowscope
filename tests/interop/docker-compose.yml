@@ -1,0 +1,46 @@
+---
+# Services for the Rust integration tests. Start with:
+#   docker compose -f tests/interop/docker-compose.yml up -d --wait
+# Tests marked #[ignore] use them: cargo test -- --ignored
+name: akvorado-rs-test
+services:
+  kafka:
+    image: apache/kafka:4.3.1
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: controller,broker
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@localhost:9093
+      KAFKA_LISTENERS: CLIENT://:19092,CONTROLLER://:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CLIENT:PLAINTEXT,CONTROLLER:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: CLIENT://localhost:19092
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_INTER_BROKER_LISTENER_NAME: CLIENT
+      KAFKA_DELETE_TOPIC_ENABLE: "true"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_SHARE_COORDINATOR_STATE_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_SHARE_COORDINATOR_STATE_TOPIC_MIN_ISR: 1
+    ports:
+      - 127.0.0.1:19092:19092
+    healthcheck:
+      interval: 5s
+      test: ["CMD", "/opt/kafka/bin/kafka-topics.sh", "--list", "--bootstrap-server", "localhost:19092"]
+  clickhouse:
+    image: clickhouse/clickhouse-server:26.8
+    environment:
+      CLICKHOUSE_SKIP_USER_SETUP: 1
+    ports:
+      - 127.0.0.1:19000:9000
+      - 127.0.0.1:18123:8123
+    healthcheck:
+      interval: 5s
+      test: ["CMD", "clickhouse-client", "-q", "SELECT 1"]
+  redis:
+    image: valkey/valkey:9.0
+    ports:
+      - 127.0.0.1:16379:6379
+  snmpd:
+    build: snmpd
+    ports:
+      - 127.0.0.1:16161:161/udp

@@ -1,0 +1,1383 @@
+[
+  {
+    "name": "init, terminate",
+    "steps": [
+      "dial",
+      "send 0 bmp-init.pcap",
+      "snapshot",
+      "send 0 bmp-terminate.pcap",
+      "snapshot",
+      "clock 2h"
+    ],
+    "snapshots": [
+      {
+        "rib": {},
+        "metrics": {
+          "closed_connections_total{exporter=\"127.0.0.1\"}": "0",
+          "opened_connections_total{exporter=\"127.0.0.1\"}": "1",
+          "peers{exporter=\"127.0.0.1\"}": "0",
+          "prefixes_added_total{exporter=\"127.0.0.1\"}": "0",
+          "prefixes_removed_total{exporter=\"127.0.0.1\"}": "0",
+          "prefixes_updated_total{exporter=\"127.0.0.1\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"initiation\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-down-notification\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-up-notification\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-mirroring\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-monitoring\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"statistics-report\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"termination\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"unknown\"}": "0",
+          "routes{exporter=\"127.0.0.1\"}": "0"
+        }
+      },
+      {
+        "rib": {},
+        "metrics": {
+          "closed_connections_total{exporter=\"127.0.0.1\"}": "1",
+          "opened_connections_total{exporter=\"127.0.0.1\"}": "1",
+          "peers{exporter=\"127.0.0.1\"}": "0",
+          "prefixes_added_total{exporter=\"127.0.0.1\"}": "0",
+          "prefixes_removed_total{exporter=\"127.0.0.1\"}": "0",
+          "prefixes_updated_total{exporter=\"127.0.0.1\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"initiation\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-down-notification\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-up-notification\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-mirroring\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-monitoring\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"statistics-report\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"termination\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"unknown\"}": "0",
+          "routes{exporter=\"127.0.0.1\"}": "0"
+        }
+      },
+      {
+        "rib": {},
+        "metrics": {
+          "closed_connections_total{exporter=\"127.0.0.1\"}": "1",
+          "opened_connections_total{exporter=\"127.0.0.1\"}": "1",
+          "peers{exporter=\"127.0.0.1\"}": "0",
+          "prefixes_added_total{exporter=\"127.0.0.1\"}": "0",
+          "prefixes_removed_total{exporter=\"127.0.0.1\"}": "0",
+          "prefixes_updated_total{exporter=\"127.0.0.1\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"initiation\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-down-notification\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-up-notification\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-mirroring\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-monitoring\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"statistics-report\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"termination\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"unknown\"}": "0",
+          "routes{exporter=\"127.0.0.1\"}": "0"
+        }
+      }
+    ]
+  },
+  {
+    "name": "init, peers up, eor",
+    "steps": [
+      "dial",
+      "send 0 bmp-init.pcap",
+      "send 0 bmp-peers-up.pcap",
+      "send 0 bmp-eor.pcap"
+    ],
+    "snapshots": [
+      {
+        "rib": {},
+        "metrics": {
+          "closed_connections_total{exporter=\"127.0.0.1\"}": "0",
+          "opened_connections_total{exporter=\"127.0.0.1\"}": "1",
+          "peers{exporter=\"127.0.0.1\"}": "4",
+          "prefixes_added_total{exporter=\"127.0.0.1\"}": "0",
+          "prefixes_removed_total{exporter=\"127.0.0.1\"}": "0",
+          "prefixes_updated_total{exporter=\"127.0.0.1\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"initiation\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-down-notification\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-up-notification\"}": "4",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-mirroring\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-monitoring\"}": "8",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"statistics-report\"}": "4",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"termination\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"unknown\"}": "0",
+          "routes{exporter=\"127.0.0.1\"}": "0"
+        }
+      }
+    ]
+  },
+  {
+    "name": "init, peers up, eor, reach NLRI",
+    "steps": [
+      "dial",
+      "send 0 bmp-init.pcap",
+      "send 0 bmp-peers-up.pcap",
+      "send 0 bmp-eor.pcap",
+      "send 0 bmp-reach.pcap",
+      "send 0 bmp-reach-addpath.pcap"
+    ],
+    "snapshots": [
+      {
+        "rib": {
+          "192.0.2.1": [
+            "[ipv4-unicast] 192.0.2.0/31 via 192.0.2.1 0:0/0 65011 [65011] [] [] plen=127",
+            "[ipv4-unicast] 198.51.100.0/25 via 192.0.2.1 0:0/0 64476 [65011 65011 174 1299 64476] [4260560906 4260560916] [] plen=121",
+            "[ipv4-unicast] 198.51.100.128/25 via 192.0.2.1 0:0/0 396919 [65011 65011 174 29447 396919] [4260560908] [] plen=121"
+          ],
+          "192.0.2.5": [
+            "[ipv4-unicast] 192.0.2.4/31 via 192.0.2.5 0:0/1 65500 [] [] [] plen=127"
+          ],
+          "2001:db8::3": [
+            "[ipv6-unicast] 2001:db8:1::/64 via 2001:db8::3 0:0/0 174 [65013 65013 174 174 174] [4260691978 4260691988] [] plen=64",
+            "[ipv6-unicast] 2001:db8:2::/64 via 2001:db8::3 0:0/0 12322 [65013 65013 1299 1299 1299 12322] [4260691998] [] plen=64",
+            "[ipv6-unicast] 2001:db8::2/127 via 2001:db8::3 0:0/0 65013 [65013] [] [] plen=127"
+          ],
+          "2001:db8::7": [
+            "[ipv4-unicast] 192.0.2.6/31 via 192.0.2.7 0:0/0 65017 [65017] [] [] plen=127",
+            "[ipv6-unicast] 2001:db8:1::/64 via 2001:db8::7 0:0/0 174 [65017 65013 174 174 174] [4260954122 4260954132] [{65017 300 4}] plen=64",
+            "[ipv6-unicast] 2001:db8:2::/64 via 2001:db8::7 0:0/0 12322 [65017 65017 1299 1299 1299 12322] [4260954142] [{65017 400 2}] plen=64",
+            "[ipv6-unicast] 2001:db8::6/127 via 2001:db8::7 0:0/0 65017 [65017] [] [] plen=127",
+            "[l2vpn-evpn] 198.51.100.0/26 via 2001:db8::7 65017:104/0 64476 [65017 65017 3356 64476] [4260955215] [] plen=122",
+            "[l3vpn-ipv4-unicast] 198.51.100.0/25 via 192.0.2.7 65017:101/0 64476 [65017 65017 174 1299 64476] [4260954122 4260954132] [] plen=121",
+            "[l3vpn-ipv4-unicast] 198.51.100.0/25 via 192.0.2.7 65017:102/0 64476 [65017 65017 174 3356 3356 3356 64476] [4260954122 4260954132] [] plen=121",
+            "[l3vpn-ipv4-unicast] 198.51.100.0/26 via 192.0.2.7 65017:103/0 64476 [65017 65017 3356 64476] [4260955215] [] plen=122",
+            "[l3vpn-ipv4-unicast] 198.51.100.128/25 via 192.0.2.7 65017:101/0 396919 [65017 65017 174 29447 396919] [4260954124] [] plen=121",
+            "[l3vpn-ipv4-unicast] 198.51.100.128/25 via 192.0.2.7 65017:102/0 396919 [65017 65017 6453 396919] [4260954131] [] plen=121",
+            "[l3vpn-ipv6-unicast] 2001:db8:4::/64 via 2001:db8::7 65017:101/0 29447 [65017 65017 1299 1299 1299 29447] [4260954412] [] plen=64"
+          ]
+        },
+        "metrics": {
+          "closed_connections_total{exporter=\"127.0.0.1\"}": "0",
+          "opened_connections_total{exporter=\"127.0.0.1\"}": "1",
+          "peers{exporter=\"127.0.0.1\"}": "4",
+          "prefixes_added_total{exporter=\"127.0.0.1\"}": "11",
+          "prefixes_removed_total{exporter=\"127.0.0.1\"}": "0",
+          "prefixes_updated_total{exporter=\"127.0.0.1\"}": "7",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"initiation\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-down-notification\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-up-notification\"}": "4",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-mirroring\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-monitoring\"}": "26",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"statistics-report\"}": "4",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"termination\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"unknown\"}": "0",
+          "routes{exporter=\"127.0.0.1\"}": "18"
+        }
+      }
+    ]
+  },
+  {
+    "name": "init, no peers up, reach NLRI",
+    "steps": [
+      "dial",
+      "send 0 bmp-init.pcap",
+      "send 0 bmp-reach.pcap"
+    ],
+    "snapshots": [
+      {
+        "rib": {
+          "192.0.2.1": [
+            "[ipv4-unicast] 192.0.2.0/31 via 192.0.2.1 0:0/0 65011 [65011] [] [] plen=127",
+            "[ipv4-unicast] 198.51.100.0/25 via 192.0.2.1 0:0/0 64476 [65011 65011 174 1299 64476] [4260560906 4260560916] [] plen=121",
+            "[ipv4-unicast] 198.51.100.128/25 via 192.0.2.1 0:0/0 396919 [65011 65011 174 29447 396919] [4260560908] [] plen=121"
+          ],
+          "2001:db8::3": [
+            "[ipv6-unicast] 2001:db8:1::/64 via 2001:db8::3 0:0/0 174 [65013 65013 174 174 174] [4260691978 4260691988] [] plen=64",
+            "[ipv6-unicast] 2001:db8:2::/64 via 2001:db8::3 0:0/0 12322 [65013 65013 1299 1299 1299 12322] [4260691998] [] plen=64",
+            "[ipv6-unicast] 2001:db8::2/127 via 2001:db8::3 0:0/0 65013 [65013] [] [] plen=127"
+          ],
+          "2001:db8::7": [
+            "[ipv4-unicast] 192.0.2.6/31 via 192.0.2.7 0:0/0 65017 [65017] [] [] plen=127",
+            "[ipv6-unicast] 2001:db8:1::/64 via 2001:db8::7 0:0/0 174 [65017 65013 174 174 174] [4260954122 4260954132] [{65017 300 4}] plen=64",
+            "[ipv6-unicast] 2001:db8:2::/64 via 2001:db8::7 0:0/0 12322 [65017 65017 1299 1299 1299 12322] [4260954142] [{65017 400 2}] plen=64",
+            "[ipv6-unicast] 2001:db8::6/127 via 2001:db8::7 0:0/0 65017 [65017] [] [] plen=127",
+            "[l2vpn-evpn] 198.51.100.0/26 via 2001:db8::7 65017:104/0 64476 [65017 65017 3356 64476] [4260955215] [] plen=122",
+            "[l3vpn-ipv4-unicast] 198.51.100.0/25 via 192.0.2.7 65017:101/0 64476 [65017 65017 174 1299 64476] [4260954122 4260954132] [] plen=121",
+            "[l3vpn-ipv4-unicast] 198.51.100.0/25 via 192.0.2.7 65017:102/0 64476 [65017 65017 174 3356 3356 3356 64476] [4260954122 4260954132] [] plen=121",
+            "[l3vpn-ipv4-unicast] 198.51.100.0/26 via 192.0.2.7 65017:103/0 64476 [65017 65017 3356 64476] [4260955215] [] plen=122",
+            "[l3vpn-ipv4-unicast] 198.51.100.128/25 via 192.0.2.7 65017:101/0 396919 [65017 65017 174 29447 396919] [4260954124] [] plen=121",
+            "[l3vpn-ipv4-unicast] 198.51.100.128/25 via 192.0.2.7 65017:102/0 396919 [65017 65017 6453 396919] [4260954131] [] plen=121",
+            "[l3vpn-ipv6-unicast] 2001:db8:4::/64 via 2001:db8::7 65017:101/0 29447 [65017 65017 1299 1299 1299 29447] [4260954412] [] plen=64"
+          ]
+        },
+        "metrics": {
+          "closed_connections_total{exporter=\"127.0.0.1\"}": "0",
+          "opened_connections_total{exporter=\"127.0.0.1\"}": "1",
+          "peers{exporter=\"127.0.0.1\"}": "3",
+          "prefixes_added_total{exporter=\"127.0.0.1\"}": "10",
+          "prefixes_removed_total{exporter=\"127.0.0.1\"}": "0",
+          "prefixes_updated_total{exporter=\"127.0.0.1\"}": "7",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"initiation\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-down-notification\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-up-notification\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-mirroring\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-monitoring\"}": "17",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"statistics-report\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"termination\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"unknown\"}": "0",
+          "routes{exporter=\"127.0.0.1\"}": "17"
+        }
+      }
+    ]
+  },
+  {
+    "name": "init, no peers up, reach NLRI, peers up",
+    "steps": [
+      "dial",
+      "send 0 bmp-init.pcap",
+      "send 0 bmp-reach.pcap",
+      "send 0 bmp-peers-up.pcap",
+      "send 0 bmp-eor.pcap"
+    ],
+    "snapshots": [
+      {
+        "rib": {
+          "192.0.2.1": [
+            "[ipv4-unicast] 192.0.2.0/31 via 192.0.2.1 0:0/0 65011 [65011] [] [] plen=127",
+            "[ipv4-unicast] 198.51.100.0/25 via 192.0.2.1 0:0/0 64476 [65011 65011 174 1299 64476] [4260560906 4260560916] [] plen=121",
+            "[ipv4-unicast] 198.51.100.128/25 via 192.0.2.1 0:0/0 396919 [65011 65011 174 29447 396919] [4260560908] [] plen=121"
+          ],
+          "2001:db8::3": [
+            "[ipv6-unicast] 2001:db8:1::/64 via 2001:db8::3 0:0/0 174 [65013 65013 174 174 174] [4260691978 4260691988] [] plen=64",
+            "[ipv6-unicast] 2001:db8:2::/64 via 2001:db8::3 0:0/0 12322 [65013 65013 1299 1299 1299 12322] [4260691998] [] plen=64",
+            "[ipv6-unicast] 2001:db8::2/127 via 2001:db8::3 0:0/0 65013 [65013] [] [] plen=127"
+          ],
+          "2001:db8::7": [
+            "[ipv4-unicast] 192.0.2.6/31 via 192.0.2.7 0:0/0 65017 [65017] [] [] plen=127",
+            "[ipv6-unicast] 2001:db8:1::/64 via 2001:db8::7 0:0/0 174 [65017 65013 174 174 174] [4260954122 4260954132] [{65017 300 4}] plen=64",
+            "[ipv6-unicast] 2001:db8:2::/64 via 2001:db8::7 0:0/0 12322 [65017 65017 1299 1299 1299 12322] [4260954142] [{65017 400 2}] plen=64",
+            "[ipv6-unicast] 2001:db8::6/127 via 2001:db8::7 0:0/0 65017 [65017] [] [] plen=127",
+            "[l2vpn-evpn] 198.51.100.0/26 via 2001:db8::7 65017:104/0 64476 [65017 65017 3356 64476] [4260955215] [] plen=122",
+            "[l3vpn-ipv4-unicast] 198.51.100.0/25 via 192.0.2.7 65017:101/0 64476 [65017 65017 174 1299 64476] [4260954122 4260954132] [] plen=121",
+            "[l3vpn-ipv4-unicast] 198.51.100.0/25 via 192.0.2.7 65017:102/0 64476 [65017 65017 174 3356 3356 3356 64476] [4260954122 4260954132] [] plen=121",
+            "[l3vpn-ipv4-unicast] 198.51.100.0/26 via 192.0.2.7 65017:103/0 64476 [65017 65017 3356 64476] [4260955215] [] plen=122",
+            "[l3vpn-ipv4-unicast] 198.51.100.128/25 via 192.0.2.7 65017:101/0 396919 [65017 65017 174 29447 396919] [4260954124] [] plen=121",
+            "[l3vpn-ipv4-unicast] 198.51.100.128/25 via 192.0.2.7 65017:102/0 396919 [65017 65017 6453 396919] [4260954131] [] plen=121",
+            "[l3vpn-ipv6-unicast] 2001:db8:4::/64 via 2001:db8::7 65017:101/0 29447 [65017 65017 1299 1299 1299 29447] [4260954412] [] plen=64"
+          ]
+        },
+        "metrics": {
+          "closed_connections_total{exporter=\"127.0.0.1\"}": "0",
+          "opened_connections_total{exporter=\"127.0.0.1\"}": "1",
+          "peers{exporter=\"127.0.0.1\"}": "4",
+          "prefixes_added_total{exporter=\"127.0.0.1\"}": "10",
+          "prefixes_removed_total{exporter=\"127.0.0.1\"}": "0",
+          "prefixes_updated_total{exporter=\"127.0.0.1\"}": "7",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"initiation\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-down-notification\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-up-notification\"}": "4",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-mirroring\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-monitoring\"}": "25",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"statistics-report\"}": "4",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"termination\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"unknown\"}": "0",
+          "routes{exporter=\"127.0.0.1\"}": "17"
+        }
+      }
+    ]
+  },
+  {
+    "name": "1 peer down",
+    "steps": [
+      "dial",
+      "send 0 bmp-init.pcap",
+      "send 0 bmp-peers-up.pcap",
+      "send 0 bmp-eor.pcap",
+      "send 0 bmp-reach.pcap",
+      "send 0 bmp-peer-down.pcap"
+    ],
+    "snapshots": [
+      {
+        "rib": {
+          "2001:db8::3": [
+            "[ipv6-unicast] 2001:db8:1::/64 via 2001:db8::3 0:0/0 174 [65013 65013 174 174 174] [4260691978 4260691988] [] plen=64",
+            "[ipv6-unicast] 2001:db8:2::/64 via 2001:db8::3 0:0/0 12322 [65013 65013 1299 1299 1299 12322] [4260691998] [] plen=64",
+            "[ipv6-unicast] 2001:db8::2/127 via 2001:db8::3 0:0/0 65013 [65013] [] [] plen=127"
+          ],
+          "2001:db8::7": [
+            "[ipv4-unicast] 192.0.2.6/31 via 192.0.2.7 0:0/0 65017 [65017] [] [] plen=127",
+            "[ipv6-unicast] 2001:db8:1::/64 via 2001:db8::7 0:0/0 174 [65017 65013 174 174 174] [4260954122 4260954132] [{65017 300 4}] plen=64",
+            "[ipv6-unicast] 2001:db8:2::/64 via 2001:db8::7 0:0/0 12322 [65017 65017 1299 1299 1299 12322] [4260954142] [{65017 400 2}] plen=64",
+            "[ipv6-unicast] 2001:db8::6/127 via 2001:db8::7 0:0/0 65017 [65017] [] [] plen=127",
+            "[l2vpn-evpn] 198.51.100.0/26 via 2001:db8::7 65017:104/0 64476 [65017 65017 3356 64476] [4260955215] [] plen=122",
+            "[l3vpn-ipv4-unicast] 198.51.100.0/25 via 192.0.2.7 65017:101/0 64476 [65017 65017 174 1299 64476] [4260954122 4260954132] [] plen=121",
+            "[l3vpn-ipv4-unicast] 198.51.100.0/25 via 192.0.2.7 65017:102/0 64476 [65017 65017 174 3356 3356 3356 64476] [4260954122 4260954132] [] plen=121",
+            "[l3vpn-ipv4-unicast] 198.51.100.0/26 via 192.0.2.7 65017:103/0 64476 [65017 65017 3356 64476] [4260955215] [] plen=122",
+            "[l3vpn-ipv4-unicast] 198.51.100.128/25 via 192.0.2.7 65017:101/0 396919 [65017 65017 174 29447 396919] [4260954124] [] plen=121",
+            "[l3vpn-ipv4-unicast] 198.51.100.128/25 via 192.0.2.7 65017:102/0 396919 [65017 65017 6453 396919] [4260954131] [] plen=121",
+            "[l3vpn-ipv6-unicast] 2001:db8:4::/64 via 2001:db8::7 65017:101/0 29447 [65017 65017 1299 1299 1299 29447] [4260954412] [] plen=64"
+          ]
+        },
+        "metrics": {
+          "closed_connections_total{exporter=\"127.0.0.1\"}": "0",
+          "opened_connections_total{exporter=\"127.0.0.1\"}": "1",
+          "peers{exporter=\"127.0.0.1\"}": "3",
+          "prefixes_added_total{exporter=\"127.0.0.1\"}": "10",
+          "prefixes_removed_total{exporter=\"127.0.0.1\"}": "1",
+          "prefixes_updated_total{exporter=\"127.0.0.1\"}": "7",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"initiation\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-down-notification\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-up-notification\"}": "4",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-mirroring\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-monitoring\"}": "25",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"statistics-report\"}": "5",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"termination\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"unknown\"}": "0",
+          "removed_peers_total{exporter=\"127.0.0.1\"}": "1",
+          "routes{exporter=\"127.0.0.1\"}": "14"
+        }
+      }
+    ]
+  },
+  {
+    "name": "RD 65017:104",
+    "rds": [
+      "65017:104"
+    ],
+    "steps": [
+      "dial",
+      "send 0 bmp-init.pcap",
+      "send 0 bmp-peers-up.pcap",
+      "send 0 bmp-eor.pcap",
+      "send 0 bmp-reach.pcap"
+    ],
+    "snapshots": [
+      {
+        "rib": {
+          "2001:db8::7": [
+            "[l2vpn-evpn] 198.51.100.0/26 via 2001:db8::7 65017:104/0 64476 [65017 65017 3356 64476] [4260955215] [] plen=122"
+          ]
+        },
+        "metrics": {
+          "closed_connections_total{exporter=\"127.0.0.1\"}": "0",
+          "opened_connections_total{exporter=\"127.0.0.1\"}": "1",
+          "peers{exporter=\"127.0.0.1\"}": "4",
+          "prefixes_added_total{exporter=\"127.0.0.1\"}": "1",
+          "prefixes_removed_total{exporter=\"127.0.0.1\"}": "0",
+          "prefixes_updated_total{exporter=\"127.0.0.1\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"initiation\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-down-notification\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-up-notification\"}": "4",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-mirroring\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-monitoring\"}": "25",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"statistics-report\"}": "4",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"termination\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"unknown\"}": "0",
+          "routes{exporter=\"127.0.0.1\"}": "1"
+        }
+      }
+    ]
+  },
+  {
+    "name": "RD 0:0",
+    "rds": [
+      "0:0"
+    ],
+    "steps": [
+      "dial",
+      "send 0 bmp-init.pcap",
+      "send 0 bmp-peers-up.pcap",
+      "send 0 bmp-eor.pcap",
+      "send 0 bmp-reach.pcap"
+    ],
+    "snapshots": [
+      {
+        "rib": {
+          "192.0.2.1": [
+            "[ipv4-unicast] 192.0.2.0/31 via 192.0.2.1 0:0/0 65011 [65011] [] [] plen=127",
+            "[ipv4-unicast] 198.51.100.0/25 via 192.0.2.1 0:0/0 64476 [65011 65011 174 1299 64476] [4260560906 4260560916] [] plen=121",
+            "[ipv4-unicast] 198.51.100.128/25 via 192.0.2.1 0:0/0 396919 [65011 65011 174 29447 396919] [4260560908] [] plen=121"
+          ],
+          "2001:db8::3": [
+            "[ipv6-unicast] 2001:db8:1::/64 via 2001:db8::3 0:0/0 174 [65013 65013 174 174 174] [4260691978 4260691988] [] plen=64",
+            "[ipv6-unicast] 2001:db8:2::/64 via 2001:db8::3 0:0/0 12322 [65013 65013 1299 1299 1299 12322] [4260691998] [] plen=64",
+            "[ipv6-unicast] 2001:db8::2/127 via 2001:db8::3 0:0/0 65013 [65013] [] [] plen=127"
+          ],
+          "2001:db8::7": [
+            "[ipv4-unicast] 192.0.2.6/31 via 192.0.2.7 0:0/0 65017 [65017] [] [] plen=127",
+            "[ipv6-unicast] 2001:db8:1::/64 via 2001:db8::7 0:0/0 174 [65017 65013 174 174 174] [4260954122 4260954132] [{65017 300 4}] plen=64",
+            "[ipv6-unicast] 2001:db8:2::/64 via 2001:db8::7 0:0/0 12322 [65017 65017 1299 1299 1299 12322] [4260954142] [{65017 400 2}] plen=64",
+            "[ipv6-unicast] 2001:db8::6/127 via 2001:db8::7 0:0/0 65017 [65017] [] [] plen=127"
+          ]
+        },
+        "metrics": {
+          "closed_connections_total{exporter=\"127.0.0.1\"}": "0",
+          "opened_connections_total{exporter=\"127.0.0.1\"}": "1",
+          "peers{exporter=\"127.0.0.1\"}": "4",
+          "prefixes_added_total{exporter=\"127.0.0.1\"}": "8",
+          "prefixes_removed_total{exporter=\"127.0.0.1\"}": "0",
+          "prefixes_updated_total{exporter=\"127.0.0.1\"}": "2",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"initiation\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-down-notification\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-up-notification\"}": "4",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-mirroring\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-monitoring\"}": "25",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"statistics-report\"}": "4",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"termination\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"unknown\"}": "0",
+          "routes{exporter=\"127.0.0.1\"}": "10"
+        }
+      }
+    ]
+  },
+  {
+    "name": "RT 65017:101",
+    "rts": [
+      "65017:101"
+    ],
+    "steps": [
+      "dial",
+      "send 0 bmp-init.pcap",
+      "send 0 bmp-peers-up.pcap",
+      "send 0 bmp-eor.pcap",
+      "send 0 bmp-reach.pcap"
+    ],
+    "snapshots": [
+      {
+        "rib": {
+          "2001:db8::7": [
+            "[l3vpn-ipv4-unicast] 198.51.100.0/25 via 192.0.2.7 65017:101/0 64476 [65017 65017 174 1299 64476] [4260954122 4260954132] [] plen=121",
+            "[l3vpn-ipv4-unicast] 198.51.100.128/25 via 192.0.2.7 65017:101/0 396919 [65017 65017 174 29447 396919] [4260954124] [] plen=121",
+            "[l3vpn-ipv6-unicast] 2001:db8:4::/64 via 2001:db8::7 65017:101/0 29447 [65017 65017 1299 1299 1299 29447] [4260954412] [] plen=64"
+          ]
+        },
+        "metrics": {
+          "closed_connections_total{exporter=\"127.0.0.1\"}": "0",
+          "opened_connections_total{exporter=\"127.0.0.1\"}": "1",
+          "peers{exporter=\"127.0.0.1\"}": "4",
+          "prefixes_added_total{exporter=\"127.0.0.1\"}": "3",
+          "prefixes_removed_total{exporter=\"127.0.0.1\"}": "0",
+          "prefixes_updated_total{exporter=\"127.0.0.1\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"initiation\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-down-notification\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-up-notification\"}": "4",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-mirroring\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-monitoring\"}": "25",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"statistics-report\"}": "4",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"termination\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"unknown\"}": "0",
+          "routes{exporter=\"127.0.0.1\"}": "3"
+        }
+      }
+    ]
+  },
+  {
+    "name": "RT 65017:103",
+    "rts": [
+      "65017:103"
+    ],
+    "steps": [
+      "dial",
+      "send 0 bmp-init.pcap",
+      "send 0 bmp-peers-up.pcap",
+      "send 0 bmp-eor.pcap",
+      "send 0 bmp-reach.pcap"
+    ],
+    "snapshots": [
+      {
+        "rib": {
+          "2001:db8::7": [
+            "[l2vpn-evpn] 198.51.100.0/26 via 2001:db8::7 65017:104/0 64476 [65017 65017 3356 64476] [4260955215] [] plen=122",
+            "[l3vpn-ipv4-unicast] 198.51.100.0/26 via 192.0.2.7 65017:103/0 64476 [65017 65017 3356 64476] [4260955215] [] plen=122"
+          ]
+        },
+        "metrics": {
+          "closed_connections_total{exporter=\"127.0.0.1\"}": "0",
+          "opened_connections_total{exporter=\"127.0.0.1\"}": "1",
+          "peers{exporter=\"127.0.0.1\"}": "4",
+          "prefixes_added_total{exporter=\"127.0.0.1\"}": "1",
+          "prefixes_removed_total{exporter=\"127.0.0.1\"}": "0",
+          "prefixes_updated_total{exporter=\"127.0.0.1\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"initiation\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-down-notification\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-up-notification\"}": "4",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-mirroring\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-monitoring\"}": "25",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"statistics-report\"}": "4",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"termination\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"unknown\"}": "0",
+          "routes{exporter=\"127.0.0.1\"}": "2"
+        }
+      }
+    ]
+  },
+  {
+    "name": "RT 1:1",
+    "rts": [
+      "1:1"
+    ],
+    "steps": [
+      "dial",
+      "send 0 bmp-init.pcap",
+      "send 0 bmp-peers-up.pcap",
+      "send 0 bmp-eor.pcap",
+      "send 0 bmp-reach.pcap"
+    ],
+    "snapshots": [
+      {
+        "rib": {},
+        "metrics": {
+          "closed_connections_total{exporter=\"127.0.0.1\"}": "0",
+          "opened_connections_total{exporter=\"127.0.0.1\"}": "1",
+          "peers{exporter=\"127.0.0.1\"}": "4",
+          "prefixes_added_total{exporter=\"127.0.0.1\"}": "0",
+          "prefixes_removed_total{exporter=\"127.0.0.1\"}": "0",
+          "prefixes_updated_total{exporter=\"127.0.0.1\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"initiation\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-down-notification\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-up-notification\"}": "4",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-mirroring\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-monitoring\"}": "25",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"statistics-report\"}": "4",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"termination\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"unknown\"}": "0",
+          "routes{exporter=\"127.0.0.1\"}": "0"
+        }
+      }
+    ]
+  },
+  {
+    "name": "RD 65017:104 and RT 65017:103",
+    "rds": [
+      "65017:104"
+    ],
+    "rts": [
+      "65017:103"
+    ],
+    "steps": [
+      "dial",
+      "send 0 bmp-init.pcap",
+      "send 0 bmp-peers-up.pcap",
+      "send 0 bmp-eor.pcap",
+      "send 0 bmp-reach.pcap"
+    ],
+    "snapshots": [
+      {
+        "rib": {
+          "2001:db8::7": [
+            "[l2vpn-evpn] 198.51.100.0/26 via 2001:db8::7 65017:104/0 64476 [65017 65017 3356 64476] [4260955215] [] plen=122"
+          ]
+        },
+        "metrics": {
+          "closed_connections_total{exporter=\"127.0.0.1\"}": "0",
+          "opened_connections_total{exporter=\"127.0.0.1\"}": "1",
+          "peers{exporter=\"127.0.0.1\"}": "4",
+          "prefixes_added_total{exporter=\"127.0.0.1\"}": "1",
+          "prefixes_removed_total{exporter=\"127.0.0.1\"}": "0",
+          "prefixes_updated_total{exporter=\"127.0.0.1\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"initiation\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-down-notification\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-up-notification\"}": "4",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-mirroring\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-monitoring\"}": "25",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"statistics-report\"}": "4",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"termination\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"unknown\"}": "0",
+          "routes{exporter=\"127.0.0.1\"}": "1"
+        }
+      }
+    ]
+  },
+  {
+    "name": "RT 0",
+    "rts": [
+      "0"
+    ],
+    "steps": [
+      "dial",
+      "send 0 bmp-init.pcap",
+      "send 0 bmp-peers-up.pcap",
+      "send 0 bmp-eor.pcap",
+      "send 0 bmp-reach.pcap"
+    ],
+    "snapshots": [
+      {
+        "rib": {
+          "192.0.2.1": [
+            "[ipv4-unicast] 192.0.2.0/31 via 192.0.2.1 0:0/0 65011 [65011] [] [] plen=127",
+            "[ipv4-unicast] 198.51.100.0/25 via 192.0.2.1 0:0/0 64476 [65011 65011 174 1299 64476] [4260560906 4260560916] [] plen=121",
+            "[ipv4-unicast] 198.51.100.128/25 via 192.0.2.1 0:0/0 396919 [65011 65011 174 29447 396919] [4260560908] [] plen=121"
+          ],
+          "2001:db8::3": [
+            "[ipv6-unicast] 2001:db8:1::/64 via 2001:db8::3 0:0/0 174 [65013 65013 174 174 174] [4260691978 4260691988] [] plen=64",
+            "[ipv6-unicast] 2001:db8:2::/64 via 2001:db8::3 0:0/0 12322 [65013 65013 1299 1299 1299 12322] [4260691998] [] plen=64",
+            "[ipv6-unicast] 2001:db8::2/127 via 2001:db8::3 0:0/0 65013 [65013] [] [] plen=127"
+          ],
+          "2001:db8::7": [
+            "[ipv4-unicast] 192.0.2.6/31 via 192.0.2.7 0:0/0 65017 [65017] [] [] plen=127",
+            "[ipv6-unicast] 2001:db8:1::/64 via 2001:db8::7 0:0/0 174 [65017 65013 174 174 174] [4260954122 4260954132] [{65017 300 4}] plen=64",
+            "[ipv6-unicast] 2001:db8:2::/64 via 2001:db8::7 0:0/0 12322 [65017 65017 1299 1299 1299 12322] [4260954142] [{65017 400 2}] plen=64",
+            "[ipv6-unicast] 2001:db8::6/127 via 2001:db8::7 0:0/0 65017 [65017] [] [] plen=127"
+          ]
+        },
+        "metrics": {
+          "closed_connections_total{exporter=\"127.0.0.1\"}": "0",
+          "opened_connections_total{exporter=\"127.0.0.1\"}": "1",
+          "peers{exporter=\"127.0.0.1\"}": "4",
+          "prefixes_added_total{exporter=\"127.0.0.1\"}": "8",
+          "prefixes_removed_total{exporter=\"127.0.0.1\"}": "0",
+          "prefixes_updated_total{exporter=\"127.0.0.1\"}": "2",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"initiation\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-down-notification\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-up-notification\"}": "4",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-mirroring\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-monitoring\"}": "25",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"statistics-report\"}": "4",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"termination\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"unknown\"}": "0",
+          "routes{exporter=\"127.0.0.1\"}": "10"
+        }
+      }
+    ]
+  },
+  {
+    "name": "reach, unreach",
+    "rds": [
+      "0:0"
+    ],
+    "steps": [
+      "dial",
+      "send 0 bmp-init.pcap",
+      "send 0 bmp-peers-up.pcap",
+      "send 0 bmp-eor.pcap",
+      "send 0 bmp-reach.pcap",
+      "send 0 bmp-unreach.pcap"
+    ],
+    "snapshots": [
+      {
+        "rib": {},
+        "metrics": {
+          "closed_connections_total{exporter=\"127.0.0.1\"}": "0",
+          "opened_connections_total{exporter=\"127.0.0.1\"}": "1",
+          "peers{exporter=\"127.0.0.1\"}": "4",
+          "prefixes_added_total{exporter=\"127.0.0.1\"}": "8",
+          "prefixes_removed_total{exporter=\"127.0.0.1\"}": "8",
+          "prefixes_updated_total{exporter=\"127.0.0.1\"}": "2",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"initiation\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-down-notification\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-up-notification\"}": "4",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-mirroring\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-monitoring\"}": "33",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"statistics-report\"}": "4",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"termination\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"unknown\"}": "0",
+          "routes{exporter=\"127.0.0.1\"}": "0"
+        }
+      }
+    ]
+  },
+  {
+    "name": "l3vpn",
+    "steps": [
+      "dial",
+      "send 0 bmp-init.pcap",
+      "send 0 bmp-l3vpn.pcap"
+    ],
+    "snapshots": [
+      {
+        "rib": {
+          "192.0.2.9": [
+            "[ipv4-unicast] 192.0.2.8/31 via 192.0.2.9 65500:108/0 65019 [65019] [] [] plen=127",
+            "[ipv4-unicast] 198.51.100.0/29 via 192.0.2.9 65500:108/0 64476 [65019 65019 64476] [] [] plen=125"
+          ]
+        },
+        "metrics": {
+          "closed_connections_total{exporter=\"127.0.0.1\"}": "0",
+          "opened_connections_total{exporter=\"127.0.0.1\"}": "1",
+          "peers{exporter=\"127.0.0.1\"}": "1",
+          "prefixes_added_total{exporter=\"127.0.0.1\"}": "2",
+          "prefixes_removed_total{exporter=\"127.0.0.1\"}": "0",
+          "prefixes_updated_total{exporter=\"127.0.0.1\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"initiation\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-down-notification\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-up-notification\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-mirroring\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-monitoring\"}": "3",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"statistics-report\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"termination\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"unknown\"}": "0",
+          "routes{exporter=\"127.0.0.1\"}": "2"
+        }
+      }
+    ]
+  },
+  {
+    "name": "loc-rib",
+    "steps": [
+      "dial",
+      "send 0 bmp-locrib.pcap"
+    ],
+    "snapshots": [
+      {
+        "rib": {
+          "invalid IP": [
+            "[ipv4-unicast] 198.51.100.0/25 via 192.0.2.1 0:0/1 64476 [65011 174 64476] [4245356545 4245356546] [{65000 300 4}] plen=121",
+            "[ipv4-unicast] 198.51.100.0/25 via 192.0.2.5 0:0/2 64476 [65015 3356 64476] [4245356545 4245356546] [{65000 300 4}] plen=121",
+            "[ipv4-unicast] 198.51.100.128/25 via 192.0.2.1 0:0/1 396919 [65011 174 29447 396919] [4245356545 4245356546] [{65000 300 4}] plen=121",
+            "[ipv6-unicast] 2001:db8:1::/64 via 2001:db8::3 0:0/1 174 [65013 174 174 174] [4245356545 4245356546] [{65000 300 4}] plen=64",
+            "[ipv6-unicast] 2001:db8:2::/64 via 2001:db8::3 0:0/1 12322 [65013 1299 12322] [4245356545 4245356546] [{65000 300 4}] plen=64"
+          ]
+        },
+        "metrics": {
+          "closed_connections_total{exporter=\"127.0.0.1\"}": "0",
+          "opened_connections_total{exporter=\"127.0.0.1\"}": "1",
+          "peers{exporter=\"127.0.0.1\"}": "1",
+          "prefixes_added_total{exporter=\"127.0.0.1\"}": "4",
+          "prefixes_removed_total{exporter=\"127.0.0.1\"}": "0",
+          "prefixes_updated_total{exporter=\"127.0.0.1\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"initiation\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-down-notification\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-up-notification\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-mirroring\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-monitoring\"}": "5",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"statistics-report\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"termination\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"unknown\"}": "0",
+          "routes{exporter=\"127.0.0.1\"}": "5"
+        }
+      }
+    ]
+  },
+  {
+    "name": "l3vpn RD 65500:108",
+    "rds": [
+      "65500:108"
+    ],
+    "steps": [
+      "dial",
+      "send 0 bmp-init.pcap",
+      "send 0 bmp-l3vpn.pcap"
+    ],
+    "snapshots": [
+      {
+        "rib": {
+          "192.0.2.9": [
+            "[ipv4-unicast] 192.0.2.8/31 via 192.0.2.9 65500:108/0 65019 [65019] [] [] plen=127",
+            "[ipv4-unicast] 198.51.100.0/29 via 192.0.2.9 65500:108/0 64476 [65019 65019 64476] [] [] plen=125"
+          ]
+        },
+        "metrics": {
+          "closed_connections_total{exporter=\"127.0.0.1\"}": "0",
+          "opened_connections_total{exporter=\"127.0.0.1\"}": "1",
+          "peers{exporter=\"127.0.0.1\"}": "1",
+          "prefixes_added_total{exporter=\"127.0.0.1\"}": "2",
+          "prefixes_removed_total{exporter=\"127.0.0.1\"}": "0",
+          "prefixes_updated_total{exporter=\"127.0.0.1\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"initiation\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-down-notification\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-up-notification\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-mirroring\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-monitoring\"}": "3",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"statistics-report\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"termination\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"unknown\"}": "0",
+          "routes{exporter=\"127.0.0.1\"}": "2"
+        }
+      }
+    ]
+  },
+  {
+    "name": "l3vpn RD 65500:110",
+    "rds": [
+      "65500:110"
+    ],
+    "steps": [
+      "dial",
+      "send 0 bmp-init.pcap",
+      "send 0 bmp-l3vpn.pcap"
+    ],
+    "snapshots": [
+      {
+        "rib": {},
+        "metrics": {
+          "closed_connections_total{exporter=\"127.0.0.1\"}": "0",
+          "opened_connections_total{exporter=\"127.0.0.1\"}": "1",
+          "peers{exporter=\"127.0.0.1\"}": "1",
+          "prefixes_added_total{exporter=\"127.0.0.1\"}": "0",
+          "prefixes_removed_total{exporter=\"127.0.0.1\"}": "0",
+          "prefixes_updated_total{exporter=\"127.0.0.1\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"initiation\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-down-notification\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-up-notification\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-mirroring\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-monitoring\"}": "3",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"statistics-report\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"termination\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"unknown\"}": "0",
+          "routes{exporter=\"127.0.0.1\"}": "0"
+        }
+      }
+    ]
+  },
+  {
+    "name": "l3vpn no AS paths or communities",
+    "no_as_paths": true,
+    "no_communities": true,
+    "steps": [
+      "dial",
+      "send 0 bmp-init.pcap",
+      "send 0 bmp-l3vpn.pcap"
+    ],
+    "snapshots": [
+      {
+        "rib": {
+          "192.0.2.9": [
+            "[ipv4-unicast] 192.0.2.8/31 via 192.0.2.9 65500:108/0 65019 [] [] [] plen=127",
+            "[ipv4-unicast] 198.51.100.0/29 via 192.0.2.9 65500:108/0 64476 [] [] [] plen=125"
+          ]
+        },
+        "metrics": {
+          "closed_connections_total{exporter=\"127.0.0.1\"}": "0",
+          "opened_connections_total{exporter=\"127.0.0.1\"}": "1",
+          "peers{exporter=\"127.0.0.1\"}": "1",
+          "prefixes_added_total{exporter=\"127.0.0.1\"}": "2",
+          "prefixes_removed_total{exporter=\"127.0.0.1\"}": "0",
+          "prefixes_updated_total{exporter=\"127.0.0.1\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"initiation\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-down-notification\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-up-notification\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-mirroring\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-monitoring\"}": "3",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"statistics-report\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"termination\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"unknown\"}": "0",
+          "routes{exporter=\"127.0.0.1\"}": "2"
+        }
+      }
+    ]
+  },
+  {
+    "name": "l3vpn no ASNs",
+    "no_asns": true,
+    "no_communities": true,
+    "steps": [
+      "dial",
+      "send 0 bmp-init.pcap",
+      "send 0 bmp-l3vpn.pcap"
+    ],
+    "snapshots": [
+      {
+        "rib": {
+          "192.0.2.9": [
+            "[ipv4-unicast] 192.0.2.8/31 via 192.0.2.9 65500:108/0 0 [65019] [] [] plen=127",
+            "[ipv4-unicast] 198.51.100.0/29 via 192.0.2.9 65500:108/0 0 [65019 65019 64476] [] [] plen=125"
+          ]
+        },
+        "metrics": {
+          "closed_connections_total{exporter=\"127.0.0.1\"}": "0",
+          "opened_connections_total{exporter=\"127.0.0.1\"}": "1",
+          "peers{exporter=\"127.0.0.1\"}": "1",
+          "prefixes_added_total{exporter=\"127.0.0.1\"}": "2",
+          "prefixes_removed_total{exporter=\"127.0.0.1\"}": "0",
+          "prefixes_updated_total{exporter=\"127.0.0.1\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"initiation\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-down-notification\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-up-notification\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-mirroring\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-monitoring\"}": "3",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"statistics-report\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"termination\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"unknown\"}": "0",
+          "routes{exporter=\"127.0.0.1\"}": "2"
+        }
+      }
+    ]
+  },
+  {
+    "name": "unreach only",
+    "steps": [
+      "dial",
+      "send 0 bmp-init.pcap",
+      "send 0 bmp-peers-up.pcap",
+      "send 0 bmp-eor.pcap",
+      "send 0 bmp-unreach.pcap"
+    ],
+    "snapshots": [
+      {
+        "rib": {},
+        "metrics": {
+          "closed_connections_total{exporter=\"127.0.0.1\"}": "0",
+          "opened_connections_total{exporter=\"127.0.0.1\"}": "1",
+          "peers{exporter=\"127.0.0.1\"}": "4",
+          "prefixes_added_total{exporter=\"127.0.0.1\"}": "0",
+          "prefixes_removed_total{exporter=\"127.0.0.1\"}": "0",
+          "prefixes_updated_total{exporter=\"127.0.0.1\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"initiation\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-down-notification\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-up-notification\"}": "4",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-mirroring\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-monitoring\"}": "16",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"statistics-report\"}": "4",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"termination\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"unknown\"}": "0",
+          "routes{exporter=\"127.0.0.1\"}": "0"
+        }
+      }
+    ]
+  },
+  {
+    "name": "reach, unreach×2",
+    "no_asns": true,
+    "no_as_paths": true,
+    "no_communities": true,
+    "steps": [
+      "dial",
+      "send 0 bmp-init.pcap",
+      "send 0 bmp-peers-up.pcap",
+      "send 0 bmp-eor.pcap",
+      "send 0 bmp-reach.pcap",
+      "send 0 bmp-unreach.pcap",
+      "send 0 bmp-unreach.pcap"
+    ],
+    "snapshots": [
+      {
+        "rib": {
+          "2001:db8::7": [
+            "[l2vpn-evpn] 198.51.100.0/26 via 2001:db8::7 65017:104/0 0 [] [] [] plen=122"
+          ]
+        },
+        "metrics": {
+          "closed_connections_total{exporter=\"127.0.0.1\"}": "0",
+          "opened_connections_total{exporter=\"127.0.0.1\"}": "1",
+          "peers{exporter=\"127.0.0.1\"}": "4",
+          "prefixes_added_total{exporter=\"127.0.0.1\"}": "10",
+          "prefixes_removed_total{exporter=\"127.0.0.1\"}": "9",
+          "prefixes_updated_total{exporter=\"127.0.0.1\"}": "7",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"initiation\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-down-notification\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-up-notification\"}": "4",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-mirroring\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-monitoring\"}": "41",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"statistics-report\"}": "4",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"termination\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"unknown\"}": "0",
+          "routes{exporter=\"127.0.0.1\"}": "1"
+        }
+      }
+    ]
+  },
+  {
+    "name": "reach×2, unreach",
+    "steps": [
+      "dial",
+      "send 0 bmp-init.pcap",
+      "send 0 bmp-peers-up.pcap",
+      "send 0 bmp-eor.pcap",
+      "send 0 bmp-reach.pcap",
+      "send 0 bmp-reach.pcap",
+      "send 0 bmp-unreach.pcap"
+    ],
+    "snapshots": [
+      {
+        "rib": {
+          "2001:db8::7": [
+            "[l2vpn-evpn] 198.51.100.0/26 via 2001:db8::7 65017:104/0 64476 [65017 65017 3356 64476] [4260955215] [] plen=122"
+          ]
+        },
+        "metrics": {
+          "closed_connections_total{exporter=\"127.0.0.1\"}": "0",
+          "opened_connections_total{exporter=\"127.0.0.1\"}": "1",
+          "peers{exporter=\"127.0.0.1\"}": "4",
+          "prefixes_added_total{exporter=\"127.0.0.1\"}": "10",
+          "prefixes_removed_total{exporter=\"127.0.0.1\"}": "9",
+          "prefixes_updated_total{exporter=\"127.0.0.1\"}": "24",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"initiation\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-down-notification\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-up-notification\"}": "4",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-mirroring\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-monitoring\"}": "50",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"statistics-report\"}": "4",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"termination\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"unknown\"}": "0",
+          "routes{exporter=\"127.0.0.1\"}": "1"
+        }
+      }
+    ]
+  },
+  {
+    "name": "reach before eor",
+    "steps": [
+      "dial",
+      "send 0 bmp-init.pcap",
+      "send 0 bmp-peers-up.pcap",
+      "send 0 bmp-reach.pcap",
+      "send 0 bmp-eor.pcap"
+    ],
+    "snapshots": [
+      {
+        "rib": {
+          "192.0.2.1": [
+            "[ipv4-unicast] 192.0.2.0/31 via 192.0.2.1 0:0/0 65011 [65011] [] [] plen=127",
+            "[ipv4-unicast] 198.51.100.0/25 via 192.0.2.1 0:0/0 64476 [65011 65011 174 1299 64476] [4260560906 4260560916] [] plen=121",
+            "[ipv4-unicast] 198.51.100.128/25 via 192.0.2.1 0:0/0 396919 [65011 65011 174 29447 396919] [4260560908] [] plen=121"
+          ],
+          "2001:db8::3": [
+            "[ipv6-unicast] 2001:db8:1::/64 via 2001:db8::3 0:0/0 174 [65013 65013 174 174 174] [4260691978 4260691988] [] plen=64",
+            "[ipv6-unicast] 2001:db8:2::/64 via 2001:db8::3 0:0/0 12322 [65013 65013 1299 1299 1299 12322] [4260691998] [] plen=64",
+            "[ipv6-unicast] 2001:db8::2/127 via 2001:db8::3 0:0/0 65013 [65013] [] [] plen=127"
+          ],
+          "2001:db8::7": [
+            "[ipv4-unicast] 192.0.2.6/31 via 192.0.2.7 0:0/0 65017 [65017] [] [] plen=127",
+            "[ipv6-unicast] 2001:db8:1::/64 via 2001:db8::7 0:0/0 174 [65017 65013 174 174 174] [4260954122 4260954132] [{65017 300 4}] plen=64",
+            "[ipv6-unicast] 2001:db8:2::/64 via 2001:db8::7 0:0/0 12322 [65017 65017 1299 1299 1299 12322] [4260954142] [{65017 400 2}] plen=64",
+            "[ipv6-unicast] 2001:db8::6/127 via 2001:db8::7 0:0/0 65017 [65017] [] [] plen=127",
+            "[l2vpn-evpn] 198.51.100.0/26 via 2001:db8::7 65017:104/0 64476 [65017 65017 3356 64476] [4260955215] [] plen=122",
+            "[l3vpn-ipv4-unicast] 198.51.100.0/25 via 192.0.2.7 65017:101/0 64476 [65017 65017 174 1299 64476] [4260954122 4260954132] [] plen=121",
+            "[l3vpn-ipv4-unicast] 198.51.100.0/25 via 192.0.2.7 65017:102/0 64476 [65017 65017 174 3356 3356 3356 64476] [4260954122 4260954132] [] plen=121",
+            "[l3vpn-ipv4-unicast] 198.51.100.0/26 via 192.0.2.7 65017:103/0 64476 [65017 65017 3356 64476] [4260955215] [] plen=122",
+            "[l3vpn-ipv4-unicast] 198.51.100.128/25 via 192.0.2.7 65017:101/0 396919 [65017 65017 174 29447 396919] [4260954124] [] plen=121",
+            "[l3vpn-ipv4-unicast] 198.51.100.128/25 via 192.0.2.7 65017:102/0 396919 [65017 65017 6453 396919] [4260954131] [] plen=121",
+            "[l3vpn-ipv6-unicast] 2001:db8:4::/64 via 2001:db8::7 65017:101/0 29447 [65017 65017 1299 1299 1299 29447] [4260954412] [] plen=64"
+          ]
+        },
+        "metrics": {
+          "closed_connections_total{exporter=\"127.0.0.1\"}": "0",
+          "opened_connections_total{exporter=\"127.0.0.1\"}": "1",
+          "peers{exporter=\"127.0.0.1\"}": "4",
+          "prefixes_added_total{exporter=\"127.0.0.1\"}": "10",
+          "prefixes_removed_total{exporter=\"127.0.0.1\"}": "0",
+          "prefixes_updated_total{exporter=\"127.0.0.1\"}": "7",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"initiation\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-down-notification\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-up-notification\"}": "4",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-mirroring\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-monitoring\"}": "25",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"statistics-report\"}": "4",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"termination\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"unknown\"}": "0",
+          "routes{exporter=\"127.0.0.1\"}": "17"
+        }
+      }
+    ]
+  },
+  {
+    "name": "l3vpn connection down",
+    "no_as_paths": true,
+    "no_communities": true,
+    "steps": [
+      "dial",
+      "send 0 bmp-init.pcap",
+      "send 0 bmp-l3vpn.pcap",
+      "close 0",
+      "snapshot",
+      "clock 4m",
+      "snapshot",
+      "clock 2m"
+    ],
+    "snapshots": [
+      {
+        "rib": {
+          "192.0.2.9": [
+            "[ipv4-unicast] 192.0.2.8/31 via 192.0.2.9 65500:108/0 65019 [] [] [] plen=127",
+            "[ipv4-unicast] 198.51.100.0/29 via 192.0.2.9 65500:108/0 64476 [] [] [] plen=125"
+          ]
+        },
+        "metrics": {
+          "closed_connections_total{exporter=\"127.0.0.1\"}": "1",
+          "opened_connections_total{exporter=\"127.0.0.1\"}": "1",
+          "peers{exporter=\"127.0.0.1\"}": "1",
+          "prefixes_added_total{exporter=\"127.0.0.1\"}": "2",
+          "prefixes_removed_total{exporter=\"127.0.0.1\"}": "0",
+          "prefixes_updated_total{exporter=\"127.0.0.1\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"initiation\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-down-notification\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-up-notification\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-mirroring\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-monitoring\"}": "3",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"statistics-report\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"termination\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"unknown\"}": "0",
+          "routes{exporter=\"127.0.0.1\"}": "2"
+        }
+      },
+      {
+        "rib": {
+          "192.0.2.9": [
+            "[ipv4-unicast] 192.0.2.8/31 via 192.0.2.9 65500:108/0 65019 [] [] [] plen=127",
+            "[ipv4-unicast] 198.51.100.0/29 via 192.0.2.9 65500:108/0 64476 [] [] [] plen=125"
+          ]
+        },
+        "metrics": {
+          "closed_connections_total{exporter=\"127.0.0.1\"}": "1",
+          "opened_connections_total{exporter=\"127.0.0.1\"}": "1",
+          "peers{exporter=\"127.0.0.1\"}": "1",
+          "prefixes_added_total{exporter=\"127.0.0.1\"}": "2",
+          "prefixes_removed_total{exporter=\"127.0.0.1\"}": "0",
+          "prefixes_updated_total{exporter=\"127.0.0.1\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"initiation\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-down-notification\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-up-notification\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-mirroring\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-monitoring\"}": "3",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"statistics-report\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"termination\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"unknown\"}": "0",
+          "routes{exporter=\"127.0.0.1\"}": "2"
+        }
+      },
+      {
+        "rib": {},
+        "metrics": {
+          "closed_connections_total{exporter=\"127.0.0.1\"}": "1",
+          "opened_connections_total{exporter=\"127.0.0.1\"}": "1",
+          "peers{exporter=\"127.0.0.1\"}": "0",
+          "prefixes_added_total{exporter=\"127.0.0.1\"}": "2",
+          "prefixes_removed_total{exporter=\"127.0.0.1\"}": "2",
+          "prefixes_updated_total{exporter=\"127.0.0.1\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"initiation\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-down-notification\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-up-notification\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-mirroring\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-monitoring\"}": "3",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"statistics-report\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"termination\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"unknown\"}": "0",
+          "removed_peers_total{exporter=\"127.0.0.1\"}": "1",
+          "routes{exporter=\"127.0.0.1\"}": "0"
+        }
+      }
+    ]
+  },
+  {
+    "name": "l3vpn unknown family",
+    "steps": [
+      "dial",
+      "send 0 bmp-init.pcap",
+      "send 0 bmp-l3vpn.pcap",
+      "send 0 bmp-reach-unknown-family.pcap"
+    ],
+    "snapshots": [
+      {
+        "rib": {
+          "192.0.2.9": [
+            "[ipv4-unicast] 192.0.2.8/31 via 192.0.2.9 65500:108/0 65019 [65019] [] [] plen=127",
+            "[ipv4-unicast] 198.51.100.0/29 via 192.0.2.9 65500:108/0 64476 [65019 65019 64476] [] [] plen=125"
+          ]
+        },
+        "metrics": {
+          "closed_connections_total{exporter=\"127.0.0.1\"}": "0",
+          "ignored_updates_total{error=\"afi-safi\",exporter=\"127.0.0.1\"}": "1",
+          "opened_connections_total{exporter=\"127.0.0.1\"}": "1",
+          "peers{exporter=\"127.0.0.1\"}": "1",
+          "prefixes_added_total{exporter=\"127.0.0.1\"}": "2",
+          "prefixes_removed_total{exporter=\"127.0.0.1\"}": "0",
+          "prefixes_updated_total{exporter=\"127.0.0.1\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"initiation\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-down-notification\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-up-notification\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-mirroring\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-monitoring\"}": "4",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"statistics-report\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"termination\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"unknown\"}": "0",
+          "routes{exporter=\"127.0.0.1\"}": "2"
+        }
+      }
+    ]
+  },
+  {
+    "name": "l3vpn vpls",
+    "steps": [
+      "dial",
+      "send 0 bmp-init.pcap",
+      "send 0 bmp-l3vpn.pcap",
+      "send 0 bmp-reach-vpls.pcap"
+    ],
+    "snapshots": [
+      {
+        "rib": {
+          "192.0.2.9": [
+            "[ipv4-unicast] 192.0.2.8/31 via 192.0.2.9 65500:108/0 65019 [65019] [] [] plen=127",
+            "[ipv4-unicast] 198.51.100.0/29 via 192.0.2.9 65500:108/0 64476 [65019 65019 64476] [] [] plen=125"
+          ]
+        },
+        "metrics": {
+          "closed_connections_total{exporter=\"127.0.0.1\"}": "0",
+          "ignored_nlri_total{exporter=\"127.0.0.1\",type=\"l2vpn-vpls\"}": "1",
+          "opened_connections_total{exporter=\"127.0.0.1\"}": "1",
+          "peers{exporter=\"127.0.0.1\"}": "2",
+          "prefixes_added_total{exporter=\"127.0.0.1\"}": "2",
+          "prefixes_removed_total{exporter=\"127.0.0.1\"}": "0",
+          "prefixes_updated_total{exporter=\"127.0.0.1\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"initiation\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-down-notification\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-up-notification\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-mirroring\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-monitoring\"}": "4",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"statistics-report\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"termination\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"unknown\"}": "0",
+          "routes{exporter=\"127.0.0.1\"}": "2"
+        }
+      }
+    ]
+  },
+  {
+    "name": "two connections",
+    "no_as_paths": true,
+    "no_communities": true,
+    "steps": [
+      "dial",
+      "send 0 bmp-init.pcap",
+      "send 0 bmp-l3vpn.pcap",
+      "dial",
+      "send 1 bmp-init.pcap",
+      "send 1 bmp-l3vpn.pcap",
+      "close 0",
+      "snapshot",
+      "clock 6m",
+      "snapshot",
+      "send 1 bmp-terminate.pcap",
+      "snapshot",
+      "clock 6m"
+    ],
+    "snapshots": [
+      {
+        "rib": {
+          "192.0.2.9": [
+            "[ipv4-unicast] 192.0.2.8/31 via 192.0.2.9 65500:108/0 65019 [] [] [] plen=127",
+            "[ipv4-unicast] 192.0.2.8/31 via 192.0.2.9 65500:108/0 65019 [] [] [] plen=127",
+            "[ipv4-unicast] 198.51.100.0/29 via 192.0.2.9 65500:108/0 64476 [] [] [] plen=125",
+            "[ipv4-unicast] 198.51.100.0/29 via 192.0.2.9 65500:108/0 64476 [] [] [] plen=125"
+          ]
+        },
+        "metrics": {
+          "closed_connections_total{exporter=\"127.0.0.1\"}": "1",
+          "opened_connections_total{exporter=\"127.0.0.1\"}": "2",
+          "peers{exporter=\"127.0.0.1\"}": "2",
+          "prefixes_added_total{exporter=\"127.0.0.1\"}": "2",
+          "prefixes_removed_total{exporter=\"127.0.0.1\"}": "0",
+          "prefixes_updated_total{exporter=\"127.0.0.1\"}": "2",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"initiation\"}": "2",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-down-notification\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-up-notification\"}": "2",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-mirroring\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-monitoring\"}": "6",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"statistics-report\"}": "2",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"termination\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"unknown\"}": "0",
+          "routes{exporter=\"127.0.0.1\"}": "4"
+        }
+      },
+      {
+        "rib": {
+          "192.0.2.9": [
+            "[ipv4-unicast] 192.0.2.8/31 via 192.0.2.9 65500:108/0 65019 [] [] [] plen=127",
+            "[ipv4-unicast] 198.51.100.0/29 via 192.0.2.9 65500:108/0 64476 [] [] [] plen=125"
+          ]
+        },
+        "metrics": {
+          "closed_connections_total{exporter=\"127.0.0.1\"}": "1",
+          "opened_connections_total{exporter=\"127.0.0.1\"}": "2",
+          "peers{exporter=\"127.0.0.1\"}": "1",
+          "prefixes_added_total{exporter=\"127.0.0.1\"}": "2",
+          "prefixes_removed_total{exporter=\"127.0.0.1\"}": "0",
+          "prefixes_updated_total{exporter=\"127.0.0.1\"}": "2",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"initiation\"}": "2",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-down-notification\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-up-notification\"}": "2",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-mirroring\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-monitoring\"}": "6",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"statistics-report\"}": "2",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"termination\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"unknown\"}": "0",
+          "removed_peers_total{exporter=\"127.0.0.1\"}": "1",
+          "routes{exporter=\"127.0.0.1\"}": "2"
+        }
+      },
+      {
+        "rib": {
+          "192.0.2.9": [
+            "[ipv4-unicast] 192.0.2.8/31 via 192.0.2.9 65500:108/0 65019 [] [] [] plen=127",
+            "[ipv4-unicast] 198.51.100.0/29 via 192.0.2.9 65500:108/0 64476 [] [] [] plen=125"
+          ]
+        },
+        "metrics": {
+          "closed_connections_total{exporter=\"127.0.0.1\"}": "2",
+          "opened_connections_total{exporter=\"127.0.0.1\"}": "2",
+          "peers{exporter=\"127.0.0.1\"}": "1",
+          "prefixes_added_total{exporter=\"127.0.0.1\"}": "2",
+          "prefixes_removed_total{exporter=\"127.0.0.1\"}": "0",
+          "prefixes_updated_total{exporter=\"127.0.0.1\"}": "2",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"initiation\"}": "2",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-down-notification\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-up-notification\"}": "2",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-mirroring\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-monitoring\"}": "6",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"statistics-report\"}": "2",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"termination\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"unknown\"}": "0",
+          "removed_peers_total{exporter=\"127.0.0.1\"}": "1",
+          "routes{exporter=\"127.0.0.1\"}": "2"
+        }
+      },
+      {
+        "rib": {},
+        "metrics": {
+          "closed_connections_total{exporter=\"127.0.0.1\"}": "2",
+          "opened_connections_total{exporter=\"127.0.0.1\"}": "2",
+          "peers{exporter=\"127.0.0.1\"}": "0",
+          "prefixes_added_total{exporter=\"127.0.0.1\"}": "2",
+          "prefixes_removed_total{exporter=\"127.0.0.1\"}": "2",
+          "prefixes_updated_total{exporter=\"127.0.0.1\"}": "2",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"initiation\"}": "2",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-down-notification\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-up-notification\"}": "2",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-mirroring\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-monitoring\"}": "6",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"statistics-report\"}": "2",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"termination\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"unknown\"}": "0",
+          "removed_peers_total{exporter=\"127.0.0.1\"}": "2",
+          "routes{exporter=\"127.0.0.1\"}": "0"
+        }
+      }
+    ]
+  },
+  {
+    "name": "all captures",
+    "steps": [
+      "dial",
+      "send 0 bmp-init.pcap",
+      "send 0 bmp-peers-up.pcap",
+      "send 0 bmp-eor.pcap",
+      "send 0 bmp-reach.pcap",
+      "send 0 bmp-reach-addpath.pcap",
+      "send 0 bmp-l3vpn.pcap",
+      "send 0 bmp-reach-unknown-family.pcap",
+      "send 0 bmp-reach-vpls.pcap",
+      "send 0 bmp-unreach.pcap",
+      "send 0 bmp-peer-down.pcap"
+    ],
+    "snapshots": [
+      {
+        "rib": {
+          "192.0.2.9": [
+            "[ipv4-unicast] 192.0.2.8/31 via 192.0.2.9 65500:108/0 65019 [65019] [] [] plen=127",
+            "[ipv4-unicast] 198.51.100.0/29 via 192.0.2.9 65500:108/0 64476 [65019 65019 64476] [] [] plen=125"
+          ],
+          "2001:db8::7": [
+            "[l2vpn-evpn] 198.51.100.0/26 via 2001:db8::7 65017:104/0 64476 [65017 65017 3356 64476] [4260955215] [] plen=122"
+          ]
+        },
+        "metrics": {
+          "closed_connections_total{exporter=\"127.0.0.1\"}": "0",
+          "ignored_nlri_total{exporter=\"127.0.0.1\",type=\"l2vpn-vpls\"}": "1",
+          "ignored_updates_total{error=\"afi-safi\",exporter=\"127.0.0.1\"}": "1",
+          "opened_connections_total{exporter=\"127.0.0.1\"}": "1",
+          "peers{exporter=\"127.0.0.1\"}": "4",
+          "prefixes_added_total{exporter=\"127.0.0.1\"}": "13",
+          "prefixes_removed_total{exporter=\"127.0.0.1\"}": "10",
+          "prefixes_updated_total{exporter=\"127.0.0.1\"}": "7",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"initiation\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-down-notification\"}": "1",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"peer-up-notification\"}": "5",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-mirroring\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"route-monitoring\"}": "39",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"statistics-report\"}": "6",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"termination\"}": "0",
+          "received_messages_total{exporter=\"127.0.0.1\",type=\"unknown\"}": "0",
+          "removed_peers_total{exporter=\"127.0.0.1\"}": "1",
+          "routes{exporter=\"127.0.0.1\"}": "3"
+        }
+      }
+    ]
+  }
+]

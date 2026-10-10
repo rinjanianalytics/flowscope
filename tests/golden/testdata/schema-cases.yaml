@@ -1,0 +1,128 @@
+# Schema configurations. tests/golden/schema dumps the Go output for each of
+# them into schema.json, the Rust schema crate compares against it.
+- name: default
+  config: {}
+- name: enable-l2-nat
+  config:
+    enabled: [SrcVlan, DstVlan, SrcMAC, DstMAC, SrcAddrNAT, DstAddrNAT, SrcPortNAT, DstPortNAT]
+- name: enable-l3l4-mpls
+  config:
+    enabled: [IPTTL, IPTos, IPFragmentID, IPFragmentOffset, IPv6FlowLabel, TCPFlags,
+              ICMPv4Type, ICMPv4Code, ICMPv6Type, ICMPv6Code, ICMPv4, ICMPv6,
+              MPLSLabels, MPLS1stLabel, MPLS2ndLabel, MPLS3rdLabel, MPLS4thLabel,
+              NextHop, IngressVRFID, EgressVRFID, SrcCommunities, SrcLargeCommunities]
+- name: disable-some
+  config:
+    disabled: [SrcCountry, DstCountry, SrcGeoCity, DstGeoCity, PacketSizeBucket]
+- name: disable-with-depends
+  config:
+    disabled: [DstASPath]
+- name: disable-with-depends-ok
+  config:
+    disabled: [DstASPath, Dst1stAS, Dst2ndAS, Dst3rdAS]
+- name: disable-nodisable
+  config:
+    disabled: [Bytes]
+- name: disable-primary-key
+  config:
+    disabled: [SrcAS]
+- name: enabled-and-disabled
+  config:
+    enabled: [SrcVlan]
+    disabled: [SrcVlan]
+- name: materialize
+  config:
+    materialize: [SrcNetPrefix, DstNetPrefix]
+- name: materialize-no-alias
+  config:
+    materialize: [SrcAddr]
+- name: main-table-only
+  config:
+    main-table-only: [SrcNetName, DstNetName]
+    not-main-table-only: [SrcPort, DstPort]
+- name: main-table-only-primary
+  config:
+    main-table-only: [SrcAS]
+- name: indexes
+  config:
+    indexes:
+      SrcNetName: minmax
+      DstNetName: set(100)
+      SrcAddr: bloom(0.01)
+    no-indexes: [ExporterName, InIfBoundary]
+- name: bad-index
+  config:
+    indexes:
+      SrcNetName: bloom(2)
+- name: custom-dict
+  config:
+    custom-dictionaries:
+      ips:
+        layout: complex_key_hashed
+        keys:
+          - name: addr
+            type: IPv6
+        attributes:
+          - name: role
+            type: String
+          - name: hostname
+            label: Host
+          - name: dc
+            type: UInt32
+        source: ips.csv
+        dimensions: [SrcAddr, DstAddr]
+- name: custom-dict-multikey
+  config:
+    custom-dictionaries:
+      exporters:
+        layout: complex_key_hashed
+        keys:
+          - name: addr
+            type: IPv6
+            match-dimension: ExporterAddress
+          - name: ifname
+            match-dimension-suffix: Name
+        attributes:
+          - name: customer
+        source: exporters.csv
+        dimensions: [InIf, OutIf]
+- name: custom-dict-iptrie
+  config:
+    custom-dictionaries:
+      nets:
+        layout: iptrie
+        keys:
+          - name: prefix
+        attributes:
+          - name: owner
+        source: nets.csv
+        dimensions: [SrcAddr]
+- name: custom-dict-iptrie-bad
+  config:
+    custom-dictionaries:
+      nets:
+        layout: ip_trie
+        keys:
+          - name: prefix
+            type: IPv6
+        attributes:
+          - name: owner
+        source: nets.csv
+        dimensions: [SrcAddr]
+- name: custom-dict-multikey-bad
+  config:
+    custom-dictionaries:
+      exporters:
+        keys:
+          - name: addr
+          - name: ifname
+        attributes:
+          - name: customer
+        source: exporters.csv
+        dimensions: [InIf]
+- name: unknown-column
+  config:
+    disabled: [NotAColumn]
+- name: unknown-key
+  config:
+    nope: 1
