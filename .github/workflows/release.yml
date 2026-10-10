@@ -1,0 +1,40 @@
+---
+name: Release
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      # To create the release.
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+      # The notes are the section of the changelog for this version, from
+      # "## FlowScope 1.2.3" to the next title. Without one, GitHub lists
+      # the changes.
+      - name: Create the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          version="${TAG#v}"
+          awk -v title="## FlowScope $version" '
+            index($0, title) == 1 { found = 1; next }
+            found && /^## / { exit }
+            found { print }
+          ' docs/99-changelog.md > notes.md
+          flags=()
+          # A version like 1.2.3-rc.1 is a pre-release.
+          case "$version" in *-*) flags+=(--prerelease) ;; esac
+          if grep -q '[^[:space:]]' notes.md; then
+            flags+=(--notes-file notes.md)
+          else
+            flags+=(--generate-notes)
+          fi
+          gh release create "$TAG" --verify-tag --title "FlowScope $version" "${flags[@]}"

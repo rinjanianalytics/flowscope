@@ -79,6 +79,14 @@ $ gh api -X POST repos/OWNER/REPO/rulesets --input .github/rulesets/main-checks.
 $ gh api -X POST repos/OWNER/REPO/rulesets --input .github/rulesets/main-review.json
 ```
 
+## Releases
+
+A tag `v1.2.3` on `main` makes a release: GitHub builds the image
+`ghcr.io/rinjanianalytics/flowscope:1.2.3`, moves `latest` to it and creates
+the release page. The notes of the release are the section
+"FlowScope 1.2.3" of `docs/99-changelog.md`: write it before you tag. A
+version with a suffix, like `v1.2.3-rc.1`, is marked as a pre-release.
+
 ## Packages
 
 The Cargo packages carry the `rinjani-` prefix: `rinjani-flowscope` for the

@@ -20,19 +20,28 @@ ClickHouse do. The recommended configuration for the complete setup is:
 
 ## Docker image
 
-There is no published image yet. Build it from the repository, with
+The image is published for each change of the `main` branch. Get it with
 [Docker](https://docs.docker.com/engine/install/):
+
+```console
+# docker pull ghcr.io/rinjanianalytics/flowscope:main
+# docker run --rm ghcr.io/rinjanianalytics/flowscope:main help
+```
+
+A release also has an image named after its version, like
+`ghcr.io/rinjanianalytics/flowscope:2.0.0`, and `latest` is the last release.
+
+You can also build the image from the repository:
 
 ```console
 # git clone https://github.com/rinjanianalytics/flowscope
 # cd flowscope
 # docker build -f docker/Dockerfile -t ghcr.io/rinjanianalytics/flowscope:main .
-# docker run --rm ghcr.io/rinjanianalytics/flowscope:main help
 ```
 
 Check the `docker/docker-compose.yml` file for an example of how to deploy
-*FlowScope* using containers. `docker compose up` builds the image when it is
-missing. If you want to use `docker compose`, see the
+*FlowScope* using containers. `docker compose pull` gets the published image. Without it,
+`docker compose up` builds the image when it is missing. If you want to use `docker compose`, see the
 [tutorial](02-collect.md). This documentation assumes you are using the `docker
 compose` setup.
 
