@@ -322,7 +322,9 @@ you can also use it for a production setup.
 You are allowed to modify `.env` and `docker/docker-compose-local.yml`, as well
 as anything in `config/`. Everything else will be erased during upgrades.
 
-The `.env` file tailors the complete Docker Compose setup. Some parts are
+The `.env` file tailors the complete Docker Compose setup. Create it as a
+copy of `.env.example`. Git ignores it, so the tokens and license keys you
+put in it are never committed. Some parts are
 enabled using [Docker Compose
 profiles](https://docs.docker.com/compose/how-tos/profiles/), notably Prometheus
 to collect the [metrics](53-metrics.md), Loki for the logs, and Grafana to

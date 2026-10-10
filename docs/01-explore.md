@@ -8,6 +8,7 @@ machine. You need [Docker](https://docs.docker.com/engine/install/) with
 ```console
 # git clone https://github.com/rinjanianalytics/flowscope
 # cd flowscope
+# cp .env.example .env
 # COMPOSE_PROFILES=demo docker compose up --wait
 ```
 

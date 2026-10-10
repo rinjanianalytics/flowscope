@@ -1,4 +1,6 @@
 .git
+.env
+.env.*
 target
 **/node_modules
 web/.next

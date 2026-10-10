@@ -30,6 +30,7 @@ Get the *Docker Compose* setup and start it:
 ```console
 # git clone https://github.com/rinjanianalytics/flowscope
 # cd flowscope
+# cp .env.example .env
 # docker compose up --wait
 ```
 

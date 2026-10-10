@@ -25,6 +25,7 @@ With Docker and Docker Compose, this starts FlowScope with four simulated
 routers sending traffic:
 
 ```console
+$ cp .env.example .env
 $ COMPOSE_PROFILES=demo docker compose up --wait
 ```
 

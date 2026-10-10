@@ -4,6 +4,15 @@
 # The web interface, built from web/ and embedded in the console
 /crates/flowscope-console/data/frontend/
 
+# Local settings of the Docker Compose setup. They can hold credentials:
+# copy .env.example to .env.
+.env
+.env.*
+!.env.example
+!.env.demo
+# Not settings: it stops Docker Compose when run from docker/.
+!/docker/.env
+
 # Working notes of the port
 /RUST_PORT_PLAN.md
 

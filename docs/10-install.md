@@ -91,8 +91,10 @@ installation.
 # docker compose up --wait
 ```
 
-Your changes to `.env`, `config/` and `docker/docker-compose-local.yml` are
-kept by Git. Fix the conflicts it reports, if any.
+Git ignores your `.env`, so it is kept as is. Compare it with `.env.example`
+after an upgrade to pick up the new settings. Your changes to `config/` and
+`docker/docker-compose-local.yml` are kept by Git. Fix the conflicts it
+reports, if any.
 
 > [!NOTE]
 > The upgrade can be done from any version to any more recent version. Downgrading is not supported.
