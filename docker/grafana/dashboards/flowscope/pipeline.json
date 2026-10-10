@@ -236,7 +236,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "rate(flowscope_inlet_core_flows_errors_total[$__rate_interval])",
+          "expr": "rate(flowscope_outlet_core_flows_errors_total[$__rate_interval])",
           "fullMetaSearch": false,
           "includeNullMetadata": false,
           "instant": false,
@@ -253,7 +253,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "rate(flowscope_inlet_flow_decoder_netflow_errors_total[$__rate_interval])",
+          "expr": "rate(flowscope_outlet_flow_decoder_netflow_errors_total[$__rate_interval])",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": false,
@@ -271,7 +271,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "rate(flowscope_inlet_flow_decoder_sflow_errors_total[$__rate_interval])",
+          "expr": "rate(flowscope_outlet_flow_decoder_sflow_errors_total[$__rate_interval])",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": false,
@@ -289,7 +289,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "rate(flowscope_inlet_metadata_provider_snmp_poller_error_requests_total[$__rate_interval])",
+          "expr": "rate(flowscope_outlet_metadata_provider_snmp_poller_error_requests_total[$__rate_interval])",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": false,
@@ -300,7 +300,7 @@
           "useBackend": false
         }
       ],
-      "title": "Inlet: flow errors",
+      "title": "Outlet: flow errors",
       "transformations": [],
       "type": "timeseries"
     },
@@ -378,84 +378,7 @@
           "useBackend": false
         }
       ],
-      "title": "UDP: packets dropped (in)",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
-      "description": "Number of dropped packets because internal queue was full. This should be 0. Either increase the internal queue or add more core workers.",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "#EAB839",
-                "value": 1
-              },
-              {
-                "color": "red",
-                "value": 5
-              }
-            ]
-          },
-          "unit": "pps"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 5,
-        "w": 5,
-        "x": 5,
-        "y": 10
-      },
-      "id": 3,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "auto"
-      },
-      "pluginVersion": "10.2.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
-          "disableTextWrap": false,
-          "editorMode": "code",
-          "expr": "sum(rate(flowscope_inlet_flow_input_udp_out_dropped_packets_total[$__rate_interval]) or vector(0))",
-          "fullMetaSearch": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "interval": "",
-          "legendFormat": "__auto",
-          "range": true,
-          "refId": "A",
-          "useBackend": false
-        }
-      ],
-      "title": "UDP: packets dropped (out)",
+      "title": "UDP: packets dropped",
       "type": "stat"
     },
     {
@@ -486,7 +409,7 @@
       "gridPos": {
         "h": 5,
         "w": 5,
-        "x": 10,
+        "x": 5,
         "y": 10
       },
       "id": 6,
@@ -513,7 +436,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "rate(flowscope_inlet_flow_decoder_flows_total[$__rate_interval])",
+          "expr": "rate(flowscope_outlet_flow_decoder_flows_total[$__rate_interval])",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": false,
@@ -523,7 +446,7 @@
           "useBackend": false
         }
       ],
-      "title": "Inlet: decoded packets",
+      "title": "Outlet: decoded flows",
       "type": "stat"
     },
     {
@@ -554,7 +477,7 @@
       "gridPos": {
         "h": 5,
         "w": 5,
-        "x": 15,
+        "x": 10,
         "y": 10
       },
       "id": 7,
@@ -581,7 +504,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "sum(rate(flowscope_inlet_core_forwarded_flows_total[$__rate_interval]))",
+          "expr": "sum(rate(flowscope_outlet_core_forwarded_flows_total[$__rate_interval]))",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": false,
@@ -591,7 +514,7 @@
           "useBackend": false
         }
       ],
-      "title": "Inlet: forwarded flows",
+      "title": "Outlet: forwarded flows",
       "type": "stat"
     }
   ],
@@ -609,7 +532,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Inlet",
+  "title": "Inlet and outlet",
   "uid": "c6241364-fd78-46a6-b13e-d520d2776a20",
   "version": 2,
   "weekStart": ""

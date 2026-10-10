@@ -13,12 +13,9 @@
     },
     "annotations": {
       "grafana.app/createdBy": "user:u000000018",
-      "grafana.app/folder": "afk1sbqiazda8a",
       "grafana.app/saved-from-ui": "Grafana v13.0.1+security-01 (9bbe672d)",
       "grafana.app/updatedBy": "user:u000000018",
-      "grafana.app/updatedTimestamp": "2026-05-23T18:07:50Z",
-      "grafana.app/folderTitle": "flowscope",
-      "grafana.app/folderUrl": "/dashboards/f/afk1sbqiazda8a/flowscope"
+      "grafana.app/updatedTimestamp": "2026-05-23T18:07:50Z"
     }
   },
   "spec": {
