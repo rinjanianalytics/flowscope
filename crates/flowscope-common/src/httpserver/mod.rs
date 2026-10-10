@@ -292,7 +292,11 @@ async fn instrumented(metrics: HttpMetrics, location: String, req: Request, next
     let status = response.status().as_u16();
     let size = response.body().size_hint().exact().unwrap_or(0);
     let duration = start.elapsed();
-    let method_label = method.to_lowercase();
+    // The method comes from the client: keep the number of series bounded.
+    let method_label = match method.as_str() {
+        "GET" | "HEAD" | "POST" | "PUT" | "PATCH" | "DELETE" | "OPTIONS" => method.to_lowercase(),
+        _ => "other".to_string(),
+    };
     metrics.requests.with_label_values(&[&location, &status.to_string(), &method_label]).inc();
     metrics.durations.with_label_values(&[&location, &method_label]).observe(duration.as_secs_f64());
     metrics.sizes.with_label_values(&[&location, &method_label]).observe(size as f64);

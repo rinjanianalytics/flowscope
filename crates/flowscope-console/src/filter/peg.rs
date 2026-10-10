@@ -230,6 +230,7 @@ impl<T: Clone, S> Grammar<T, S> {
             labels: vec![HashMap::new()],
             rules: vec![],
             error_rules: vec![],
+            too_deep: false,
             state,
         };
         let Some(start) = self.rules.get(entry) else {
@@ -272,6 +273,10 @@ fn list_join(list: &[String]) -> String {
     }
 }
 
+/// Rules nested at most. It allows about 45 levels of parentheses in a
+/// filter.
+const MAX_RULE_DEPTH: usize = 250;
+
 struct Parser<'g, 'i, 's, T, S> {
     g: &'g Grammar<T, S>,
     input: &'i str,
@@ -289,6 +294,8 @@ struct Parser<'g, 'i, 's, T, S> {
     rules: Vec<&'static str>,
     /// Rule where each error happened, to dedupe them like pigeon.
     error_rules: Vec<Option<&'static str>>,
+    /// Set when the input nests rules deeper than `MAX_RULE_DEPTH`.
+    too_deep: bool,
     state: &'s mut S,
 }
 
@@ -456,9 +463,24 @@ impl<'g, T: Clone, S> Parser<'g, '_, '_, T, S> {
             }
             Pe::Rule(name) => {
                 let rule = self.g.rules.get(name).unwrap_or_else(|| panic!("undefined rule {name}"));
+                // The parser recurses for each rule. Without a limit, an
+                // input like a long run of "(" overflows the stack, which
+                // aborts the process.
+                if self.too_deep {
+                    return None;
+                }
+                if self.rules.len() >= MAX_RULE_DEPTH {
+                    self.too_deep = true;
+                    let offset = self.offset_of(self.pos);
+                    let err = self.error_at("expression nested too deeply".into(), offset, vec![]);
+                    self.push_error(err);
+                    return None;
+                }
                 self.labels.push(HashMap::new());
                 self.rules.push(name);
-                let v = self.expr(rule);
+                // The frames are large, more so in a debug build: get more
+                // stack when the current one is nearly used.
+                let v = stacker::maybe_grow(256 * 1024, 4 * 1024 * 1024, || self.expr(rule));
                 self.rules.pop();
                 self.labels.pop();
                 v

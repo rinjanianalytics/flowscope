@@ -7,6 +7,10 @@ on:
   # To start a run by hand.
   workflow_dispatch:
 
+# The jobs only read the code.
+permissions:
+  contents: read
+
 jobs:
   test:
     runs-on: ubuntu-latest

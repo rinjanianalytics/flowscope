@@ -1,0 +1,11 @@
+# Settings of cargo audit.
+
+[advisories]
+ignore = [
+    # rsa: timing side channel on private key operations (Marvin attack). No
+    # fixed version exists. The crate comes with the MySQL driver of sqlx,
+    # which only encrypts the password with the public key of the server, for
+    # a console database on MySQL without TLS. FlowScope holds no RSA private
+    # key there.
+    "RUSTSEC-2023-0071",
+]

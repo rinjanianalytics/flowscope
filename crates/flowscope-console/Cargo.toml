@@ -13,6 +13,7 @@ include = ["/src", "/build.rs", "/data"]
 name = "flowscope_console"
 
 [dependencies]
+stacker = "0.1"
 flowscope-clickhouse.workspace = true
 flowscope-common.workspace = true
 flowscope-schema.workspace = true

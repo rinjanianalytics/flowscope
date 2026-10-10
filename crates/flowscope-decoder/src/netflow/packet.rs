@@ -301,10 +301,19 @@ fn decode_values<'a>(r: &mut Reader<'a>, fields: &[Field]) -> Result<Vec<DataFie
     Ok(out)
 }
 
+/// Values a set can hold at most. A packet has less than 64 KiB, so a set
+/// with more values is made of fields of zero length. Without a limit, a
+/// template with thousands of them makes one small packet use hundreds of
+/// megabytes.
+const MAX_SET_VALUES: usize = 65536;
+
 fn decode_data_set<'a>(mut r: Reader<'a>, fields: &[Field]) -> Result<Vec<Vec<DataField<'a>>>, Error> {
     let size = template_size(fields);
     let mut records = Vec::new();
     while r.len() > 0 && r.len() >= size {
+        if (records.len() + 1) * fields.len() > MAX_SET_VALUES {
+            return Err(invalid("DataSet: too many values"));
+        }
         let before = r.len();
         let values = decode_values(&mut r, fields)?;
         if r.len() == before {
@@ -323,6 +332,9 @@ fn decode_options_data_set<'a>(
     let size = template_size(scopes) + template_size(options);
     let mut records = Vec::new();
     while r.len() > 0 && r.len() >= size {
+        if (records.len() + 1) * (scopes.len() + options.len()) > MAX_SET_VALUES {
+            return Err(invalid("OptionsDataSet: too many values"));
+        }
         let before = r.len();
         let scopes = decode_values(&mut r, scopes)?;
         let options = decode_values(&mut r, options)?;
@@ -508,4 +520,23 @@ pub fn parse_v5(payload: &[u8]) -> Result<V5Packet, Error> {
         r.u16()?; // pad
     }
     Ok(p)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// A template made of fields of zero length cannot make a small data
+    /// set expand to millions of values.
+    #[test]
+    fn data_set_values_limit() {
+        let mut fields = vec![Field { pen_provided: false, r#type: 1, length: 0, pen: 0 }; 2243];
+        fields.push(Field { pen_provided: false, r#type: 2, length: 1, pen: 0 });
+        let data = vec![0u8; 8976];
+        assert!(decode_data_set(Reader::new(&data), &fields).is_err());
+        assert!(decode_options_data_set(Reader::new(&data), &fields, &fields).is_err());
+        // One byte for each record: nothing odd.
+        let records = decode_data_set(Reader::new(&data), &fields[2243..]).unwrap();
+        assert_eq!(records.len(), 8976);
+    }
 }

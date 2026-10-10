@@ -270,6 +270,18 @@ pub async fn get_v3(
             }
             _ => return Err(Error::Invalid("no PDU".into())),
         };
+        // With a user needing authentication, an answer has to be
+        // authenticated too, and encrypted when privacy is set. Only the
+        // reports of the discovery can come without. Otherwise, anyone able
+        // to answer from the address of the target could forge the answer.
+        if scoped.pdu.kind != ber::REPORT && *auth != AuthProtocol::None {
+            if m.flags & FLAG_AUTH == 0 {
+                return Err(Error::Authentication);
+            }
+            if *privacy != PrivProtocol::None && m.encrypted.is_none() {
+                return Err(Error::Authentication);
+            }
+        }
         if scoped.pdu.kind == ber::REPORT {
             let oid = scoped.pdu.varbinds.first().map(|(o, _)| ber::format_oid(o)).unwrap_or_default();
             if (oid == USM_STATS_NOT_IN_TIME_WINDOWS || oid == USM_STATS_UNKNOWN_ENGINE_IDS) && attempt < 2 {

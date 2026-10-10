@@ -158,3 +158,17 @@ fn golden() {
     }
     assert!(failures.is_empty(), "{} failures out of {total} cases", failures.len());
 }
+
+/// A filter nested too deeply is refused. It used to overflow the stack,
+/// which aborts the process.
+#[test]
+fn nesting_limit() {
+    let schemas = schemas();
+    let meta = Meta { schema: schemas["default"].clone(), database: "default".into(), reverse_direction: false };
+    let nested = |depth: usize| format!("{}SrcAS = 1{}", "(".repeat(depth), ")".repeat(depth));
+    assert!(parse(&nested(40), &meta).is_ok());
+    for input in [nested(100_000), "(".repeat(100_000), "NOT ".repeat(100_000)] {
+        let errors = parse(&input, &meta).unwrap_err();
+        assert_eq!(errors.0[0].message, "expression nested too deeply");
+    }
+}

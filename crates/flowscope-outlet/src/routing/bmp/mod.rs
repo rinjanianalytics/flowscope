@@ -277,7 +277,16 @@ impl Provider for BmpProvider {
                     _ = token.cancelled() => return Ok::<(), String>(()),
                     a = listener.accept() => a,
                 };
-                let (stream, remote) = accepted.map_err(|e| format!("cannot accept new connection: {e}"))?;
+                // An error here is often temporary, like too many open
+                // files. Stopping would take the whole outlet down.
+                let (stream, remote) = match accepted {
+                    Ok(accepted) => accepted,
+                    Err(e) => {
+                        tracing::warn!(error = %e, "cannot accept new BMP connection");
+                        tokio::time::sleep(std::time::Duration::from_millis(100)).await;
+                        continue;
+                    }
+                };
                 let exporter = SocketAddr::new(IpAddr::V6(addr_to6(remote.ip())), remote.port());
                 inner.setup_socket(&stream, &exporter);
                 inner.active.store(true, Ordering::Relaxed);
