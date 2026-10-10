@@ -2,7 +2,7 @@
 name: Rust
 on:
   push:
-    branches: [rust-port, main]
+    branches: [main]
   pull_request:
   # To start a run by hand.
   workflow_dispatch:
