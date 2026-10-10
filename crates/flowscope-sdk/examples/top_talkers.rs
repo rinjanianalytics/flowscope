@@ -4,7 +4,7 @@
 //! Print the top source AS of the last hours.
 //!
 //! ```console
-//! cargo run -p flowscope-sdk --example top_talkers -- http://127.0.0.1:8080 2026-10-10T00:00:00Z 2026-10-10T06:00:00Z
+//! cargo run -p rinjani-flowscope-sdk --example top_talkers -- http://127.0.0.1:8080 2026-10-10T00:00:00Z 2026-10-10T06:00:00Z
 //! ```
 
 use flowscope_sdk::Client;

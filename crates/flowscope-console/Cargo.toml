@@ -1,11 +1,15 @@
 [package]
-name = "flowscope-console"
+name = "rinjani-flowscope-console"
 description = "Console service: API to query flows stored in ClickHouse"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
 repository.workspace = true
 rust-version.workspace = true
+publish = false
+
+[lib]
+name = "flowscope_console"
 
 [dependencies]
 flowscope-clickhouse.workspace = true

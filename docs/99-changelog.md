@@ -38,7 +38,7 @@ and serves the same HTTP API.
 - ✨ *console*: new web interface
 - ✨ *console*: the API is described by an OpenAPI document, served at
   `/api/v0/console/openapi.json`
-- ✨ *sdk*: `flowscope-sdk`, a Rust client library for the console API
+- ✨ *sdk*: `rinjani-flowscope-sdk`, a Rust client library for the console API
 - ✨ *console*: heatmaps can be the default graph type
 - 🌱 *console*: an unknown page is answered with status 404
 - 🩹 *console*: fix the second start with MySQL 8

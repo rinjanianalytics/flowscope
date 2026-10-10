@@ -1,11 +1,17 @@
 [package]
-name = "flowscope-sdk"
+name = "rinjani-flowscope-sdk"
 description = "Client library for the FlowScope console API"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
 repository.workspace = true
 rust-version.workspace = true
+readme = "README.md"
+keywords = ["netflow", "ipfix", "sflow", "network", "flows"]
+categories = ["api-bindings", "network-programming"]
+
+[lib]
+name = "flowscope_sdk"
 
 [features]
 default = ["client"]

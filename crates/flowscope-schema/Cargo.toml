@@ -1,11 +1,15 @@
 [package]
-name = "flowscope-schema"
+name = "rinjani-flowscope-schema"
 description = "Flow data schema: ClickHouse DDL, columnar batches, protobuf encoding"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
 repository.workspace = true
 rust-version.workspace = true
+publish = false
+
+[lib]
+name = "flowscope_schema"
 
 [dependencies]
 flowscope-clickhouse.workspace = true

@@ -1,11 +1,15 @@
 [package]
-name = "flowscope-inlet"
+name = "rinjani-flowscope-inlet"
 description = "Inlet service: receive flows and push them to Kafka"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
 repository.workspace = true
 rust-version.workspace = true
+publish = false
+
+[lib]
+name = "flowscope_inlet"
 
 [dependencies]
 flowscope-common.workspace = true

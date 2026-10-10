@@ -1,11 +1,16 @@
 [package]
-name = "flowscope-pb"
+name = "rinjani-flowscope-pb"
 description = "RawFlow protobuf message exchanged between the inlet and the outlet"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
 repository.workspace = true
 rust-version.workspace = true
+keywords = ["netflow", "ipfix", "sflow", "protobuf"]
+categories = ["network-programming"]
+
+[lib]
+name = "flowscope_pb"
 
 [dependencies]
 prost.workspace = true

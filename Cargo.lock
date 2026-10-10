@@ -869,276 +869,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "flowscope"
-version = "2.0.0-rs.0"
-dependencies = [
- "anyhow",
- "chrono",
- "clap",
- "flowscope-common",
- "flowscope-console",
- "flowscope-decoder",
- "flowscope-demoexporter",
- "flowscope-inlet",
- "flowscope-orchestrator",
- "flowscope-outlet",
- "flowscope-schema",
- "pretty_assertions",
- "serde",
- "serde_json",
- "tokio",
- "tracing",
-]
-
-[[package]]
-name = "flowscope-clickhouse"
-version = "2.0.0-rs.0"
-dependencies = [
- "cityhash-rs",
- "lz4_flex",
- "rustls",
- "thiserror",
- "tracing",
-]
-
-[[package]]
-name = "flowscope-common"
-version = "2.0.0-rs.0"
-dependencies = [
- "axum",
- "bytes",
- "csv",
- "flowscope-clickhouse",
- "futures",
- "http-body-util",
- "ipnet",
- "jaq-core",
- "jaq-json",
- "jaq-std",
- "moka",
- "prefix-trie",
- "pretty_assertions",
- "redis",
- "reqwest",
- "rustls",
- "rustls-native-certs",
- "serde",
- "serde_json",
- "serde_norway",
- "sha2",
- "thiserror",
- "tokio",
- "tokio-util",
- "tower",
- "tracing",
- "tracing-subscriber",
-]
-
-[[package]]
-name = "flowscope-console"
-version = "2.0.0-rs.0"
-dependencies = [
- "axum",
- "chrono",
- "flowscope-clickhouse",
- "flowscope-common",
- "flowscope-schema",
- "flowscope-sdk",
- "http-body-util",
- "ipnet",
- "png",
- "pretty_assertions",
- "pulldown-cmark",
- "regex",
- "serde",
- "serde_json",
- "sqlx",
- "tokio",
- "tokio-util",
- "tower",
- "tracing",
- "url",
-]
-
-[[package]]
-name = "flowscope-decoder"
-version = "2.0.0-rs.0"
-dependencies = [
- "flowscope-common",
- "flowscope-pb",
- "flowscope-schema",
- "pretty_assertions",
- "serde",
- "serde_json",
- "tracing",
-]
-
-[[package]]
-name = "flowscope-demoexporter"
-version = "2.0.0-rs.0"
-dependencies = [
- "flowscope-common",
- "flowscope-outlet",
- "flowscope-snmp",
- "ipnet",
- "pretty_assertions",
- "serde",
- "tokio",
- "tokio-util",
- "tracing",
-]
-
-[[package]]
-name = "flowscope-expr"
-version = "2.0.0-rs.0"
-dependencies = [
- "regex",
-]
-
-[[package]]
-name = "flowscope-inlet"
-version = "2.0.0-rs.0"
-dependencies = [
- "flowscope-common",
- "flowscope-kafka",
- "flowscope-pb",
- "libc",
- "pretty_assertions",
- "prost",
- "rdkafka",
- "serde",
- "serde_json",
- "socket2",
- "tokio",
- "tracing",
-]
-
-[[package]]
-name = "flowscope-kafka"
-version = "2.0.0-rs.0"
-dependencies = [
- "flowscope-common",
- "rand 0.9.5",
- "rdkafka",
- "serde",
- "serde_json",
- "tracing",
-]
-
-[[package]]
-name = "flowscope-orchestrator"
-version = "2.0.0-rs.0"
-dependencies = [
- "axum",
- "csv",
- "flowscope-clickhouse",
- "flowscope-common",
- "flowscope-kafka",
- "flowscope-pb",
- "flowscope-schema",
- "pretty_assertions",
- "rdkafka",
- "reqwest",
- "serde",
- "serde_json",
- "serde_norway",
- "tokio",
- "tower",
- "tracing",
-]
-
-[[package]]
-name = "flowscope-outlet"
-version = "2.0.0-rs.0"
-dependencies = [
- "axum",
- "flowscope-clickhouse",
- "flowscope-common",
- "flowscope-decoder",
- "flowscope-expr",
- "flowscope-kafka",
- "flowscope-pb",
- "flowscope-schema",
- "flowscope-snmp",
- "futures",
- "hyper-util",
- "ipnet",
- "libc",
- "maxminddb",
- "prefix-trie",
- "pretty_assertions",
- "prost",
- "prost-types",
- "protox",
- "rand 0.9.5",
- "rcgen",
- "rdkafka",
- "regex",
- "reqwest",
- "rustls",
- "serde",
- "serde_json",
- "socket2",
- "thiserror",
- "tokio",
- "tokio-rustls",
- "tokio-util",
- "tonic",
- "tonic-prost",
- "tonic-prost-build",
- "tower",
- "tracing",
-]
-
-[[package]]
-name = "flowscope-pb"
-version = "2.0.0-rs.0"
-dependencies = [
- "prost",
- "serde",
-]
-
-[[package]]
-name = "flowscope-schema"
-version = "2.0.0-rs.0"
-dependencies = [
- "flowscope-clickhouse",
- "pretty_assertions",
- "serde",
- "serde_json",
- "serde_norway",
-]
-
-[[package]]
-name = "flowscope-sdk"
-version = "2.0.0-rs.0"
-dependencies = [
- "flowscope-pb",
- "pretty_assertions",
- "reqwest",
- "serde",
- "serde_json",
- "tokio",
- "utoipa",
-]
-
-[[package]]
-name = "flowscope-snmp"
-version = "2.0.0-rs.0"
-dependencies = [
- "aes",
- "cbc",
- "cfb-mode",
- "des",
- "hmac",
- "md-5",
- "sha1",
- "sha2",
- "thiserror",
- "tokio",
-]
-
-[[package]]
 name = "flume"
 version = "0.11.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2997,6 +2727,276 @@ dependencies = [
  "libc",
  "untrusted",
  "windows-sys 0.52.0",
+]
+
+[[package]]
+name = "rinjani-flowscope"
+version = "2.0.0-rs.0"
+dependencies = [
+ "anyhow",
+ "chrono",
+ "clap",
+ "pretty_assertions",
+ "rinjani-flowscope-common",
+ "rinjani-flowscope-console",
+ "rinjani-flowscope-decoder",
+ "rinjani-flowscope-demoexporter",
+ "rinjani-flowscope-inlet",
+ "rinjani-flowscope-orchestrator",
+ "rinjani-flowscope-outlet",
+ "rinjani-flowscope-schema",
+ "serde",
+ "serde_json",
+ "tokio",
+ "tracing",
+]
+
+[[package]]
+name = "rinjani-flowscope-clickhouse"
+version = "2.0.0-rs.0"
+dependencies = [
+ "cityhash-rs",
+ "lz4_flex",
+ "rustls",
+ "thiserror",
+ "tracing",
+]
+
+[[package]]
+name = "rinjani-flowscope-common"
+version = "2.0.0-rs.0"
+dependencies = [
+ "axum",
+ "bytes",
+ "csv",
+ "futures",
+ "http-body-util",
+ "ipnet",
+ "jaq-core",
+ "jaq-json",
+ "jaq-std",
+ "moka",
+ "prefix-trie",
+ "pretty_assertions",
+ "redis",
+ "reqwest",
+ "rinjani-flowscope-clickhouse",
+ "rustls",
+ "rustls-native-certs",
+ "serde",
+ "serde_json",
+ "serde_norway",
+ "sha2",
+ "thiserror",
+ "tokio",
+ "tokio-util",
+ "tower",
+ "tracing",
+ "tracing-subscriber",
+]
+
+[[package]]
+name = "rinjani-flowscope-console"
+version = "2.0.0-rs.0"
+dependencies = [
+ "axum",
+ "chrono",
+ "http-body-util",
+ "ipnet",
+ "png",
+ "pretty_assertions",
+ "pulldown-cmark",
+ "regex",
+ "rinjani-flowscope-clickhouse",
+ "rinjani-flowscope-common",
+ "rinjani-flowscope-schema",
+ "rinjani-flowscope-sdk",
+ "serde",
+ "serde_json",
+ "sqlx",
+ "tokio",
+ "tokio-util",
+ "tower",
+ "tracing",
+ "url",
+]
+
+[[package]]
+name = "rinjani-flowscope-decoder"
+version = "2.0.0-rs.0"
+dependencies = [
+ "pretty_assertions",
+ "rinjani-flowscope-common",
+ "rinjani-flowscope-pb",
+ "rinjani-flowscope-schema",
+ "serde",
+ "serde_json",
+ "tracing",
+]
+
+[[package]]
+name = "rinjani-flowscope-demoexporter"
+version = "2.0.0-rs.0"
+dependencies = [
+ "ipnet",
+ "pretty_assertions",
+ "rinjani-flowscope-common",
+ "rinjani-flowscope-outlet",
+ "rinjani-flowscope-snmp",
+ "serde",
+ "tokio",
+ "tokio-util",
+ "tracing",
+]
+
+[[package]]
+name = "rinjani-flowscope-expr"
+version = "2.0.0-rs.0"
+dependencies = [
+ "regex",
+]
+
+[[package]]
+name = "rinjani-flowscope-inlet"
+version = "2.0.0-rs.0"
+dependencies = [
+ "libc",
+ "pretty_assertions",
+ "prost",
+ "rdkafka",
+ "rinjani-flowscope-common",
+ "rinjani-flowscope-kafka",
+ "rinjani-flowscope-pb",
+ "serde",
+ "serde_json",
+ "socket2",
+ "tokio",
+ "tracing",
+]
+
+[[package]]
+name = "rinjani-flowscope-kafka"
+version = "2.0.0-rs.0"
+dependencies = [
+ "rand 0.9.5",
+ "rdkafka",
+ "rinjani-flowscope-common",
+ "serde",
+ "serde_json",
+ "tracing",
+]
+
+[[package]]
+name = "rinjani-flowscope-orchestrator"
+version = "2.0.0-rs.0"
+dependencies = [
+ "axum",
+ "csv",
+ "pretty_assertions",
+ "rdkafka",
+ "reqwest",
+ "rinjani-flowscope-clickhouse",
+ "rinjani-flowscope-common",
+ "rinjani-flowscope-kafka",
+ "rinjani-flowscope-pb",
+ "rinjani-flowscope-schema",
+ "serde",
+ "serde_json",
+ "serde_norway",
+ "tokio",
+ "tower",
+ "tracing",
+]
+
+[[package]]
+name = "rinjani-flowscope-outlet"
+version = "2.0.0-rs.0"
+dependencies = [
+ "axum",
+ "futures",
+ "hyper-util",
+ "ipnet",
+ "libc",
+ "maxminddb",
+ "prefix-trie",
+ "pretty_assertions",
+ "prost",
+ "prost-types",
+ "protox",
+ "rand 0.9.5",
+ "rcgen",
+ "rdkafka",
+ "regex",
+ "reqwest",
+ "rinjani-flowscope-clickhouse",
+ "rinjani-flowscope-common",
+ "rinjani-flowscope-decoder",
+ "rinjani-flowscope-expr",
+ "rinjani-flowscope-kafka",
+ "rinjani-flowscope-pb",
+ "rinjani-flowscope-schema",
+ "rinjani-flowscope-snmp",
+ "rustls",
+ "serde",
+ "serde_json",
+ "socket2",
+ "thiserror",
+ "tokio",
+ "tokio-rustls",
+ "tokio-util",
+ "tonic",
+ "tonic-prost",
+ "tonic-prost-build",
+ "tower",
+ "tracing",
+]
+
+[[package]]
+name = "rinjani-flowscope-pb"
+version = "2.0.0-rs.0"
+dependencies = [
+ "prost",
+ "serde",
+]
+
+[[package]]
+name = "rinjani-flowscope-schema"
+version = "2.0.0-rs.0"
+dependencies = [
+ "pretty_assertions",
+ "rinjani-flowscope-clickhouse",
+ "serde",
+ "serde_json",
+ "serde_norway",
+]
+
+[[package]]
+name = "rinjani-flowscope-sdk"
+version = "2.0.0-rs.0"
+dependencies = [
+ "pretty_assertions",
+ "reqwest",
+ "rinjani-flowscope-pb",
+ "serde",
+ "serde_json",
+ "tokio",
+ "utoipa",
+]
+
+[[package]]
+name = "rinjani-flowscope-snmp"
+version = "2.0.0-rs.0"
+dependencies = [
+ "aes",
+ "cbc",
+ "cfb-mode",
+ "des",
+ "hmac",
+ "md-5",
+ "sha1",
+ "sha2",
+ "thiserror",
+ "tokio",
 ]
 
 [[package]]

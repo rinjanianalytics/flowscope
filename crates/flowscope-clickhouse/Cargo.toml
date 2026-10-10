@@ -1,11 +1,15 @@
 [package]
-name = "flowscope-clickhouse"
+name = "rinjani-flowscope-clickhouse"
 description = "ClickHouse client using the native protocol"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
 repository.workspace = true
 rust-version.workspace = true
+publish = false
+
+[lib]
+name = "flowscope_clickhouse"
 
 [dependencies]
 cityhash-rs.workspace = true

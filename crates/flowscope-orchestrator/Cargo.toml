@@ -1,11 +1,15 @@
 [package]
-name = "flowscope-orchestrator"
+name = "rinjani-flowscope-orchestrator"
 description = "Orchestrator service: configuration of the other services, ClickHouse and Kafka"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
 repository.workspace = true
 rust-version.workspace = true
+publish = false
+
+[lib]
+name = "flowscope_orchestrator"
 
 [dependencies]
 flowscope-clickhouse.workspace = true

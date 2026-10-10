@@ -10,20 +10,20 @@ repository = "https://github.com/rinjanianalytics/flowscope"
 rust-version = "1.92"
 
 [workspace.dependencies]
-flowscope-common = { path = "crates/flowscope-common" }
-flowscope-schema = { path = "crates/flowscope-schema" }
-flowscope-pb = { path = "crates/flowscope-pb" }
-flowscope-kafka = { path = "crates/flowscope-kafka" }
-flowscope-inlet = { path = "crates/flowscope-inlet" }
-flowscope-decoder = { path = "crates/flowscope-decoder" }
-flowscope-clickhouse = { path = "crates/flowscope-clickhouse" }
-flowscope-expr = { path = "crates/flowscope-expr" }
-flowscope-snmp = { path = "crates/flowscope-snmp" }
-flowscope-outlet = { path = "crates/flowscope-outlet" }
-flowscope-orchestrator = { path = "crates/flowscope-orchestrator" }
-flowscope-console = { path = "crates/flowscope-console" }
-flowscope-demoexporter = { path = "crates/flowscope-demoexporter" }
-flowscope-sdk = { path = "crates/flowscope-sdk", default-features = false }
+flowscope-common = { package = "rinjani-flowscope-common", version = "2.0.0-rs.0", path = "crates/flowscope-common" }
+flowscope-schema = { package = "rinjani-flowscope-schema", version = "2.0.0-rs.0", path = "crates/flowscope-schema" }
+flowscope-pb = { package = "rinjani-flowscope-pb", version = "2.0.0-rs.0", path = "crates/flowscope-pb" }
+flowscope-kafka = { package = "rinjani-flowscope-kafka", version = "2.0.0-rs.0", path = "crates/flowscope-kafka" }
+flowscope-inlet = { package = "rinjani-flowscope-inlet", version = "2.0.0-rs.0", path = "crates/flowscope-inlet" }
+flowscope-decoder = { package = "rinjani-flowscope-decoder", version = "2.0.0-rs.0", path = "crates/flowscope-decoder" }
+flowscope-clickhouse = { package = "rinjani-flowscope-clickhouse", version = "2.0.0-rs.0", path = "crates/flowscope-clickhouse" }
+flowscope-expr = { package = "rinjani-flowscope-expr", version = "2.0.0-rs.0", path = "crates/flowscope-expr" }
+flowscope-snmp = { package = "rinjani-flowscope-snmp", version = "2.0.0-rs.0", path = "crates/flowscope-snmp" }
+flowscope-outlet = { package = "rinjani-flowscope-outlet", version = "2.0.0-rs.0", path = "crates/flowscope-outlet" }
+flowscope-orchestrator = { package = "rinjani-flowscope-orchestrator", version = "2.0.0-rs.0", path = "crates/flowscope-orchestrator" }
+flowscope-console = { package = "rinjani-flowscope-console", version = "2.0.0-rs.0", path = "crates/flowscope-console" }
+flowscope-demoexporter = { package = "rinjani-flowscope-demoexporter", version = "2.0.0-rs.0", path = "crates/flowscope-demoexporter" }
+flowscope-sdk = { package = "rinjani-flowscope-sdk", version = "2.0.0-rs.0", path = "crates/flowscope-sdk", default-features = false }
 anyhow = "1"
 thiserror = "2"
 serde = { version = "1", features = ["derive"] }

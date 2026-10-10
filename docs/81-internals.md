@@ -28,6 +28,9 @@ service. Each service and each building block has its own crate:
 | `flowscope-demoexporter` | the simulated router of the demo |
 | `flowscope-sdk` | client library for the console API, and its OpenAPI document |
 
+The table has the directory names, which are also the library names. The
+Cargo packages add the `rinjani-` prefix: `cargo test -p rinjani-flowscope-console`.
+
 The web interface is in `web/`. The documentation is in `docs/`.
 
 Many source files start with "Port of" and the name of a Go file. It is the

@@ -5,7 +5,7 @@
 //! the last hours:
 //!
 //! ```console
-//! FLOWSCOPE_TEST_CONSOLE_URL=http://127.0.0.1:8080 cargo test -p flowscope-sdk --test live -- --ignored
+//! FLOWSCOPE_TEST_CONSOLE_URL=http://127.0.0.1:8080 cargo test -p rinjani-flowscope-sdk --test live -- --ignored
 //! ```
 
 #![cfg(feature = "client")]

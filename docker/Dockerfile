@@ -22,7 +22,7 @@ ARG VERSION
 RUN --mount=type=cache,target=/usr/local/cargo/registry \
     --mount=type=cache,target=/build/target \
     if [ -n "$VERSION" ]; then export FLOWSCOPE_VERSION="$VERSION"; fi \
- && cargo build --release --locked -p flowscope \
+ && cargo build --release --locked -p rinjani-flowscope \
  && cp target/release/flowscope /flowscope \
 # Keep the names of the functions for the backtraces, drop the rest.
  && strip --strip-debug /flowscope

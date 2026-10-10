@@ -1,11 +1,15 @@
 [package]
-name = "flowscope-common"
+name = "rinjani-flowscope-common"
 description = "Shared building blocks: configuration, reporter, daemon, HTTP server"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
 repository.workspace = true
 rust-version.workspace = true
+publish = false
+
+[lib]
+name = "flowscope_common"
 
 [dependencies]
 serde.workspace = true

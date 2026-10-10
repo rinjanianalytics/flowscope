@@ -228,7 +228,7 @@ mod tests {
     use super::*;
 
     /// `openapi.json` is the document. Update it with
-    /// `FLOWSCOPE_UPDATE_OPENAPI=1 cargo test -p flowscope-sdk`.
+    /// `FLOWSCOPE_UPDATE_OPENAPI=1 cargo test -p rinjani-flowscope-sdk`.
     #[test]
     fn file_is_current() {
         let path = concat!(env!("CARGO_MANIFEST_DIR"), "/openapi.json");

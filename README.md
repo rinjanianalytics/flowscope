@@ -78,7 +78,8 @@ See [RUST_PORT_PLAN.md](RUST_PORT_PLAN.md) for the other differences.
 ## Repository layout
 
 - `crates/`: the Rust workspace (`flowscope` binary and `flowscope-*`
-  libraries, including the `flowscope-sdk` client library),
+  libraries, including the `flowscope-sdk` client library). The packages
+  carry the `rinjani-` prefix, as in `rinjani-flowscope-sdk`,
 - `web/`: the web interface, embedded in the binary once built,
 - `docs/`: the documentation, served by the console,
 - `config/`: the configuration of the Docker Compose setup,

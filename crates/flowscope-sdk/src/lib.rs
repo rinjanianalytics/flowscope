@@ -3,6 +3,8 @@
 
 //! Client library for the FlowScope console API.
 //!
+//! The package is `rinjani-flowscope-sdk`. The library is `flowscope_sdk`.
+//!
 //! The crate has three parts:
 //!
 //! - the types of the API ([`models`]), also described by an OpenAPI

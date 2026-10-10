@@ -50,7 +50,7 @@ The types of the API come from the OpenAPI document of the console. After a
 change to the API types in `crates/flowscope-sdk`, update both:
 
 ```console
-$ FLOWSCOPE_UPDATE_OPENAPI=1 cargo test -p flowscope-sdk
+$ FLOWSCOPE_UPDATE_OPENAPI=1 cargo test -p rinjani-flowscope-sdk
 $ cd web && pnpm run api
 ```
 

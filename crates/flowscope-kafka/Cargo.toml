@@ -1,11 +1,15 @@
 [package]
-name = "flowscope-kafka"
+name = "rinjani-flowscope-kafka"
 description = "Kafka client configuration shared by FlowScope components"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
 repository.workspace = true
 rust-version.workspace = true
+publish = false
+
+[lib]
+name = "flowscope_kafka"
 
 [dependencies]
 flowscope-common.workspace = true

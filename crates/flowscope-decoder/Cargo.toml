@@ -1,11 +1,15 @@
 [package]
-name = "flowscope-decoder"
+name = "rinjani-flowscope-decoder"
 description = "NetFlow v5/v9, IPFIX and sFlow decoders"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
 repository.workspace = true
 rust-version.workspace = true
+publish = false
+
+[lib]
+name = "flowscope_decoder"
 
 [dependencies]
 flowscope-common.workspace = true
