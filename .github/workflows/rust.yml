@@ -17,9 +17,9 @@ jobs:
       - name: Format
         run: cargo fmt --all --check
       - name: Clippy
-        run: cargo clippy --workspace --all-targets -- -D warnings
+        run: cargo clippy --workspace --all-targets --all-features -- -D warnings
       - name: Test
-        run: cargo test --workspace
+        run: cargo test --workspace --all-features
 
   web:
     runs-on: ubuntu-latest
@@ -37,6 +37,8 @@ jobs:
           cache: pnpm
           cache-dependency-path: web/pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
+      - name: API types are current
+        run: pnpm run api && git diff --exit-code src/lib/api-schema.ts
       - name: Lint
         run: pnpm lint
       - name: Test

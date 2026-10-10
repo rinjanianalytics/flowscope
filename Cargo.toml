@@ -22,6 +22,7 @@ flowscope-snmp = { path = "crates/flowscope-snmp" }
 flowscope-outlet = { path = "crates/flowscope-outlet" }
 flowscope-orchestrator = { path = "crates/flowscope-orchestrator" }
 flowscope-console = { path = "crates/flowscope-console" }
+flowscope-sdk = { path = "crates/flowscope-sdk", default-features = false }
 anyhow = "1"
 thiserror = "2"
 serde = { version = "1", features = ["derive"] }
@@ -77,6 +78,7 @@ rustls = { version = "0.23", default-features = false, features = ["ring", "std"
 rustls-native-certs = "0.8"
 tokio = { version = "1", features = ["full"] }
 pretty_assertions = "1"
+utoipa = { version = "5", features = ["preserve_order"] }
 reqwest = { version = "0.13", default-features = false, features = ["rustls", "json"] }
 
 [profile.release]

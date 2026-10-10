@@ -289,12 +289,19 @@ impl Console {
             .route("/filter/saved/{id}", delete(saved_delete))
             .route("/user/info", get(user_info))
             .route("/user/avatar", get(user_avatar))
+            .route("/openapi.json", get(openapi))
             .with_state(self.clone());
         let auth = self.deps.auth.clone();
         Router::new()
             .nest("/api/v0/console", api)
             .layer(middleware::from_fn(move |req, next| auth.clone().middleware(req, next)))
     }
+}
+
+/// The description of the API. It comes from the SDK crate, which also
+/// holds the types of a client.
+async fn openapi() -> Response {
+    ([(header::CONTENT_TYPE, "application/json; charset=utf-8")], flowscope_sdk::openapi::json()).into_response()
 }
 
 async fn configuration(State(c): Shared) -> Response {

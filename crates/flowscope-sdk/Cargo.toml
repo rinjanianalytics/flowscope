@@ -1,0 +1,31 @@
+[package]
+name = "flowscope-sdk"
+description = "Client library for the FlowScope console API"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[features]
+default = ["client"]
+# The HTTP client. Without it, the crate only has the API types, the OpenAPI
+# document and the filter builder.
+client = ["dep:reqwest"]
+# The message the inlet writes to Kafka, to read or write the raw flows.
+proto = ["dep:flowscope-pb"]
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+utoipa.workspace = true
+reqwest = { workspace = true, optional = true }
+flowscope-pb = { workspace = true, optional = true }
+
+[dev-dependencies]
+tokio.workspace = true
+pretty_assertions.workspace = true
+
+[[example]]
+name = "top_talkers"
+required-features = ["client"]

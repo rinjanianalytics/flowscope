@@ -3,6 +3,7 @@
 
 // Client for the console API.
 
+import type { components } from "./api-schema";
 import type { GraphType } from "./graph-types";
 
 /** URL prefix the console is hosted under, without trailing slash. */
@@ -61,88 +62,22 @@ export async function apiFetch<T>(
   return response.json();
 }
 
-export type ServerConfig = {
-  version: string;
-  defaultVisualizeOptions: {
-    graphType: GraphType;
-    start: string;
-    end: string;
-    filter: string;
-    dimensions: string[];
-    limit: number;
-    limitType: string;
-    bidirectional: boolean;
-    previousPeriod: boolean;
-  };
-  dimensions: string[];
-  dimensionsLimit: number;
-  truncatable: string[];
-  homepageTopWidgets: string[];
-  branding: boolean;
-};
+// The types of the API are generated from the OpenAPI document of the
+// console (`pnpm run api`), so they cannot drift from the server.
+type Schemas = components["schemas"];
 
-export type UserInfo = {
-  login: string;
-  name?: string;
-  email?: string;
-  "logout-url"?: string;
-  "avatar-url"?: string;
-};
+export type ServerConfig = Schemas["Configuration"];
+export type UserInfo = Schemas["UserInfo"];
+export type SavedFilter = Schemas["SavedFilter"];
+export type Units = Schemas["Units"];
+export type GraphSankeyInput = Schemas["GraphInput"];
+export type GraphLineInput = Schemas["LineInput"];
+export type GraphSankeyOutput = Schemas["SankeyOutput"];
+export type GraphLineOutput = Schemas["LineOutput"];
+export type DocumentToc = Schemas["DocumentToc"];
 
-export type SavedFilter = {
-  id: number;
-  user: string;
-  shared: boolean;
-  description: string;
-  content: string;
-};
-
-export type Units = "l3bps" | "l2bps" | "fps" | "pps" | "inl2%" | "outl2%";
-
-export type GraphSankeyInput = {
-  start: string;
-  end: string;
-  dimensions: string[];
-  limit: number;
-  limitType: string;
-  "truncate-v4": number;
-  "truncate-v6": number;
-  filter: string;
-  units: Units;
-  bidirectional: boolean;
-};
-
-export type GraphLineInput = GraphSankeyInput & {
-  points: number;
-  "previous-period": boolean;
-};
-
-export type GraphSankeyOutput = {
-  rows: string[][];
-  xps: number[];
-  axis: number[];
-  "axis-names": Record<number, string>;
-  nodes: { name: string; axis: number }[];
-  links: { source: string; target: string; xps: number; axis: number }[];
-};
-
-export type GraphLineOutput = {
-  t: string[];
-  rows: string[][];
-  points: number[][];
-  axis: number[];
-  "axis-names": Record<number, string>;
-  average: number[];
-  total?: number[];
-  min: number[];
-  max: number[];
-  last: number[];
-  "95th": number[];
-};
-
-type ResultContext = Pick<
-  GraphSankeyInput,
-  "start" | "end" | "dimensions" | "units" | "bidirectional"
+type ResultContext = Required<
+  Pick<GraphSankeyInput, "start" | "end" | "dimensions" | "units" | "bidirectional">
 >;
 
 export type GraphSankeyResult = GraphSankeyOutput &
@@ -150,9 +85,3 @@ export type GraphSankeyResult = GraphSankeyOutput &
 export type GraphLineResult = GraphLineOutput &
   ResultContext & { graphType: Exclude<GraphType, "sankey"> };
 export type GraphResult = GraphLineResult | GraphSankeyResult;
-
-export type DocumentToc = {
-  name: string;
-  section: string;
-  headers: { level: number; id: string; title: string }[];
-};

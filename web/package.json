@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "grammar": "lezer-generator --typeScript --output src/lib/codemirror/lang-filter/parser.ts src/lib/codemirror/lang-filter/syntax.grammar",
+    "api": "openapi-typescript ../crates/flowscope-sdk/openapi.json --output src/lib/api-schema.ts",
     "dev": "pnpm run grammar && next dev",
     "build": "pnpm run grammar && next build && rm -rf ../console/data/frontend && cp -r out ../console/data/frontend",
     "lint": "eslint",
@@ -49,6 +50,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.4.0",
+    "openapi-typescript": "^7.13.0",
     "tailwindcss": "^4",
     "typescript": "^5",
     "vitest": "^5.0.3"

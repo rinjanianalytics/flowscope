@@ -28,3 +28,5 @@ pub(crate) mod embedded {
 mod component_tests;
 #[cfg(test)]
 mod golden_tests;
+#[cfg(test)]
+mod sdk_tests;

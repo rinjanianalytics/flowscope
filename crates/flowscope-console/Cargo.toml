@@ -11,6 +11,7 @@ rust-version.workspace = true
 flowscope-clickhouse.workspace = true
 flowscope-common.workspace = true
 flowscope-schema.workspace = true
+flowscope-sdk.workspace = true
 chrono.workspace = true
 ipnet.workspace = true
 axum.workspace = true

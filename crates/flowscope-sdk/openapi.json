@@ -1,0 +1,1546 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "FlowScope console API",
+    "description": "API of the FlowScope console. Errors are answered with a JSON object holding a message.",
+    "license": {
+      "name": "AGPL-3.0-only",
+      "identifier": "AGPL-3.0-only"
+    },
+    "version": "2.0.0-rs.0"
+  },
+  "paths": {
+    "/api/v0/console/configuration": {
+      "get": {
+        "tags": [
+          "console"
+        ],
+        "summary": "What the web interface needs to start",
+        "operationId": "getConfiguration",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Configuration"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v0/console/docs/{name}": {
+      "get": {
+        "tags": [
+          "docs"
+        ],
+        "summary": "A page of the documentation",
+        "description": "The page is sent as its Markdown source, unless the `Accept` header prefers JSON.",
+        "operationId": "getDocument",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "Name of the page, like \"intro\"",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The page",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Document"
+                }
+              },
+              "text/markdown": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such page",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v0/console/filter/complete": {
+      "post": {
+        "tags": [
+          "filter"
+        ],
+        "summary": "Complete a filter expression",
+        "operationId": "filterComplete",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompleteInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompleteOutput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v0/console/filter/saved": {
+      "get": {
+        "tags": [
+          "filter"
+        ],
+        "summary": "Saved filters the current user can see",
+        "operationId": "listSavedFilters",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SavedFilters"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "filter"
+        ],
+        "summary": "Save a filter",
+        "operationId": "addSavedFilter",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SavedFilterInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Saved"
+          },
+          "400": {
+            "description": "Invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v0/console/filter/saved/{id}": {
+      "delete": {
+        "tags": [
+          "filter"
+        ],
+        "summary": "Delete a filter of the current user",
+        "operationId": "deleteSavedFilter",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Identifier of the filter",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "minimum": 0
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted"
+          },
+          "400": {
+            "description": "Invalid identifier",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such filter for this user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v0/console/filter/validate": {
+      "post": {
+        "tags": [
+          "filter"
+        ],
+        "summary": "Check a filter expression",
+        "operationId": "filterValidate",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValidateInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "The expression was checked. It may be invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidateOutput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v0/console/graph/line": {
+      "post": {
+        "tags": [
+          "graph"
+        ],
+        "summary": "Traffic over time",
+        "operationId": "graphLine",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LineInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LineOutput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v0/console/graph/reverse": {
+      "post": {
+        "tags": [
+          "graph"
+        ],
+        "summary": "Swap the direction of dimensions and of a filter",
+        "operationId": "graphReverse",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Reverse"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Reverse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v0/console/graph/sankey": {
+      "post": {
+        "tags": [
+          "graph"
+        ],
+        "summary": "Traffic between the values of several dimensions",
+        "operationId": "graphSankey",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GraphInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SankeyOutput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v0/console/graph/table-interval": {
+      "post": {
+        "tags": [
+          "graph"
+        ],
+        "summary": "Table and resolution a graph would use",
+        "operationId": "graphTableInterval",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TableIntervalInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TableIntervalOutput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v0/console/user/avatar": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Picture of the current user",
+        "operationId": "getUserAvatar",
+        "responses": {
+          "200": {
+            "description": "The picture",
+            "content": {
+              "image/png": {
+                "schema": {
+                  "$ref": "#/components/schemas/Png"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not logged in",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v0/console/user/info": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "The current user",
+        "operationId": "getUserInfo",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserInfo"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not logged in",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v0/console/widget/exporters": {
+      "get": {
+        "tags": [
+          "widget"
+        ],
+        "summary": "Exporters sending flows",
+        "operationId": "widgetExporters",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Exporters"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v0/console/widget/flow-last": {
+      "get": {
+        "tags": [
+          "widget"
+        ],
+        "summary": "The most recent flow",
+        "operationId": "widgetFlowLast",
+        "responses": {
+          "200": {
+            "description": "The columns of the flow",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {},
+                  "propertyNames": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No flow yet",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v0/console/widget/flow-rate": {
+      "get": {
+        "tags": [
+          "widget"
+        ],
+        "summary": "Flows received each second",
+        "operationId": "widgetFlowRate",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FlowRate"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v0/console/widget/graph": {
+      "get": {
+        "tags": [
+          "widget"
+        ],
+        "summary": "Traffic of the last day",
+        "operationId": "widgetGraph",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Traffic"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v0/console/widget/top/{name}": {
+      "get": {
+        "tags": [
+          "widget"
+        ],
+        "summary": "Top values of a column",
+        "operationId": "widgetTop",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "src-as, dst-as, src-country, dst-country, exporter, protocol, etype, src-port or dst-port",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Top"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unknown widget",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CompleteInput": {
+        "type": "object",
+        "description": "Input of `/filter/complete`.",
+        "required": [
+          "what"
+        ],
+        "properties": {
+          "what": {
+            "$ref": "#/components/schemas/CompleteWhat"
+          },
+          "column": {
+            "type": "string",
+            "description": "Column the operator or the value is for. Needed unless completing a\ncolumn name."
+          },
+          "operator": {
+            "type": "string"
+          },
+          "prefix": {
+            "type": "string",
+            "description": "What the user typed so far."
+          },
+          "limit": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Highest number of answers (20 by default).",
+            "minimum": 0
+          }
+        }
+      },
+      "CompleteOutput": {
+        "type": "object",
+        "description": "Answer of `/filter/complete`.",
+        "required": [
+          "completions"
+        ],
+        "properties": {
+          "completions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Completion"
+            }
+          }
+        }
+      },
+      "CompleteWhat": {
+        "type": "string",
+        "description": "What to complete in a filter expression.",
+        "enum": [
+          "column",
+          "operator",
+          "value"
+        ]
+      },
+      "Completion": {
+        "type": "object",
+        "description": "A way to complete a filter expression.",
+        "required": [
+          "label",
+          "quoted"
+        ],
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "detail": {
+            "type": "string"
+          },
+          "quoted": {
+            "type": "boolean",
+            "description": "Tell if the label must be written between quotes."
+          }
+        }
+      },
+      "Configuration": {
+        "type": "object",
+        "description": "Answer of `/configuration`: what the web interface needs to start.",
+        "required": [
+          "version",
+          "defaultVisualizeOptions",
+          "dimensions",
+          "dimensionsLimit",
+          "truncatable",
+          "homepageTopWidgets",
+          "branding"
+        ],
+        "properties": {
+          "version": {
+            "type": "string"
+          },
+          "defaultVisualizeOptions": {
+            "$ref": "#/components/schemas/VisualizeOptions"
+          },
+          "dimensions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Columns usable as dimensions."
+          },
+          "dimensionsLimit": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Highest value accepted for `limit`.",
+            "minimum": 0
+          },
+          "truncatable": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Dimensions holding addresses, which can be truncated to a prefix."
+          },
+          "homepageTopWidgets": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Names of the \"top\" widgets of the home page."
+          },
+          "branding": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Document": {
+        "type": "object",
+        "description": "Answer of `/docs/{name}`.",
+        "required": [
+          "markdown",
+          "toc"
+        ],
+        "properties": {
+          "markdown": {
+            "type": "string",
+            "description": "The page, as HTML."
+          },
+          "toc": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DocumentToc"
+            },
+            "description": "The headers of all pages."
+          }
+        }
+      },
+      "DocumentHeader": {
+        "type": "object",
+        "description": "A header of a documentation page.",
+        "required": [
+          "level",
+          "id",
+          "title"
+        ],
+        "properties": {
+          "level": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          },
+          "id": {
+            "type": "string",
+            "description": "Anchor of the header in the page."
+          },
+          "title": {
+            "type": "string"
+          }
+        }
+      },
+      "DocumentToc": {
+        "type": "object",
+        "description": "The headers of a documentation page.",
+        "required": [
+          "name",
+          "section",
+          "headers"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "section": {
+            "type": "string"
+          },
+          "headers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DocumentHeader"
+            }
+          }
+        }
+      },
+      "ErrorMessage": {
+        "type": "object",
+        "description": "Answer to a request the server refused.",
+        "required": [
+          "message"
+        ],
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "Exporters": {
+        "type": "object",
+        "description": "Answer of `/widget/exporters`.",
+        "required": [
+          "exporters"
+        ],
+        "properties": {
+          "exporters": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "FilterError": {
+        "type": "object",
+        "description": "An error in a filter expression.",
+        "required": [
+          "message",
+          "line",
+          "column",
+          "offset"
+        ],
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "line": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Starts at 1.",
+            "minimum": 0
+          },
+          "column": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Starts at 1.",
+            "minimum": 0
+          },
+          "offset": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Starts at 0.",
+            "minimum": 0
+          }
+        }
+      },
+      "FlowRate": {
+        "type": "object",
+        "description": "Answer of `/widget/flow-rate`.",
+        "required": [
+          "period",
+          "rate"
+        ],
+        "properties": {
+          "period": {
+            "type": "string",
+            "description": "Always \"second\"."
+          },
+          "rate": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "GraphInput": {
+        "type": "object",
+        "description": "What the line and sankey graphs have in common. It is the input of\n`/graph/sankey`.",
+        "required": [
+          "start",
+          "end",
+          "limit",
+          "units"
+        ],
+        "properties": {
+          "start": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Start of the time range (RFC 3339)."
+          },
+          "end": {
+            "type": "string",
+            "format": "date-time",
+            "description": "End of the time range (RFC 3339)."
+          },
+          "dimensions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Columns to group by. The sankey graph needs at least one."
+          },
+          "limit": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of rows to keep. The other ones are summed as \"Other\".",
+            "minimum": 0
+          },
+          "limitType": {
+            "$ref": "#/components/schemas/LimitType"
+          },
+          "truncate-v4": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Prefix length IPv4 addresses are truncated to. 0 keeps them whole.",
+            "maximum": 32,
+            "minimum": 0
+          },
+          "truncate-v6": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Prefix length IPv6 addresses are truncated to. 0 keeps them whole.",
+            "maximum": 128,
+            "minimum": 0
+          },
+          "filter": {
+            "type": "string",
+            "description": "Filter expression. Empty to keep all flows."
+          },
+          "units": {
+            "$ref": "#/components/schemas/Units"
+          },
+          "bidirectional": {
+            "type": "boolean",
+            "description": "Also graph the opposite direction."
+          }
+        }
+      },
+      "GraphType": {
+        "type": "string",
+        "description": "How a graph is displayed.",
+        "enum": [
+          "stacked",
+          "stacked100",
+          "lines",
+          "grid",
+          "heatmap",
+          "sankey"
+        ]
+      },
+      "LimitType": {
+        "type": "string",
+        "description": "What the rows are sorted by to keep the top ones.",
+        "enum": [
+          "avg",
+          "max",
+          "last"
+        ]
+      },
+      "LineInput": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/GraphInput"
+          },
+          {
+            "type": "object",
+            "required": [
+              "points"
+            ],
+            "properties": {
+              "points": {
+                "type": "integer",
+                "format": "int32",
+                "description": "Minimum number of points on the time axis.",
+                "maximum": 2000,
+                "minimum": 5
+              },
+              "previous-period": {
+                "type": "boolean",
+                "description": "Also graph the period before (previous hour, day, week...)."
+              }
+            }
+          }
+        ],
+        "description": "Input of `/graph/line`."
+      },
+      "LineOutput": {
+        "type": "object",
+        "description": "Answer of `/graph/line`. A row is a set of dimension values. The arrays\n`rows`, `points`, `axis` and the statistics share their indexes.",
+        "required": [
+          "t",
+          "rows",
+          "points",
+          "axis",
+          "axis-names",
+          "average",
+          "min",
+          "max",
+          "last",
+          "95th"
+        ],
+        "properties": {
+          "t": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "description": "Times of the points."
+          },
+          "rows": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "points": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int64"
+              }
+            },
+            "description": "For each row, its value at each time."
+          },
+          "axis": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 0
+            },
+            "description": "For each row, its axis: 1 for the direct direction, 2 for the reverse\none, 3 and 4 for the same ones in the previous period."
+          },
+          "axis-names": {
+            "type": "object",
+            "description": "Display names of the axes.",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "propertyNames": {
+              "type": "string"
+            }
+          },
+          "average": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          "total": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "description": "Sum over the time range. Absent for the percent units."
+          },
+          "min": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          "max": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          "last": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          "95th": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        }
+      },
+      "Png": {
+        "type": "string",
+        "format": "binary",
+        "description": "A PNG file."
+      },
+      "Reverse": {
+        "type": "object",
+        "description": "Input and answer of `/graph/reverse`: dimensions and a filter, to swap\nbetween source and destination, or input and output.",
+        "properties": {
+          "dimensions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "filter": {
+            "type": "string"
+          }
+        }
+      },
+      "SankeyLink": {
+        "type": "object",
+        "description": "A link between two nodes of the sankey graph.",
+        "required": [
+          "source",
+          "target",
+          "xps",
+          "axis"
+        ],
+        "properties": {
+          "source": {
+            "type": "string"
+          },
+          "target": {
+            "type": "string"
+          },
+          "xps": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "axis": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          }
+        }
+      },
+      "SankeyNode": {
+        "type": "object",
+        "description": "A node of the sankey graph.",
+        "required": [
+          "name",
+          "axis"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Dimension and value (\"SrcAS: 15169\")."
+          },
+          "axis": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          }
+        }
+      },
+      "SankeyOutput": {
+        "type": "object",
+        "description": "Answer of `/graph/sankey`.",
+        "required": [
+          "rows",
+          "xps",
+          "axis",
+          "axis-names",
+          "nodes",
+          "links"
+        ],
+        "properties": {
+          "rows": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "xps": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "description": "For each row, its average value."
+          },
+          "axis": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 0
+            }
+          },
+          "axis-names": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "propertyNames": {
+              "type": "string"
+            }
+          },
+          "nodes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SankeyNode"
+            }
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SankeyLink"
+            }
+          }
+        }
+      },
+      "SavedFilter": {
+        "type": "object",
+        "description": "A saved filter.",
+        "required": [
+          "id",
+          "user",
+          "shared",
+          "description",
+          "content"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0
+          },
+          "user": {
+            "type": "string",
+            "description": "Login of the owner. \"__system\" for the filters of the configuration."
+          },
+          "shared": {
+            "type": "boolean",
+            "description": "Tell if the other users see it."
+          },
+          "description": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          }
+        }
+      },
+      "SavedFilterInput": {
+        "type": "object",
+        "description": "Input of `POST /filter/saved`.",
+        "required": [
+          "description",
+          "content"
+        ],
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "shared": {
+            "type": "boolean"
+          }
+        }
+      },
+      "SavedFilters": {
+        "type": "object",
+        "description": "Answer of `GET /filter/saved`.",
+        "required": [
+          "filters"
+        ],
+        "properties": {
+          "filters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SavedFilter"
+            }
+          }
+        }
+      },
+      "TableIntervalInput": {
+        "type": "object",
+        "description": "Input of `/graph/table-interval`.",
+        "required": [
+          "start",
+          "end",
+          "points"
+        ],
+        "properties": {
+          "start": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "end": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "points": {
+            "type": "integer",
+            "format": "int32",
+            "maximum": 2000,
+            "minimum": 5
+          }
+        }
+      },
+      "TableIntervalOutput": {
+        "type": "object",
+        "description": "Answer of `/graph/table-interval`: the table a graph would be computed\nfrom and the time between two points.",
+        "required": [
+          "table",
+          "interval"
+        ],
+        "properties": {
+          "table": {
+            "type": "string"
+          },
+          "interval": {
+            "type": "integer",
+            "format": "int64",
+            "description": "In seconds.",
+            "minimum": 0
+          }
+        }
+      },
+      "Top": {
+        "type": "object",
+        "description": "Answer of `/widget/top/{name}`.",
+        "required": [
+          "top"
+        ],
+        "properties": {
+          "top": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TopEntry"
+            }
+          }
+        }
+      },
+      "TopEntry": {
+        "type": "object",
+        "description": "An entry of a \"top\" widget.",
+        "required": [
+          "name",
+          "percent"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "percent": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "Traffic": {
+        "type": "object",
+        "description": "Answer of `/widget/graph`.",
+        "required": [
+          "data"
+        ],
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TrafficPoint"
+            }
+          }
+        }
+      },
+      "TrafficPoint": {
+        "type": "object",
+        "description": "A point of the traffic graph of the home page.",
+        "required": [
+          "t",
+          "gbps"
+        ],
+        "properties": {
+          "t": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "gbps": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "Units": {
+        "type": "string",
+        "description": "Unit of the values of a graph.",
+        "enum": [
+          "l3bps",
+          "l2bps",
+          "pps",
+          "fps",
+          "inl2%",
+          "outl2%"
+        ]
+      },
+      "UserInfo": {
+        "type": "object",
+        "description": "Answer of `/user/info`.",
+        "required": [
+          "login"
+        ],
+        "properties": {
+          "login": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "logout-url": {
+            "type": "string"
+          },
+          "avatar-url": {
+            "type": "string"
+          }
+        }
+      },
+      "ValidateInput": {
+        "type": "object",
+        "description": "Input of `/filter/validate`.",
+        "required": [
+          "filter"
+        ],
+        "properties": {
+          "filter": {
+            "type": "string"
+          }
+        }
+      },
+      "ValidateOutput": {
+        "type": "object",
+        "description": "Answer of `/filter/validate`.",
+        "required": [
+          "message"
+        ],
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "\"ok\", or the first error."
+          },
+          "parsed": {
+            "type": "string",
+            "description": "The expression as the server understood it, when valid."
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FilterError"
+            }
+          }
+        }
+      },
+      "VisualizeOptions": {
+        "type": "object",
+        "description": "Defaults of the \"visualize\" page.",
+        "required": [
+          "graphType",
+          "start",
+          "end",
+          "filter",
+          "dimensions",
+          "limit",
+          "limitType",
+          "bidirectional",
+          "previousPeriod"
+        ],
+        "properties": {
+          "graphType": {
+            "$ref": "#/components/schemas/GraphType"
+          },
+          "start": {
+            "type": "string",
+            "description": "Start of the time range, as a date or as words (\"6 hours ago\")."
+          },
+          "end": {
+            "type": "string",
+            "description": "End of the time range, as a date or as words (\"now\")."
+          },
+          "filter": {
+            "type": "string"
+          },
+          "dimensions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "limit": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          },
+          "limitType": {
+            "$ref": "#/components/schemas/LimitType"
+          },
+          "bidirectional": {
+            "type": "boolean"
+          },
+          "previousPeriod": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  }
+}
