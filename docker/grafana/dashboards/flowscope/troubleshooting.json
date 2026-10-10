@@ -62,11 +62,11 @@
                       "group": "prometheus",
                       "version": "v0",
                       "datasource": {
-                        "name": "000000001"
+                        "name": "PBFA97CFB590B2093"
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "rate(flowscope_inlet_flow_input_udp_packets_total)",
+                        "expr": "sum by (exporter) (rate(flowscope_inlet_flow_input_udp_packets_total[$__rate_interval]))",
                         "legendFormat": "{{exporter}}",
                         "range": true
                       }
@@ -189,11 +189,11 @@
                       "group": "prometheus",
                       "version": "v0",
                       "datasource": {
-                        "name": "000000001"
+                        "name": "PBFA97CFB590B2093"
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "rate(flowscope_outlet_kafkainput_consumergroup_lag_messages)",
+                        "expr": "sum(flowscope_outlet_kafkainput_consumergroup_lag_messages)",
                         "legendFormat": "lag messages",
                         "range": true
                       }
@@ -316,7 +316,7 @@
                       "group": "prometheus",
                       "version": "v0",
                       "datasource": {
-                        "name": "deqowhed3b400e"
+                        "name": "PBFA97CFB590B2093"
                       },
                       "spec": {
                         "editorMode": "code",
@@ -443,11 +443,11 @@
                       "group": "prometheus",
                       "version": "v0",
                       "datasource": {
-                        "name": "000000001"
+                        "name": "PBFA97CFB590B2093"
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "rate(flowscope_outlet_routing_provider_bmp_message_queue_full_total)",
+                        "expr": "rate(flowscope_outlet_routing_provider_bmp_message_queue_full_total[$__rate_interval])",
                         "legendFormat": "{{exporter}}",
                         "range": true
                       }
@@ -570,11 +570,11 @@
                       "group": "prometheus",
                       "version": "v0",
                       "datasource": {
-                        "name": "000000001"
+                        "name": "PBFA97CFB590B2093"
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "rate(flowscope_outlet_routing_provider_bmp_message_queue_notfull_total)",
+                        "expr": "rate(flowscope_outlet_routing_provider_bmp_message_queue_notfull_total[$__rate_interval])",
                         "legendFormat": "{{exporter}}",
                         "range": true
                       }
@@ -697,11 +697,11 @@
                       "group": "prometheus",
                       "version": "v0",
                       "datasource": {
-                        "name": "000000001"
+                        "name": "PBFA97CFB590B2093"
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "rate(flowscope_inlet_kafka_sent_bytes_total)",
+                        "expr": "rate(flowscope_inlet_kafka_sent_bytes_total[$__rate_interval])",
                         "legendFormat": "{{exporter}}",
                         "range": true
                       }
@@ -824,11 +824,11 @@
                       "group": "prometheus",
                       "version": "v0",
                       "datasource": {
-                        "name": "000000001"
+                        "name": "PBFA97CFB590B2093"
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "rate(flowscope_outlet_kafkainput_received_messages_total)",
+                        "expr": "rate(flowscope_outlet_kafkainput_received_messages_total[$__rate_interval])",
                         "legendFormat": "Worker: {{worker}}",
                         "range": true
                       }
@@ -951,11 +951,11 @@
                       "group": "prometheus",
                       "version": "v0",
                       "datasource": {
-                        "name": "000000001"
+                        "name": "PBFA97CFB590B2093"
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "rate(flowscope_outlet_kafkainput_received_bytes_total)",
+                        "expr": "rate(flowscope_outlet_kafkainput_received_bytes_total[$__rate_interval])",
                         "legendFormat": "Worker {{worker}}",
                         "range": true
                       }
@@ -1078,11 +1078,11 @@
                       "group": "prometheus",
                       "version": "v0",
                       "datasource": {
-                        "name": "deqowhed3b400e"
+                        "name": "PBFA97CFB590B2093"
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "rate(flowscope_outlet_core_received_flows_total)",
+                        "expr": "rate(flowscope_outlet_core_received_flows_total[$__rate_interval])",
                         "legendFormat": "{{exporter}}",
                         "range": true
                       }
@@ -1205,11 +1205,11 @@
                       "group": "prometheus",
                       "version": "v0",
                       "datasource": {
-                        "name": "deqowhed3b400e"
+                        "name": "PBFA97CFB590B2093"
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "rate(flowscope_outlet_core_forwarded_flows_total)",
+                        "expr": "rate(flowscope_outlet_core_forwarded_flows_total[$__rate_interval])",
                         "legendFormat": "{{exporter}}",
                         "range": true
                       }
@@ -1332,7 +1332,7 @@
                       "group": "prometheus",
                       "version": "v0",
                       "datasource": {
-                        "name": "deqowhed3b400e"
+                        "name": "PBFA97CFB590B2093"
                       },
                       "spec": {
                         "editorMode": "code",
@@ -1459,11 +1459,11 @@
                       "group": "prometheus",
                       "version": "v0",
                       "datasource": {
-                        "name": "000000001"
+                        "name": "PBFA97CFB590B2093"
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "rate(sum(flowscope_inlet_flow_input_udp_packets_total))",
+                        "expr": "sum(rate(flowscope_inlet_flow_input_udp_packets_total[$__rate_interval]))",
                         "legendFormat": "Sum",
                         "range": true
                       }
@@ -1586,11 +1586,11 @@
                       "group": "prometheus",
                       "version": "v0",
                       "datasource": {
-                        "name": "000000001"
+                        "name": "PBFA97CFB590B2093"
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "rate(sum(flowscope_inlet_kafka_sent_bytes_total))",
+                        "expr": "sum(rate(flowscope_inlet_kafka_sent_bytes_total[$__rate_interval]))",
                         "legendFormat": "Sum",
                         "range": true
                       }

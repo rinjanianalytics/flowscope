@@ -111,7 +111,7 @@
           "disableTextWrap": false,
           "editorMode": "builder",
           "exemplar": false,
-          "expr": "rate(flowscope_inlet_flow_input_udp_packets_total[$__rate_interval])",
+          "expr": "sum by (exporter) (rate(flowscope_inlet_flow_input_udp_packets_total[$__rate_interval]))",
           "fullMetaSearch": false,
           "includeNullMetadata": false,
           "instant": false,
