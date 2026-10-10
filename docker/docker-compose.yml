@@ -8,14 +8,14 @@ networks:
         - subnet: fd1c:8ce3:6fb:1::/64
     driver: bridge
     driver_opts:
-      com.docker.network.bridge.name: br-akvorado
+      com.docker.network.bridge.name: br-flowscope
 
 volumes:
-  akvorado-kafka:
-  akvorado-geoip:
-  akvorado-clickhouse:
-  akvorado-run:
-  akvorado-console-db:
+  flowscope-kafka:
+  flowscope-geoip:
+  flowscope-clickhouse:
+  flowscope-run:
+  flowscope-console-db:
 
 services:
   kafka:
@@ -43,7 +43,7 @@ services:
       KAFKA_LOG_DIRS: /var/lib/kafka/data
     restart: unless-stopped
     volumes:
-      - akvorado-kafka:/var/lib/kafka/data
+      - flowscope-kafka:/var/lib/kafka/data
     healthcheck:
       interval: 20s
       test: ["CMD",
@@ -76,131 +76,131 @@ services:
         - CMD-SHELL
         - "timeout 3 redis-cli ping | grep -q PONG"
 
-  akvorado-orchestrator:
+  flowscope-orchestrator:
     extends:
       file: versions.yml
-      service: akvorado
+      service: flowscope
     restart: unless-stopped
     depends_on:
       kafka:
         condition: service_healthy
-    command: orchestrator /etc/akvorado/akvorado.yaml
+    command: orchestrator /etc/flowscope/flowscope.yaml
     volumes:
-      - ../config:/etc/akvorado:ro
+      - ../config:/etc/flowscope:ro
     labels:
       - traefik.enable=true
       # Disable access logging of /api/v0/orchestrator/metrics
-      - traefik.http.routers.akvorado-orchestrator-metrics.rule=PathPrefix(`/api/v0/orchestrator/metrics`)
-      - traefik.http.routers.akvorado-orchestrator-metrics.service=akvorado-orchestrator
-      - traefik.http.routers.akvorado-orchestrator-metrics.observability.accesslogs=false
+      - traefik.http.routers.flowscope-orchestrator-metrics.rule=PathPrefix(`/api/v0/orchestrator/metrics`)
+      - traefik.http.routers.flowscope-orchestrator-metrics.service=flowscope-orchestrator
+      - traefik.http.routers.flowscope-orchestrator-metrics.observability.accesslogs=false
       # Everything else is exposed to private entrypoint in /api/v0/orchestrator
-      - traefik.http.routers.akvorado-orchestrator.entrypoints=private
-      - traefik.http.routers.akvorado-orchestrator.rule=PathPrefix(`/api/v0/orchestrator`)
-      - traefik.http.services.akvorado-orchestrator.loadbalancer.server.port=8080
+      - traefik.http.routers.flowscope-orchestrator.entrypoints=private
+      - traefik.http.routers.flowscope-orchestrator.rule=PathPrefix(`/api/v0/orchestrator`)
+      - traefik.http.services.flowscope-orchestrator.loadbalancer.server.port=8080
       - metrics.enable=true
       - metrics.path=/api/v0/metrics
-  akvorado-console:
+  flowscope-console:
     extends:
       file: versions.yml
-      service: akvorado
+      service: flowscope
     restart: unless-stopped
     depends_on:
-      akvorado-orchestrator:
+      flowscope-orchestrator:
         condition: service_healthy
       redis:
         condition: service_healthy
       clickhouse:
         condition: service_healthy
-    command: console http://akvorado-orchestrator:8080
+    command: console http://flowscope-orchestrator:8080
     volumes:
-      - akvorado-console-db:/run/akvorado
+      - flowscope-console-db:/run/flowscope
     environment:
-      AKVORADO_CFG_CONSOLE_DATABASE_DSN: /run/akvorado/console.sqlite
+      AKVORADO_CFG_CONSOLE_DATABASE_DSN: /run/flowscope/console.sqlite
       AKVORADO_CFG_CONSOLE_BRANDING: ${AKVORADO_CFG_CONSOLE_BRANDING-false}
     healthcheck:
       disable: ${CONSOLE_HEALTHCHECK_DISABLED-false}
     labels:
       - traefik.enable=true
       # Only expose /debug endpoint on the private entrypoint.
-      - traefik.http.routers.akvorado-console-debug.rule=PathPrefix(`/debug`)
-      - traefik.http.routers.akvorado-console-debug.entrypoints=private
-      - traefik.http.routers.akvorado-console-debug.service=akvorado-console
+      - traefik.http.routers.flowscope-console-debug.rule=PathPrefix(`/debug`)
+      - traefik.http.routers.flowscope-console-debug.entrypoints=private
+      - traefik.http.routers.flowscope-console-debug.service=flowscope-console
       # Disable access logging of /api/v0/console/metrics
-      - traefik.http.routers.akvorado-console-metrics.rule=PathPrefix(`/api/v0/console/metrics`)
-      - traefik.http.routers.akvorado-console-metrics.service=akvorado-console
-      - traefik.http.routers.akvorado-console-metrics.observability.accesslogs=false
+      - traefik.http.routers.flowscope-console-metrics.rule=PathPrefix(`/api/v0/console/metrics`)
+      - traefik.http.routers.flowscope-console-metrics.service=flowscope-console
+      - traefik.http.routers.flowscope-console-metrics.observability.accesslogs=false
       # For anything else...
-      - "traefik.http.routers.akvorado-console.rule=!PathPrefix(`/debug`)"
-      - traefik.http.routers.akvorado-console.priority=1
-      - traefik.http.routers.akvorado-console.middlewares=console-auth
-      - traefik.http.services.akvorado-console.loadbalancer.server.port=8080
+      - "traefik.http.routers.flowscope-console.rule=!PathPrefix(`/debug`)"
+      - traefik.http.routers.flowscope-console.priority=1
+      - traefik.http.routers.flowscope-console.middlewares=console-auth
+      - traefik.http.services.flowscope-console.loadbalancer.server.port=8080
       - traefik.http.middlewares.console-auth.headers.customrequestheaders.Remote-User=alfred
       - traefik.http.middlewares.console-auth.headers.customrequestheaders.Remote-Name=Alfred Pennyworth
       - traefik.http.middlewares.console-auth.headers.customrequestheaders.Remote-Email=alfred@example.com
       - metrics.enable=true
       - metrics.path=/api/v0/metrics
-  akvorado-inlet:
+  flowscope-inlet:
     extends:
       file: versions.yml
-      service: akvorado
+      service: flowscope
     ports:
       - 2055:2055/udp
       - 4739:4739/udp
       - 6343:6343/udp
     restart: unless-stopped
     depends_on:
-      akvorado-orchestrator:
+      flowscope-orchestrator:
         condition: service_healthy
       kafka:
         condition: service_healthy
-    command: inlet http://akvorado-orchestrator:8080
+    command: inlet http://flowscope-orchestrator:8080
     volumes:
-      - akvorado-run:/run/akvorado
+      - flowscope-run:/run/flowscope
     labels:
       - traefik.enable=true
       # Disable access logging of /api/v0/inlet/metrics
-      - traefik.http.routers.akvorado-inlet-metrics.rule=PathPrefix(`/api/v0/inlet/metrics`)
-      - traefik.http.routers.akvorado-inlet-metrics.service=akvorado-inlet
-      - traefik.http.routers.akvorado-inlet-metrics.observability.accesslogs=false
+      - traefik.http.routers.flowscope-inlet-metrics.rule=PathPrefix(`/api/v0/inlet/metrics`)
+      - traefik.http.routers.flowscope-inlet-metrics.service=flowscope-inlet
+      - traefik.http.routers.flowscope-inlet-metrics.observability.accesslogs=false
       # Everything else is exposed to private entrypoint in /api/v0/inlet
-      - traefik.http.routers.akvorado-inlet.entrypoints=private
-      - traefik.http.routers.akvorado-inlet.rule=PathPrefix(`/api/v0/inlet`)
-      - traefik.http.services.akvorado-inlet.loadbalancer.server.port=8080
+      - traefik.http.routers.flowscope-inlet.entrypoints=private
+      - traefik.http.routers.flowscope-inlet.rule=PathPrefix(`/api/v0/inlet`)
+      - traefik.http.services.flowscope-inlet.loadbalancer.server.port=8080
       - metrics.enable=true
       - metrics.port=8080
       - metrics.path=/api/v0/metrics
-  akvorado-outlet:
+  flowscope-outlet:
     extends:
       file: versions.yml
-      service: akvorado
+      service: flowscope
     ports:
       - 10179:10179/tcp
     restart: unless-stopped
     stop_grace_period: 30s
     depends_on:
-      akvorado-orchestrator:
+      flowscope-orchestrator:
         condition: service_healthy
       kafka:
         condition: service_healthy
       clickhouse:
         condition: service_healthy
-    command: outlet http://akvorado-orchestrator:8080
+    command: outlet http://flowscope-orchestrator:8080
     volumes:
-      - akvorado-run:/run/akvorado
-      - akvorado-geoip:/usr/share/GeoIP:ro
+      - flowscope-run:/run/flowscope
+      - flowscope-geoip:/usr/share/GeoIP:ro
     environment:
-      AKVORADO_CFG_OUTLET_METADATA_CACHEPERSISTFILE: /run/akvorado/metadata.cache
-      AKVORADO_CFG_OUTLET_FLOW_STATEPERSISTFILE: /run/akvorado/flow.state
+      AKVORADO_CFG_OUTLET_METADATA_CACHEPERSISTFILE: /run/flowscope/metadata.cache
+      AKVORADO_CFG_OUTLET_FLOW_STATEPERSISTFILE: /run/flowscope/flow.state
     labels:
       - traefik.enable=true
       # Disable access logging of /api/v0/outlet/metrics
-      - traefik.http.routers.akvorado-outlet-metrics.rule=PathPrefix(`/api/v0/outlet/metrics`)
-      - traefik.http.routers.akvorado-outlet-metrics.service=akvorado-outlet
-      - traefik.http.routers.akvorado-outlet-metrics.observability.accesslogs=false
+      - traefik.http.routers.flowscope-outlet-metrics.rule=PathPrefix(`/api/v0/outlet/metrics`)
+      - traefik.http.routers.flowscope-outlet-metrics.service=flowscope-outlet
+      - traefik.http.routers.flowscope-outlet-metrics.observability.accesslogs=false
       # Everything else is exposed to private entrypoint in /api/v0/outlet
-      - traefik.http.routers.akvorado-outlet.entrypoints=private
-      - traefik.http.routers.akvorado-outlet.rule=PathPrefix(`/api/v0/outlet`)
-      - traefik.http.services.akvorado-outlet.loadbalancer.server.port=8080
+      - traefik.http.routers.flowscope-outlet.entrypoints=private
+      - traefik.http.routers.flowscope-outlet.rule=PathPrefix(`/api/v0/outlet`)
+      - traefik.http.services.flowscope-outlet.loadbalancer.server.port=8080
       - metrics.enable=true
       - metrics.port=8080
       - metrics.path=/api/v0/metrics
@@ -210,7 +210,7 @@ services:
       file: versions.yml
       service: clickhouse
     volumes:
-      - akvorado-clickhouse:/var/lib/clickhouse
+      - flowscope-clickhouse:/var/lib/clickhouse
       - ./clickhouse/observability.xml:/etc/clickhouse-server/config.d/observability.xml
       - ./clickhouse/server.xml:/etc/clickhouse-server/config.d/akvorado.xml
     environment:

@@ -7,7 +7,7 @@ tests:
         type: log
         log_fields:
           container_id: b8ee56469
-          container_name: akvorado-something-unknown-1
+          container_name: flowscope-something-unknown-1
           label."com.docker.compose.service": something-unknown
           message: >-
             Hello world!
@@ -20,7 +20,7 @@ tests:
               assert!(is_timestamp(.timestamp))
               assert_eq!(._labels,
                 {"service_name": "something-unknown",
-                 "instance": "akvorado-something-unknown-1"})
+                 "instance": "flowscope-something-unknown-1"})
               assert_eq!(._metadata, {})
 
   - name: "akvorado logs"
@@ -29,8 +29,8 @@ tests:
         type: log
         log_fields:
           container_id: b8ee56469
-          container_name: akvorado-akvorado-conntrack-fixer-1
-          label."com.docker.compose.service": akvorado-conntrack-fixer-1
+          container_name: flowscope-flowscope-conntrack-fixer-1
+          label."com.docker.compose.service": flowscope-conntrack-fixer-1
           message: >-
             {"level":"info",
              "version":"v2.0.0-beta.4-66-g0ad0128fc6cd-dirty",
@@ -46,8 +46,8 @@ tests:
               assert_eq!(.message, "akvorado has started")
               assert_eq!(.timestamp, t'2025-08-29T15:01:02Z')
               assert_eq!(._labels,
-                {"service_name": "akvorado-conntrack-fixer",
-                 "instance": "akvorado-akvorado-conntrack-fixer-1",
+                {"service_name": "flowscope-conntrack-fixer",
+                 "instance": "flowscope-flowscope-conntrack-fixer-1",
                  "level": "info",
                  "module": "akvorado/cmd"})
               assert_eq!(._metadata,
@@ -60,7 +60,7 @@ tests:
         type: log
         log_fields:
           container_id: b8ee56469
-          container_name: akvorado-kafka-1
+          container_name: flowscope-kafka-1
           label."com.docker.compose.service": kafka
           message: |-
             [2025-08-29 15:15:48,641] INFO [BrokerServer id=1] Waiting for all of the authorizer futures to be completed (kafka.server.BrokerServer)
@@ -69,7 +69,7 @@ tests:
         log_fields:
           # Sentinel value to flush multiline
           container_id: b8ee56469
-          container_name: akvorado-kafka-1
+          container_name: flowscope-kafka-1
           label."com.docker.compose.service": kafka
           message: |-
             [2025-08-29 15:15:49,000] INFO Sentinel (kafka.server.Sentinel)
@@ -82,7 +82,7 @@ tests:
               assert_eq!(.timestamp, t'2025-08-29T15:15:48.641Z')
               assert_eq!(._labels,
                 {"service_name": "kafka",
-                 "instance": "akvorado-kafka-1",
+                 "instance": "flowscope-kafka-1",
                  "level": "info"})
               assert_eq!(._metadata, {})
   - name: "kafka logs multiline"
@@ -91,7 +91,7 @@ tests:
         type: log
         log_fields:
           container_id: b8ee56469
-          container_name: akvorado-kafka-1
+          container_name: flowscope-kafka-1
           label."com.docker.compose.service": kafka
           message: |-
             [2025-08-29 15:15:48,605] INFO KafkaConfig values:
@@ -99,7 +99,7 @@ tests:
         type: log
         log_fields:
           container_id: b8ee56469
-          container_name: akvorado-kafka-1
+          container_name: flowscope-kafka-1
           label."com.docker.compose.service": kafka
           message: |-
             add.partitions.to.txn.retry.backoff.max.ms = 100
@@ -107,7 +107,7 @@ tests:
         type: log
         log_fields:
           container_id: b8ee56469
-          container_name: akvorado-kafka-1
+          container_name: flowscope-kafka-1
           label."com.docker.compose.service": kafka
           message: |-
             add.partitions.to.txn.retry.backoff.ms = 20
@@ -116,7 +116,7 @@ tests:
         log_fields:
           # Sentinel value to flush multiline
           container_id: b8ee56469
-          container_name: akvorado-kafka-1
+          container_name: flowscope-kafka-1
           label."com.docker.compose.service": kafka
           message: |-
             [2025-08-29 15:15:49,000] INFO Sentinel (kafka.server.Sentinel)
@@ -131,7 +131,7 @@ tests:
               assert_eq!(.timestamp, t'2025-08-29T15:15:48.605Z')
               assert_eq!(._labels,
                 {"service_name": "kafka",
-                 "instance": "akvorado-kafka-1",
+                 "instance": "flowscope-kafka-1",
                  "level": "info"})
               assert_eq!(._metadata, {})
 
@@ -141,7 +141,7 @@ tests:
         type: log
         log_fields:
           container_id: b8ee56469
-          container_name: akvorado-redis-1
+          container_name: flowscope-redis-1
           label."com.docker.compose.service": redis
           message: |-
             1:C 28 Aug 2025 04:08:22.843 # Warning: no config file specified
@@ -154,7 +154,7 @@ tests:
               assert_eq!(.timestamp, t'2025-08-28T04:08:22.843Z')
               assert_eq!(._labels,
                 {"service_name": "redis",
-                 "instance": "akvorado-redis-1",
+                 "instance": "flowscope-redis-1",
                  "level": "warning",
                  "role": "RDB"})
               assert_eq!(._metadata, {"pid": 1})
@@ -165,7 +165,7 @@ tests:
         type: log
         log_fields:
           container_id: b8ee56469
-          container_name: akvorado-alloy-1
+          container_name: flowscope-alloy-1
           label."com.docker.compose.service": alloy
           message: >-
             ts=2025-08-28T09:30:45.497277819Z
@@ -185,7 +185,7 @@ tests:
               assert_eq!(.timestamp, t'2025-08-28T09:30:45.497277819Z')
               assert_eq!(._labels,
                 {"service_name": "alloy",
-                 "instance": "akvorado-alloy-1",
+                 "instance": "flowscope-alloy-1",
                  "level": "info"})
               assert_eq!(._metadata,
                 {"component_path": "/",
@@ -200,7 +200,7 @@ tests:
         type: log
         log_fields:
           container_id: b8ee56469
-          container_name: akvorado-loki-1
+          container_name: flowscope-loki-1
           label."com.docker.compose.service": loki
           message: >-
             ts=2025-08-29T05:07:45.543770684Z
@@ -222,7 +222,7 @@ tests:
               assert_eq!(.timestamp, t'2025-08-29T05:07:45.543770684Z')
               assert_eq!(._labels,
                 {"service_name": "loki",
-                 "instance": "akvorado-loki-1",
+                 "instance": "flowscope-loki-1",
                  "level": "warning"})
               assert_eq!(._metadata,
                 {"caller": "spanlogger.go:116",
@@ -238,7 +238,7 @@ tests:
         type: log
         log_fields:
           container_id: b8ee56469
-          container_name: akvorado-grafana-1
+          container_name: flowscope-grafana-1
           label."com.docker.compose.service": grafana
           message: >-
             logger=provisioning.alerting
@@ -257,7 +257,7 @@ tests:
               assert_eq!(.timestamp, t'2025-08-29T21:05:35.215005098Z')
               assert_eq!(._labels,
                 {"service_name": "grafana",
-                 "instance": "akvorado-grafana-1",
+                 "instance": "flowscope-grafana-1",
                  "level": "error"})
               assert_eq!(._metadata,
                 {"logger": "provisioning.alerting",
@@ -269,7 +269,7 @@ tests:
         type: log
         log_fields:
           container_id: b8ee56469
-          container_name: akvorado-prometheus-1
+          container_name: flowscope-prometheus-1
           label."com.docker.compose.service": prometheus
           message: >-
             time=2025-08-29T21:34:41.191Z
@@ -286,7 +286,7 @@ tests:
               assert_eq!(.timestamp, t'2025-08-29T21:34:41.191Z')
               assert_eq!(._labels,
                 {"service_name": "prometheus",
-                 "instance": "akvorado-prometheus-1",
+                 "instance": "flowscope-prometheus-1",
                  "level": "info"})
               assert_eq!(._metadata,
                 {"source": "manager.go:540",
@@ -298,7 +298,7 @@ tests:
         type: log
         log_fields:
           container_id: b8ee56469
-          container_name: akvorado-node-exporter-1
+          container_name: flowscope-node-exporter-1
           label."com.docker.compose.service": node-exporter
           message: >-
             time=2025-08-29T21:37:28.398Z
@@ -316,7 +316,7 @@ tests:
               assert_eq!(.timestamp, t'2025-08-29T21:37:28.398Z')
               assert_eq!(._labels,
                 {"service_name": "node-exporter",
-                 "instance": "akvorado-node-exporter-1",
+                 "instance": "flowscope-node-exporter-1",
                  "level": "error"})
               assert_eq!(._metadata,
                 {"source": "diskstats_linux.go:264",
@@ -329,7 +329,7 @@ tests:
         type: log
         log_fields:
           container_id: b8ee56469
-          container_name: akvorado-cadvisor-1
+          container_name: flowscope-cadvisor-1
           label."com.docker.compose.service": cadvisor
           message: >-
             I0829 21:38:18.192196       1 factory.go:352] Registering Docker factory
@@ -342,7 +342,7 @@ tests:
               assert!(is_timestamp(.timestamp))
               assert_eq!(._labels,
                 {"service_name": "cadvisor",
-                 "instance": "akvorado-cadvisor-1",
+                 "instance": "flowscope-cadvisor-1",
                  "level": "info"})
               assert_eq!(._metadata, {"pid": 1, "caller": "factory.go:352"})
 
@@ -352,7 +352,7 @@ tests:
         type: log
         log_fields:
           container_id: b8ee56469
-          container_name: akvorado-traefik-1
+          container_name: flowscope-traefik-1
           label."com.docker.compose.service": traefik
           message: >-
             240.0.2.1
@@ -365,7 +365,7 @@ tests:
             "-"
             "-"
             1596365
-            "akvorado-console@docker"
+            "flowscope-console@docker"
             "http://240.0.2.10:8080"
             3ms
     outputs:
@@ -377,13 +377,13 @@ tests:
               assert_eq!(.timestamp, t'2025-08-29T20:40:35Z')
               assert_eq!(._labels,
                 {"service_name": "traefik",
-                 "instance": "akvorado-traefik-1",
+                 "instance": "flowscope-traefik-1",
                  "status": 200})
               assert_eq!(._metadata,
                 {"backend_url": "http://240.0.2.10:8080",
                  "body_bytes_sent": 46,
                  "duration_ms": 3,
-                 "frontend_name": "akvorado-console@docker",
+                 "frontend_name": "flowscope-console@docker",
                  "remote_addr": "240.0.2.1",
                  "request_count": 1596365})
   - name: "traefik logs"
@@ -392,7 +392,7 @@ tests:
         type: log
         log_fields:
           container_id: b8ee56469
-          container_name: akvorado-traefik-1
+          container_name: flowscope-traefik-1
           label."com.docker.compose.service": traefik
           message: >-
             2025-08-29T19:17:05Z ERR error="accept tcp [::]:8081: use of closed network connection" entryPointName=public
@@ -405,7 +405,7 @@ tests:
               assert_eq!(.timestamp, t'2025-08-29T19:17:05Z')
               assert_eq!(._labels,
                 {"service_name": "traefik",
-                 "instance": "akvorado-traefik-1",
+                 "instance": "flowscope-traefik-1",
                  "level": "error"})
               assert_eq!(._metadata,
                 {"entryPointName": "public"})
@@ -416,7 +416,7 @@ tests:
         type: log
         log_fields:
           container_id: b8ee56469
-          container_name: akvorado-clickhouse-1
+          container_name: flowscope-clickhouse-1
           label."com.docker.compose.service": clickhouse
           message: >-
             Merging configuration file '/etc/clickhouse-server/config.d/akvorado.xml'.
@@ -429,7 +429,7 @@ tests:
               assert!(is_timestamp(.timestamp))
               assert_eq!(._labels,
                 {"service_name": "clickhouse",
-                 "instance": "akvorado-clickhouse-1"})
+                 "instance": "flowscope-clickhouse-1"})
               assert_eq!(._metadata, {})
   - name: "clickhouse logs"
     inputs:
@@ -437,7 +437,7 @@ tests:
         type: log
         log_fields:
           container_id: b8ee56469
-          container_name: akvorado-clickhouse-1
+          container_name: flowscope-clickhouse-1
           label."com.docker.compose.service": clickhouse
           message: >-
             {"date_time_utc":"2025-08-31T07:27:15Z",
@@ -459,7 +459,7 @@ tests:
               assert_eq!(.timestamp, t'2025-08-31T07:27:15Z')
               assert_eq!(._labels,
                 {"service_name": "clickhouse",
-                 "instance": "akvorado-clickhouse-1",
+                 "instance": "flowscope-clickhouse-1",
                  "level": "warning"})
               assert_eq!(._metadata,
                 {"thread_id": "747",

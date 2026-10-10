@@ -1,6 +1,6 @@
 ---
 volumes:
-  akvorado-prometheus:
+  flowscope-prometheus:
 
 services:
   # Store metrics
@@ -11,7 +11,7 @@ services:
     profiles: [ prometheus ]
     restart: unless-stopped
     volumes:
-      - akvorado-prometheus:/prometheus
+      - flowscope-prometheus:/prometheus
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
     command:
       # Those are the defaults

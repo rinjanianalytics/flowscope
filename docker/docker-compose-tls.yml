@@ -1,5 +1,5 @@
 volumes:
-  akvorado-traefik:
+  flowscope-traefik:
 services:
   traefik:
     environment:
@@ -17,7 +17,7 @@ services:
       TRAEFIK_CERTIFICATESRESOLVERS_le_ACME_HTTPCHALLENGE: "true"
       TRAEFIK_CERTIFICATESRESOLVERS_le_ACME_HTTPCHALLENGE_ENTRYPOINT: public
     volumes:
-      - akvorado-traefik:/etc/traefik
+      - flowscope-traefik:/etc/traefik
     ports: !override
       - 127.0.0.1:8080:8080/tcp
       - 80:80/tcp

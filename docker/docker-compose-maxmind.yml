@@ -12,4 +12,4 @@ services:
       GEOIPUPDATE_EDITION_IDS: ${GEOIPUPDATE_EDITION_IDS:-GeoLite2-ASN GeoLite2-Country}
       GEOIPUPDATE_FREQUENCY: 48
     volumes:
-      - akvorado-geoip:/usr/share/GeoIP
+      - flowscope-geoip:/usr/share/GeoIP

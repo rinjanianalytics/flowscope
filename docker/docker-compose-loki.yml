@@ -1,6 +1,6 @@
 ---
 volumes:
-  akvorado-loki:
+  flowscope-loki:
 
 services:
   loki:
@@ -10,7 +10,7 @@ services:
     profiles: [ loki ]
     restart: unless-stopped
     volumes:
-      - akvorado-loki:/loki
+      - flowscope-loki:/loki
       - ./loki.yaml:/etc/loki/local-config.yaml:ro
     expose:
       - 3100/tcp

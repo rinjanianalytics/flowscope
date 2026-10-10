@@ -1,1 +1,7 @@
 .git
+target
+**/node_modules
+web/.next
+web/out
+console/data/frontend
+console/frontend

@@ -1,5 +1,5 @@
 ---
-name: akvorado-dev
+name: flowscope-dev
 services:
   mock-oauth2-server:
     extends:

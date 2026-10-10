@@ -1,37 +1,37 @@
 ---
 services:
-  akvorado-console:
+  flowscope-console:
     environment:
       AKVORADO_CFG_CONSOLE_DATABASE_DSN: file::memory:?cache=shared
-  akvorado-exporter-1: &exporter
+  flowscope-exporter-1: &exporter
     extends:
       file: versions.yml
-      service: akvorado
+      service: flowscope
     profiles: [ demo ]
     restart: unless-stopped
-    command: demo-exporter /etc/akvorado/demo-1.yaml
+    command: demo-exporter /etc/flowscope/demo-1.yaml
     volumes:
-      - ../config:/etc/akvorado:ro
+      - ../config:/etc/flowscope:ro
     depends_on:
-      akvorado-inlet:
+      flowscope-inlet:
         condition: service_healthy
-      akvorado-outlet:
+      flowscope-outlet:
         condition: service_healthy
     labels:
       - metrics.enable=true
       - metrics.path=/api/v0/metrics
-  akvorado-exporter-2:
+  flowscope-exporter-2:
     <<: *exporter
-    command: demo-exporter /etc/akvorado/demo-2.yaml
+    command: demo-exporter /etc/flowscope/demo-2.yaml
     environment:
       AKVORADO_CFG_DEMOEXPORTER_FLOWS_SEED: 100
-  akvorado-exporter-3:
+  flowscope-exporter-3:
     <<: *exporter
-    command: demo-exporter /etc/akvorado/demo-3.yaml
+    command: demo-exporter /etc/flowscope/demo-3.yaml
     environment:
       AKVORADO_CFG_DEMOEXPORTER_FLOWS_SEED: 200
-  akvorado-exporter-4:
+  flowscope-exporter-4:
     <<: *exporter
-    command: demo-exporter /etc/akvorado/demo-4.yaml
+    command: demo-exporter /etc/flowscope/demo-4.yaml
     environment:
       AKVORADO_CFG_DEMOEXPORTER_FLOWS_SEED: 300

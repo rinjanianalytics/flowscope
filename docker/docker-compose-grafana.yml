@@ -1,6 +1,6 @@
 ---
 volumes:
-  akvorado-grafana:
+  flowscope-grafana:
 services:
   grafana:
     extends:
@@ -14,7 +14,7 @@ services:
       - prometheus
     restart: unless-stopped
     volumes:
-      - akvorado-grafana:/var/lib/grafana
+      - flowscope-grafana:/var/lib/grafana
       - ./grafana:/etc/grafana
     expose:
       - 3000/tcp

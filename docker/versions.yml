@@ -14,14 +14,16 @@ services:
   maxmind-geoipupdate:
     image: ghcr.io/maxmind/geoipupdate:v7
   ipinfo-geoipupdate:
-    image: quay.io/akvorado/ipinfo-geoipupdate:latest
-    # image: ghcr.io/akvorado/ipinfo-geoipupdate:latest
+    image: ghcr.io/rinjanianalytics/flowscope-ipinfo-geoipupdate:latest
     build:
-      context: .
-      dockerfile: Dockerfile.ipinfo-geoipupdate
-  akvorado:
-    image: quay.io/akvorado/akvorado:main
-    # image: ghcr.io/akvorado/akvorado:main
+      context: ..
+      dockerfile: docker/Dockerfile.ipinfo-geoipupdate
+  flowscope:
+    image: ghcr.io/rinjanianalytics/flowscope:main
+    # The image is built from this repository when it is not there yet.
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
 
   # observability
   grafana:

@@ -3,11 +3,11 @@
 #
 # You can get all default values with:
 #
-#   akvorado orchestrator /dev/null --dump --check
+#   flowscope orchestrator /dev/null --dump --check
 #
 # or
 #
-#   docker compose run --rm --no-deps akvorado-orchestrator orchestrator /dev/null --dump --check
+#   docker compose run --rm --no-deps flowscope-orchestrator orchestrator /dev/null --dump --check
 #
 # Do not use the output of the command as your configuration file, it should
 # only help you get the default values.
@@ -32,7 +32,7 @@ clickhousedb:
     - clickhouse:9000
 
 clickhouse:
-  orchestrator-url: http://akvorado-orchestrator:8080
+  orchestrator-url: http://flowscope-orchestrator:8080
   prometheus-endpoint: /metrics
   asns:
     64501: ACME Corporation

@@ -1,17 +1,17 @@
 ---
 volumes:
-  akvorado-clickhouse-keeper-db-1:
-  akvorado-clickhouse-keeper-db-2:
-  akvorado-clickhouse-keeper-db-3:
-  akvorado-clickhouse-keeper-1:
-  akvorado-clickhouse-keeper-2:
-  akvorado-clickhouse-keeper-3:
-  akvorado-clickhouse-2:
-  akvorado-clickhouse-3:
-  akvorado-clickhouse-4:
+  flowscope-clickhouse-keeper-db-1:
+  flowscope-clickhouse-keeper-db-2:
+  flowscope-clickhouse-keeper-db-3:
+  flowscope-clickhouse-keeper-1:
+  flowscope-clickhouse-keeper-2:
+  flowscope-clickhouse-keeper-3:
+  flowscope-clickhouse-2:
+  flowscope-clickhouse-3:
+  flowscope-clickhouse-4:
 
 services:
-  akvorado-orchestrator:
+  flowscope-orchestrator:
     environment:
       AKVORADO_CFG_ORCHESTRATOR_CLICKHOUSE_CLUSTER: akvorado
 
@@ -23,8 +23,8 @@ services:
     expose:
       - 9100/tcp
     volumes:
-      - akvorado-clickhouse-keeper-db-1:/var/lib/clickhouse-keeper
-      - akvorado-clickhouse-keeper-1:/var/lib/clickhouse
+      - flowscope-clickhouse-keeper-db-1:/var/lib/clickhouse-keeper
+      - flowscope-clickhouse-keeper-1:/var/lib/clickhouse
       - ./clickhouse/observability.xml:/etc/clickhouse-keeper/keeper_config.d/observability.xml
       - ./clickhouse/keeper.xml:/etc/clickhouse-keeper/keeper_config.d/akvorado.xml
       - ./clickhouse/keeper-cluster.xml:/etc/clickhouse-keeper/keeper_config.d/keeper-cluster.xml
@@ -37,8 +37,8 @@ services:
   clickhouse-keeper-2:
     <<: *clickhouse-keeper
     volumes:
-      - akvorado-clickhouse-keeper-db-2:/var/lib/clickhouse-keeper
-      - akvorado-clickhouse-keeper-2:/var/lib/clickhouse
+      - flowscope-clickhouse-keeper-db-2:/var/lib/clickhouse-keeper
+      - flowscope-clickhouse-keeper-2:/var/lib/clickhouse
       - ./clickhouse/observability.xml:/etc/clickhouse-keeper/keeper_config.d/observability.xml
       - ./clickhouse/keeper.xml:/etc/clickhouse-keeper/keeper_config.d/akvorado.xml
       - ./clickhouse/keeper-cluster.xml:/etc/clickhouse-keeper/keeper_config.d/keeper-cluster.xml
@@ -46,8 +46,8 @@ services:
   clickhouse-keeper-3:
     <<: *clickhouse-keeper
     volumes:
-      - akvorado-clickhouse-keeper-db-3:/var/lib/clickhouse-keeper
-      - akvorado-clickhouse-keeper-3:/var/lib/clickhouse
+      - flowscope-clickhouse-keeper-db-3:/var/lib/clickhouse-keeper
+      - flowscope-clickhouse-keeper-3:/var/lib/clickhouse
       - ./clickhouse/observability.xml:/etc/clickhouse-keeper/keeper_config.d/observability.xml
       - ./clickhouse/keeper.xml:/etc/clickhouse-keeper/keeper_config.d/akvorado.xml
       - ./clickhouse/keeper-cluster.xml:/etc/clickhouse-keeper/keeper_config.d/keeper-cluster.xml
@@ -72,7 +72,7 @@ services:
     volumes:
       - ./clickhouse/cluster.xml:/etc/clickhouse-server/config.d/cluster.xml
       - ./clickhouse/cluster-2.xml:/etc/clickhouse-server/config.d/cluster-2.xml
-      - akvorado-clickhouse-2:/var/lib/clickhouse
+      - flowscope-clickhouse-2:/var/lib/clickhouse
   clickhouse-3:
     extends:
       file: docker-compose.yml
@@ -84,7 +84,7 @@ services:
     volumes:
       - ./clickhouse/cluster.xml:/etc/clickhouse-server/config.d/cluster.xml
       - ./clickhouse/cluster-3.xml:/etc/clickhouse-server/config.d/cluster-3.xml
-      - akvorado-clickhouse-3:/var/lib/clickhouse
+      - flowscope-clickhouse-3:/var/lib/clickhouse
   clickhouse-4:
     extends:
       file: docker-compose.yml
@@ -96,4 +96,4 @@ services:
     volumes:
       - ./clickhouse/cluster.xml:/etc/clickhouse-server/config.d/cluster.xml
       - ./clickhouse/cluster-4.xml:/etc/clickhouse-server/config.d/cluster-4.xml
-      - akvorado-clickhouse-4:/var/lib/clickhouse
+      - flowscope-clickhouse-4:/var/lib/clickhouse

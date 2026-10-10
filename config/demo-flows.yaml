@@ -87,7 +87,7 @@
     src-as: [12322, 3215, 3303, 15557, 3320, 13335, 6185, 202818, 60068, 16276, 8075, 32590]
 
 samplingrate: 100000
-target: akvorado-inlet:2055
+target: flowscope-inlet:2055
 flows:
   # Google
   - per-second: 0.5

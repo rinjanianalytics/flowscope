@@ -3,7 +3,7 @@
 # If you prefer to use geo IP databases from host, uncomment this block.
 
 # services:
-#   akvorado-outlet:
+#   flowscope-outlet:
 #     volumes:
 #       - /usr/share/GeoIP:/usr/share/GeoIP:ro
 
@@ -18,7 +18,7 @@
 # environment variable:
 
 # services:
-#   akvorado-console:
+#   flowscope-console:
 #     environment:
 #       AKVORADO_CFG_CONSOLE_DATABASE_DSN: !reset null
 
@@ -36,10 +36,10 @@
 # To enable integration with an SSO and protect the console, use something like this:
 
 # services:
-#   akvorado-console:
+#   flowscope-console:
 #     labels:
 #       # Override authentication middleware
-#       - traefik.http.routers.akvorado-console.middlewares=sso
+#       - traefik.http.routers.flowscope-console.middlewares=sso
 #       - traefik.http.middlewares.sso.forwardauth.address=http://sso.example.com/api/authz/forward-auth
 #       - traefik.http.middlewares.sso.forwardauth.trustForwardHeader=true
 #       - traefik.http.middlewares.sso.forwardauth.authResponseHeaders=Remote-User,Remote-Name,Remote-Email
@@ -54,9 +54,9 @@
 #       - traefik.http.middlewares.sso.forwardauth.address=http://sso.example.com/api/authz/forward-auth
 #       - traefik.http.middlewares.sso.forwardauth.trustForwardHeader=true
 #       - traefik.http.middlewares.sso.forwardauth.authResponseHeaders=Remote-User,Remote-Name,Remote-Email
-#   akvorado-console:
+#   flowscope-console:
 #     labels:
-#       - traefik.http.routers.akvorado-console.middlewares=
+#       - traefik.http.routers.flowscope-console.middlewares=
 
 # For OAuth2 services not supporting forward authentication, one can use traefik-forward-auth. Here is an example:
 
@@ -72,7 +72,7 @@
 #       - traefik.enable=true
 #       - traefik.http.services.sso.loadbalancer.server.port=4181
 #       - traefik.http.routers.sso.rule=PathPrefix(`/sso`)
-#   akvorado-console:
+#   flowscope-console:
 #     environment:
 #       AKVORADO_CFG_CONSOLE_AUTH_HEADERS_LOGIN: X-Forwarded-User
 #       AKVORADO_CFG_CONSOLE_AUTH_HEADERS_NAME: X-Forwarded-Displayname
@@ -81,7 +81,7 @@
 #       AKVORADO_CFG_CONSOLE_AUTH_AVATARURL: "https://avatars.githubusercontent.com/{{ .Login }}?s=80"
 #     labels:
 #       # Override authentication middleware
-#       - traefik.http.routers.akvorado-console.middlewares=sso
+#       - traefik.http.routers.flowscope-console.middlewares=sso
 #       - traefik.http.middlewares.sso.forwardauth.address=http://sso:4181/sso/portals/main
 #       - traefik.http.middlewares.sso.forwardauth.trustForwardHeader=true
 #       - traefik.http.middlewares.sso.forwardauth.authResponseHeaders=X-Forwarded-User,X-Forwarded-Displayname,X-Authenticated-User
@@ -113,7 +113,7 @@
 # You can enable the eBPF load balancer to evenly spread load between workers:
 
 # services:
-#   akvorado-inlet:
+#   flowscope-inlet:
 #     cap_add:
 #       - BPF # or SYS_ADMIN if you don't have Linux 5.8+
 
@@ -125,14 +125,14 @@
 # services:
 #   traefik:
 #     profiles: [ enabled ]
-#   akvorado-inlet:
+#   flowscope-inlet:
 #     profiles: [ enabled ]
 #     command: inlet http://192.168.1.16:8080#1
 #
 # services:
 #   traefik:
 #     profiles: [ enabled ]
-#   akvorado-inlet:
+#   flowscope-inlet:
 #     profiles: [ enabled ]
 #     command: inlet http://192.168.1.16:8080#2
 #
@@ -144,14 +144,14 @@
 # services:
 #   traefik:
 #     profiles: [ enabled ]
-#   akvorado-inlet:
+#   flowscope-inlet:
 #     profiles: [ enabled ]
 #     extra_hosts:
-#       - "akvorado-orchestrator:192.168.1.16"
+#       - "flowscope-orchestrator:192.168.1.16"
 #       - "kafka:192.168.1.18"
 #
 # You can also disable some services by putting them in an unused profile:
 #
 # services:
-#   akvorado-inlet:
+#   flowscope-inlet:
 #     profiles: [ disabled ]

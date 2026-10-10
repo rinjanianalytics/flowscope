@@ -12,7 +12,7 @@ sources:
   docker:
     type: docker_logs
     include_labels:
-      - "com.docker.compose.project=akvorado"
+      - "com.docker.compose.project=flowscope"
 
 transforms:
   base:
@@ -28,7 +28,7 @@ transforms:
     inputs:
       - base
     route:
-      akvorado: 'starts_with(string!(.service_name), "akvorado-")'
+      akvorado: 'starts_with(string!(.service_name), "flowscope-")'
       kafka: '.service_name == "kafka"'
       redis: '.service_name == "redis"'
       alloy: '.service_name == "alloy"'

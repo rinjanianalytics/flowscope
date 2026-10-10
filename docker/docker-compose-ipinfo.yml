@@ -10,4 +10,4 @@ services:
       IPINFO_DATABASES: ${IPINFO_DATABASES:-country asn}
       UPDATE_FREQUENCY: 48h
     volumes:
-      - akvorado-geoip:/data
+      - flowscope-geoip:/data

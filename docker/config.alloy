@@ -3,7 +3,7 @@ discovery.docker "docker" {
   refresh_interval = "30s"
   filter {
     name   = "label"
-    values = ["com.docker.compose.project=akvorado"]
+    values = ["com.docker.compose.project=flowscope"]
   }
 }
 
