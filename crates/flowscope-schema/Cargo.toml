@@ -1,0 +1,17 @@
+[package]
+name = "flowscope-schema"
+description = "Flow data schema: ClickHouse DDL, columnar batches, protobuf encoding"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+flowscope-clickhouse.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+
+[dev-dependencies]
+pretty_assertions.workspace = true
+serde_norway.workspace = true

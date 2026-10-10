@@ -1,0 +1,85 @@
+[workspace]
+resolver = "3"
+members = ["crates/*"]
+
+[workspace.package]
+version = "2.0.0-rs.0"
+edition = "2024"
+license = "AGPL-3.0-only"
+repository = "https://github.com/rinjanianalytics/flowscope"
+rust-version = "1.92"
+
+[workspace.dependencies]
+flowscope-common = { path = "crates/flowscope-common" }
+flowscope-schema = { path = "crates/flowscope-schema" }
+flowscope-pb = { path = "crates/flowscope-pb" }
+flowscope-kafka = { path = "crates/flowscope-kafka" }
+flowscope-inlet = { path = "crates/flowscope-inlet" }
+flowscope-decoder = { path = "crates/flowscope-decoder" }
+flowscope-clickhouse = { path = "crates/flowscope-clickhouse" }
+flowscope-expr = { path = "crates/flowscope-expr" }
+flowscope-snmp = { path = "crates/flowscope-snmp" }
+flowscope-outlet = { path = "crates/flowscope-outlet" }
+flowscope-orchestrator = { path = "crates/flowscope-orchestrator" }
+flowscope-console = { path = "crates/flowscope-console" }
+anyhow = "1"
+thiserror = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["preserve_order"] }
+serde_norway = "0.9"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+futures = "0.3"
+tokio-util = { version = "0.7", features = ["rt"] }
+axum = "0.8"
+tower = "0.5"
+moka = { version = "0.12", features = ["future"] }
+redis = { version = "1", default-features = false, features = ["tokio-comp", "aio"] }
+sha2 = "0.10"
+http-body-util = "0.1"
+bytes = "1"
+prost = "0.14"
+tonic = { version = "0.14", default-features = false, features = ["transport", "router", "server", "codegen", "tls-ring", "tls-native-roots"] }
+tonic-prost = "0.14"
+prost-types = "0.14"
+tokio-rustls = { version = "0.26", default-features = false, features = ["ring", "tls12"] }
+hyper-util = { version = "0.1", features = ["tokio"] }
+tonic-prost-build = "0.14"
+protox = "0.10"
+rdkafka = { version = "0.39", features = ["cmake-build", "ssl-vendored", "zstd", "libz-static", "curl-static", "tokio"] }
+rand = "0.9"
+clap = { version = "4", features = ["derive"] }
+libc = "0.2"
+socket2 = { version = "0.6", features = ["all"] }
+cityhash-rs = "1"
+regex = "1"
+png = "0.17"
+pulldown-cmark = { version = "0.13", default-features = false, features = ["html"] }
+sqlx = { version = "0.8", default-features = false, features = ["runtime-tokio", "sqlite", "postgres", "mysql", "tls-rustls-ring-native-roots", "macros"] }
+url = "2"
+chrono = { version = "0.4", default-features = false, features = ["std", "clock", "serde"] }
+ipnet = { version = "2", features = ["serde"] }
+prefix-trie = "0.10"
+maxminddb = { version = "0.32", features = ["mmap"] }
+jaq-core = "3"
+jaq-std = "3"
+jaq-json = "2"
+csv = "1"
+aes = "0.8"
+cbc = "0.1"
+cfb-mode = "0.8"
+des = "0.8"
+hmac = "0.12"
+md-5 = "0.10"
+sha1 = "0.10"
+lz4_flex = "0.14"
+rustls = { version = "0.23", default-features = false, features = ["ring", "std", "tls12"] }
+rustls-native-certs = "0.8"
+tokio = { version = "1", features = ["full"] }
+pretty_assertions = "1"
+reqwest = { version = "0.13", default-features = false, features = ["rustls", "json"] }
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+debug = "line-tables-only"

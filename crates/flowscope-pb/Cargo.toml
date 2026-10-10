@@ -1,0 +1,12 @@
+[package]
+name = "flowscope-pb"
+description = "RawFlow protobuf message exchanged between the inlet and the outlet"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+prost.workspace = true
+serde.workspace = true

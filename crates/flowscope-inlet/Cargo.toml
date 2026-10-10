@@ -1,0 +1,24 @@
+[package]
+name = "flowscope-inlet"
+description = "Inlet service: receive flows and push them to Kafka"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+flowscope-common.workspace = true
+flowscope-kafka.workspace = true
+flowscope-pb.workspace = true
+libc.workspace = true
+prost.workspace = true
+rdkafka.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+socket2.workspace = true
+tokio.workspace = true
+tracing.workspace = true
+
+[dev-dependencies]
+pretty_assertions.workspace = true

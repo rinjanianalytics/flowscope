@@ -1,0 +1,11 @@
+[package]
+name = "flowscope-expr"
+description = "Evaluator for the expr language used by classifier rules"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+regex.workspace = true

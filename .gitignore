@@ -37,3 +37,6 @@ __pycache__/
 
 # Auto: *.pb.go
 /common/pb/rawflow.pb.go
+
+# Rust
+/target/

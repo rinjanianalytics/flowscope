@@ -1,0 +1,31 @@
+[package]
+name = "flowscope"
+description = "Flow collector, enricher and visualizer"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[[bin]]
+name = "flowscope"
+path = "src/main.rs"
+
+[dependencies]
+flowscope-common.workspace = true
+flowscope-schema.workspace = true
+flowscope-inlet.workspace = true
+flowscope-outlet.workspace = true
+flowscope-orchestrator.workspace = true
+flowscope-console.workspace = true
+chrono.workspace = true
+flowscope-decoder.workspace = true
+serde_json.workspace = true
+serde.workspace = true
+anyhow.workspace = true
+clap.workspace = true
+tokio.workspace = true
+tracing.workspace = true
+
+[dev-dependencies]
+pretty_assertions.workspace = true

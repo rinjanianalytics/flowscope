@@ -1,0 +1,28 @@
+[package]
+name = "flowscope-orchestrator"
+description = "Orchestrator service: configuration of the other services, ClickHouse and Kafka"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+flowscope-clickhouse.workspace = true
+flowscope-common.workspace = true
+flowscope-kafka.workspace = true
+flowscope-pb.workspace = true
+flowscope-schema.workspace = true
+axum.workspace = true
+csv.workspace = true
+rdkafka.workspace = true
+reqwest.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+serde_norway.workspace = true
+tokio.workspace = true
+tracing.workspace = true
+
+[dev-dependencies]
+pretty_assertions.workspace = true
+tower.workspace = true
