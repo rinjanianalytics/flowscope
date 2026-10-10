@@ -4,6 +4,8 @@ on:
   push:
     branches: [rust-port, main]
   pull_request:
+  # To start a run by hand.
+  workflow_dispatch:
 
 jobs:
   test:
