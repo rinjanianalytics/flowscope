@@ -9,18 +9,15 @@ Analytics and is not affiliated with Akvorado or Free Mobile.
 FlowScope receives network flows (NetFlow v5/v9, IPFIX and sFlow), enriches
 them with interface names (SNMP or gNMI), routing information (BMP or BioRIS)
 and geographic information, and stores them in ClickHouse through Kafka. A web
-console lets you explore the collected flows with time series and sankey
-graphs.
+console lets you explore the collected flows.
 
-It keeps the configuration format, the ClickHouse schema, the Kafka messages
-and the HTTP API of Akvorado, so both can run side by side and a deployment
-can move from one to the other.
+![Time series graph](docs/timeseries.png)
 
-## Status
+![Sankey graph](docs/sankey.png)
 
-Every service is ported: inlet, outlet, orchestrator, console and demo
-exporter. The web interface is new. See [RUST_PORT_PLAN.md](RUST_PORT_PLAN.md)
-for the progress and the differences with Akvorado.
+![Home page](docs/home.png)
+
+The screenshots come from the demo setup below, with generated traffic.
 
 ## Try it
 
@@ -33,40 +30,61 @@ $ COMPOSE_PROFILES=demo docker compose up --wait
 
 The first start builds the image. Then open `http://127.0.0.1:8081`.
 
+## Documentation
+
+The documentation is in [`docs/`](docs/00-intro.md). It ships with FlowScope:
+the running console serves the version you use, under "Documentation".
+
+[![Documentation](docs/documentation.png)](docs/00-intro.md)
+
+It is organized in four parts: tutorials to get started, how-to guides for a
+specific goal, the reference, and explanations of the design.
+
+> [!CAUTION]
+> Read the [changelog](docs/99-changelog.md) before you upgrade.
+
 ## Build
 
-FlowScope needs Rust (see `rust-toolchain.toml`) and CMake for the Kafka
-client.
+FlowScope needs Rust (see `rust-toolchain.toml`), CMake and a C compiler for
+the Kafka client, and Node.js with pnpm for the web interface.
 
 ```console
+$ cd web && pnpm install && pnpm build && cd ..
 $ cargo build --release
 $ target/release/flowscope version
 ```
 
 The `flowscope` binary runs every service: `flowscope orchestrator`,
-`flowscope inlet`, `flowscope outlet` and `flowscope console`, each with a
-configuration file or the URL of the orchestrator.
+`flowscope inlet`, `flowscope outlet`, `flowscope console` and
+`flowscope demo-exporter`, each with a configuration file or the URL of the
+orchestrator.
 
-## Compatibility with Akvorado
+## Moving from Akvorado
 
-Some names are kept from Akvorado on purpose, so existing deployments keep
-working:
+FlowScope reads the configuration files of Akvorado, uses the same ClickHouse
+tables and dictionaries, the same Kafka topics and messages, and the same HTTP
+API. A deployment can move one service at a time. Three names differ:
 
-- metrics are prefixed with `akvorado_`, so dashboards and alerts still apply,
-- configuration overrides use `AKVORADO_CFG_*` environment variables,
-- the outlet uses the `akvorado-outlet` Kafka consumer group, so it resumes
-  from the offsets of an Akvorado outlet,
-- the ClickHouse tables, the dictionaries and the Kafka topics have the same
-  names.
+- metrics are prefixed with `flowscope_` instead of `akvorado_`: dashboards
+  and alerts need the new prefix,
+- configuration overrides are `FLOWSCOPE_CFG_*` environment variables. The
+  `AKVORADO_CFG_*` ones are still read,
+- the outlet uses the `flowscope-outlet` Kafka consumer group. Set
+  `kafka.consumer-group` to `akvorado-outlet` to resume from the offsets of an
+  Akvorado outlet.
+
+See [RUST_PORT_PLAN.md](RUST_PORT_PLAN.md) for the other differences.
 
 ## Repository layout
 
 - `crates/`: the Rust workspace (`flowscope` binary and `flowscope-*`
-  libraries),
-- `console/data/docs`: the documentation, served by the console,
-- `tests/golden`: data dumped from Akvorado, used to check FlowScope gives
-  the same results,
-- the Go source of Akvorado is kept as the reference for these checks.
+  libraries, including the `flowscope-sdk` client library),
+- `web/`: the web interface, embedded in the binary once built,
+- `docs/`: the documentation, served by the console,
+- `config/`: the configuration of the Docker Compose setup,
+- `docker/`: the Dockerfile and the Docker Compose files,
+- `tests/`: test data, and the answers recorded from Akvorado that FlowScope
+  is checked against.
 
 ## License
 
@@ -75,6 +93,7 @@ FlowScope is licensed under the [AGPLv3 license](LICENSE.txt), like Akvorado.
 ## Credits
 
 FlowScope would not exist without [Akvorado](https://github.com/akvorado/akvorado)
-and its authors. The Go source of Akvorado is kept in this repository, with its
-history, as the reference the Rust code is checked against. The files ported
-from Akvorado keep the copyright notice of Free Mobile.
+and its authors. The Rust code was written by porting Akvorado module by
+module and checking each one against it. The files ported from Akvorado keep
+the copyright notice of Free Mobile. The history of this repository starts
+with the history of Akvorado.

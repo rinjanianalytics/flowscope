@@ -1,96 +1,75 @@
-# New features
+# Contributing to FlowScope
 
-New features should be discussed. Open an issue before trying anything major.
-New features are not free to maintain and put a burden on the maintainers of the
-project, notably when it comes to fixing bugs and when they interfere with future
-evolutions.
+FlowScope is a Rust rewrite of [Akvorado](https://github.com/akvorado/akvorado).
+A problem which also exists in Akvorado is best reported there too.
 
-# User friendliness
+## Getting the code to build
 
-Network people are usually less savvy when it comes to complex systems. There
-are three pillars that *Akvorado* follows to make it easier for its target
-users:
-
-- `docker compose` to get started quickly for most setups
-- easy upgrades through automatic migrations (database and configuration)
-- documentation including configuration, exploitation, and troubleshooting
-
-# Style guide
-
-Go formatter takes care of most issues. For the remaining points:
-
-- comments are sentences and should be capitalized
-- on the other hand, log messages are not and should *not* be capitalized
-- metrics should be named using [Prometheus conventions][]
-
-[prometheus conventions]: https://prometheus.io/docs/practices/naming/
-
-Git commits are prefixed with the component and sub-component of the feature:
-`orchestrator/clickhouse: add some feature`. Meta-component are also possible,
-like `docs`, `build`, or `docker`.
-
-# Unit testing
-
-We do not aim for 100% code coverage, however most code should be covered by
-tests. This is a big task, but it pays when adding new features or refactoring.
-The test suite should run quick enough to not become a burden.
-
-Use `make test-go` to run Go tests. You can restrict it to a specific package
-with `make test-go PKG=akvorado/orchestrator/clickhouse`. Using just `go test`
-would work, but `make test-go` also runs linting and formatting automatically.
-
-If possible, tests should not rely on external components, but when it becomes
-hard to do so, it is possible to spawn services through Docker. Locally, one
-can spawn them through `docker compose -f docker/docker-compose-dev.yml`:
-
-- `... up clickhouse` to spawn a single ClickHouse
-- `... up clickhouse-\*` to spawn a ClickHouse cluster
-- `... up kafka` to spawn a Kafka broker
-
-# Hacking
-
-For manual tests, you can use `make docker-dev` to build a Docker container,
-then use `docker compose --profile demo up` to run Docker Compose. Each time you
-modify the code, repeat this step:
+You need Rust (the version is in `rust-toolchain.toml`), CMake and a C
+compiler, and Node.js 22 or later with pnpm.
 
 ```console
-$ make docker-dev && docker compose --profile demo up --wait
-
+$ cd web && pnpm install && pnpm build && cd ..
+$ cargo build
 ```
-Alternatively, if you are only working on the console:
+
+The first command builds the web interface, which the console embeds. Without
+it, the binary works but the console has no web interface.
+
+## Checks
+
+Run these before you send a change. The CI runs the same ones.
 
 ```console
-$ make docker-dev && CONSOLE_HEALTHCHECK_DISABLED=true docker compose --profile demo up akvorado-console --wait --no-deps
+$ cargo fmt --all --check
+$ cargo clippy --workspace --all-targets --all-features -- -D warnings
+$ cargo test --workspace --all-features
+$ cd web && pnpm lint && pnpm test
 ```
 
-Once done, run `docker compose --profile demo down` to stop all the containers.
-
-If you need to work on the frontend part, you can spawn the Docker compose
-setup, then in `console/frontend`, use `pnpm run dev` and point your browser to
-`http://localhost:5173` instead of `http://localhost:8080`. Any change of
-frontend-related files should be applied immediately.
-
-When working on the frontend only, you can skip the local setup entirely and use
-a public instance as the API backend. Set `AKVORADO_API_URL` before starting the
-development server:
+Some tests need a service and are skipped by default. `tests/interop` has a
+Docker Compose file starting Kafka, ClickHouse, Redis and an SNMP agent for
+them:
 
 ```console
-$ cd console/frontend
-$ AKVORADO_API_URL=https://demo.akvorado.net pnpm run dev
+$ docker compose -f tests/interop/docker-compose.yml up -d
+$ cargo test --workspace -- --ignored
 ```
 
-Then, point your browser to `http://localhost:5173`. All `/api` requests are
-proxied to the public instance, which provides real data to work with.
+## Working on the web interface
 
-# Licensing
+`pnpm dev`, in `web/`, serves the interface with live reload. It needs a
+console for its API: set `FLOWSCOPE_API_URL` to its address (the default is
+`http://127.0.0.1:8080`).
 
-The code is licensed under AGPL-3.0-only. When creating new files, be sure to
-add the appropriate SPDX header, like for existing files. Feel free to assign
-the copyright to yourself or your organization: we do not do copyright
-assignment as GitHub terms and conditions already [include][] this:
+```console
+$ FLOWSCOPE_API_URL=http://127.0.0.1:8081 pnpm dev
+```
 
-> Whenever you add Content to a repository containing notice of a license, you
-> license that Content under the same terms, and you agree that you have the
-> right to license that Content under those terms.
+The types of the API come from the OpenAPI document of the console. After a
+change to the API types in `crates/flowscope-sdk`, update both:
 
-[include]: https://docs.github.com/en/site-policy/github-terms/github-terms-of-service#6-contributions-under-repository-license
+```console
+$ FLOWSCOPE_UPDATE_OPENAPI=1 cargo test -p flowscope-sdk
+$ cd web && pnpm run api
+```
+
+## Compatibility with Akvorado
+
+FlowScope reads the configuration of Akvorado and shares its ClickHouse
+tables, its Kafka messages and its HTTP API. `tests/golden/testdata` holds
+answers recorded from Akvorado: SQL queries, decoded flows, parsed filters,
+HTTP answers. The tests compare FlowScope with them. A change which makes one
+of these tests fail breaks this compatibility: say so, and why it is worth it.
+
+## Style
+
+- Comments say why, not what.
+- User-facing text and documentation use short sentences and plain words.
+- Commit messages start with the part touched: `outlet: ...`, `web: ...`,
+  `docs: ...`.
+
+## License
+
+By contributing, you accept that your contribution is licensed under the
+[AGPLv3 license](LICENSE.txt).
