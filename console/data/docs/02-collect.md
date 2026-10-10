@@ -70,7 +70,7 @@ graphs will be empty.
 
 The rules are in the same file, under `core`. The shipped ones expect interface
 descriptions that start with the type of connection, like `Transit: Cogent` or
-`IX: FranceIX`:
+`IX: IIX`:
 
 ```yaml
 core:
@@ -136,7 +136,7 @@ Here are the descriptions of the interfaces of my router:
 
 Cogent [TRANSIT] AS174 / 1-3834938493
 Netflix [PNI] AS2906 / WL6-1190
-FranceIX [IX] AS51706
+IIX [IX] AS7597
 dc3-edge1 [BACKBONE]
 dc3-edge2 [BACKBONE]
 

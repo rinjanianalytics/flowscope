@@ -2,7 +2,7 @@
 snmp:
   name: dc5-edge2.example.com
   interfaces:
-    10: "IX: FranceIX"
+    10: "IX: IIX"
     11: "Transit: Cogent"
     20: "core"
     21: "core"

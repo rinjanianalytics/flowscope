@@ -91,8 +91,7 @@ core:
   interface-classifiers:
     # This is an example. This must be customized depending on the
     # descriptions of your interfaces. In the following, we assume
-    # external interfaces are named "Transit: Cogent" Or "IX:
-    # FranceIX".
+    # external interfaces are named "Transit: Cogent" or "IX: IIX".
     - |
       ClassifyConnectivityRegex(Interface.Description, "^(?i)(transit|pni|ppni|ix):? ", "$1") &&
       ClassifyProviderRegex(Interface.Description, "^\\S+?\\s(\\S+)", "$1") &&
