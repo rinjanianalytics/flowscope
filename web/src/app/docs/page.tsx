@@ -11,6 +11,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useDocumentTitle, useServerConfig } from "@/components/providers";
 import { apiUrl, appPath, appUrl, basePath, type DocumentToc } from "@/lib/api";
 import { cn } from "@/lib/utils";
+import { useScrollFade } from "@/hooks/use-scroll-fade";
 
 type Location = { id: string; hash: string };
 
@@ -30,6 +31,7 @@ export default function DocumentationPage() {
   );
   const content = useRef<HTMLDivElement>(null);
   const scroller = useRef<HTMLDivElement>(null);
+  const fadeRef = useScrollFade<HTMLElement>();
 
   // Follow the URL. The documentation root is the introduction.
   useEffect(() => {
@@ -159,8 +161,9 @@ export default function DocumentationPage() {
   return (
     <div className="flex size-full flex-col md:flex-row">
       <nav
+        ref={fadeRef}
         aria-label="Documentation"
-        className="max-h-64 flex-none overflow-y-auto border-b bg-surface-2 px-3 py-4 text-ui md:max-h-none md:w-72 md:border-b-0 md:border-r print:hidden"
+        className="no-scrollbar scroll-fade max-h-64 flex-none overflow-y-auto border-b bg-surface-2 px-3 py-4 text-ui md:max-h-none md:w-72 md:border-b-0 md:border-r print:hidden"
       >
         {config?.branding && (
           <a

@@ -29,7 +29,9 @@ const SIDEBAR_COOKIE_NAME = "sidebar_state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
 const SIDEBAR_WIDTH = "16rem"
 const SIDEBAR_WIDTH_MOBILE = "18rem"
-const SIDEBAR_WIDTH_ICON = "3rem"
+// The rail is 48px of content plus its 1px border, so the icons sit exactly
+// on its center (shadcn: "3rem").
+const SIDEBAR_WIDTH_ICON = "calc(3rem + 1px)"
 const SIDEBAR_KEYBOARD_SHORTCUT = "b"
 
 type SidebarContextProps = {

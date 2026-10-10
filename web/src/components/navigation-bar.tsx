@@ -3,6 +3,7 @@
 
 "use client";
 
+import { useScrollFade } from "@/hooks/use-scroll-fade";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -89,6 +90,7 @@ export function AppSidebar() {
   const pathname = usePathname();
   const config = useServerConfig();
   const { isMobile, setOpenMobile } = useSidebar();
+  const navRef = useScrollFade<HTMLDivElement>();
   return (
     <Sidebar collapsible="icon" className="print:hidden">
       <SidebarHeader className="px-4 pt-4 transition-[padding] group-data-[collapsible=icon]:px-2">
@@ -99,14 +101,24 @@ export function AppSidebar() {
           />
         </Link>
       </SidebarHeader>
-      <SidebarContent className="gap-0 pb-6">
+      {/* The navigation scrolls in both states (shadcn hides the overflow in
+          the icon rail), with no visible scrollbar. */}
+      <SidebarContent
+        ref={navRef}
+        className="no-scrollbar scroll-fade gap-0 pb-6 group-data-[collapsible=icon]:overflow-x-hidden group-data-[collapsible=icon]:overflow-y-auto"
+      >
         {navigation.map((group) => (
-          <SidebarGroup key={group.group} className="py-1">
-            <SidebarGroupLabel className="text-2xs font-semibold uppercase tracking-label text-muted-foreground">
+          <SidebarGroup
+            key={group.group}
+            className="py-1 not-first:group-data-[collapsible=icon]:mt-1 not-first:group-data-[collapsible=icon]:border-t not-first:group-data-[collapsible=icon]:border-sidebar-border not-first:group-data-[collapsible=icon]:pt-2"
+          >
+            {/* In the icon rail, the hidden heading is pulled over the row
+                above it: it must not take its clicks. */}
+            <SidebarGroupLabel className="text-2xs font-semibold uppercase tracking-label text-muted-foreground group-data-[collapsible=icon]:pointer-events-none group-data-[collapsible=icon]:overflow-hidden">
               {group.group}
             </SidebarGroupLabel>
             <SidebarGroupContent>
-              <SidebarMenu className="gap-0.5">
+              <SidebarMenu className="gap-0">
                 {group.items.map((item) => (
                   <SidebarMenuItem key={item.name}>
                     <SidebarMenuButton

@@ -47,6 +47,7 @@ import {
 } from "@/lib/graph-types";
 import { isEqual, type VisualizeState } from "@/lib/state";
 import { cn } from "@/lib/utils";
+import { useScrollFade } from "@/hooks/use-scroll-fade";
 
 const graphIcons: Record<GraphType, LucideIcon> = {
   stacked: ChartArea,
@@ -197,6 +198,7 @@ export function OptionsPanel({
   const [open, setOpen] = useState(true);
   const [fields, setFields] = useState<Fields | null>(null);
   const [filterInvalid, setFilterInvalid] = useState(false);
+  const fadeRef = useScrollFade<HTMLFormElement>();
   const [refreshInterval, setAutoRefresh] = useState(0);
   const set = (update: Partial<Fields>) =>
     setFields((current) => (current ? { ...current, ...update } : current));
@@ -438,7 +440,8 @@ export function OptionsPanel({
       </button>
       {open && (
         <form
-          className="flex h-full max-h-[70vh] flex-col gap-2 overflow-y-auto px-4 py-4 lg:max-h-none"
+          ref={fadeRef}
+          className="no-scrollbar scroll-fade flex h-full max-h-[70vh] flex-col gap-2 overflow-y-auto px-4 py-4 lg:max-h-none"
           autoComplete="off"
           spellCheck={false}
           onSubmit={(event) => {

@@ -1,6 +1,29 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+
+/* `no-scrollbar` (hidden scrollbar, still scrolls by wheel, touch, trackpad
+   and keyboard) comes from shadcn/tailwind.css above. With the scrollbar
+   hidden, a soft fade at an edge says "more this way". useScrollFade() sets
+   data-fade-top / data-fade-bottom only while there is content past that
+   edge. */
+@utility scroll-fade {
+  --fade-top: 0px;
+  --fade-bottom: 0px;
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black var(--fade-top),
+    black calc(100% - var(--fade-bottom)),
+    transparent
+  );
+  &[data-fade-top] {
+    --fade-top: 1.5rem;
+  }
+  &[data-fade-bottom] {
+    --fade-bottom: 1.5rem;
+  }
+}
 @plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
