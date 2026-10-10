@@ -433,6 +433,25 @@ mod tests {
         assert!(c.automatic_restart);
     }
 
+    /// The cluster Docker Compose setup names the cluster with an override
+    /// using the old place of the setting, while the file uses the new one.
+    #[test]
+    fn override_with_a_moved_setting() {
+        use flowscope_common::config::decode;
+        let tree = parse_str("clickhousedb:\n  servers: [ch:9000]\n").unwrap();
+        let env = |name: &str| vec![(name.to_string(), "flowscope".to_string())];
+        let c: OrchestratorConfiguration =
+            decode(tree.clone(), "orchestrator", env("FLOWSCOPE_CFG_ORCHESTRATOR_CLICKHOUSE_CLUSTER")).unwrap();
+        assert_eq!(c.clickhouse_db.cluster, "flowscope");
+        assert_eq!(c.clickhouse_db.servers, ["ch:9000"]);
+        let c: OrchestratorConfiguration =
+            decode(tree, "orchestrator", env("FLOWSCOPE_CFG_ORCHESTRATOR_CLICKHOUSEDB_CLUSTER")).unwrap();
+        assert_eq!(c.clickhouse_db.cluster, "flowscope");
+        // In the file itself, both places at once are still refused.
+        let both = parse("clickhousedb:\n  servers: [ch:9000]\nclickhouse:\n  cluster: flowscope\n");
+        assert!(both.unwrap_err().contains("cannot have both"));
+    }
+
     #[test]
     fn shared_settings() {
         let c = parse(

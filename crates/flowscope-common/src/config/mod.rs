@@ -374,7 +374,14 @@ where
     let mut overrides: Vec<(String, String)> = env.into_iter().filter(|(k, _)| k.starts_with(ENV_PREFIX)).collect();
     overrides.sort();
     for (name, value) in overrides {
-        if let Some(tree) = env_override(component, &name, &value) {
+        if let Some(mut tree) = env_override(component, &name, &value) {
+            // An override is migrated alone, like the file is: a setting
+            // which moved is still accepted under its old name, even when
+            // the file uses the new one.
+            T::prepare(&mut tree).map_err(|message| Error::Override {
+                name: name.clone(),
+                source: de::Error { path: String::new(), message },
+            })?;
             merge(&mut base, tree, MergeMode::Override);
             config = from_value(base.clone()).map_err(|source| Error::Override { name: name.clone(), source })?;
         }
