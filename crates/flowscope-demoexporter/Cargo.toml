@@ -1,0 +1,21 @@
+[package]
+name = "flowscope-demoexporter"
+description = "Synthetic exporter for FlowScope: NetFlow, SNMP and BMP"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+flowscope-common.workspace = true
+flowscope-snmp.workspace = true
+ipnet.workspace = true
+serde.workspace = true
+tokio.workspace = true
+tokio-util.workspace = true
+tracing.workspace = true
+
+[dev-dependencies]
+flowscope-outlet.workspace = true
+pretty_assertions.workspace = true

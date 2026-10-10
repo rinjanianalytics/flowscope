@@ -878,6 +878,7 @@ dependencies = [
  "flowscope-common",
  "flowscope-console",
  "flowscope-decoder",
+ "flowscope-demoexporter",
  "flowscope-inlet",
  "flowscope-orchestrator",
  "flowscope-outlet",
@@ -969,6 +970,21 @@ dependencies = [
  "pretty_assertions",
  "serde",
  "serde_json",
+ "tracing",
+]
+
+[[package]]
+name = "flowscope-demoexporter"
+version = "2.0.0-rs.0"
+dependencies = [
+ "flowscope-common",
+ "flowscope-outlet",
+ "flowscope-snmp",
+ "ipnet",
+ "pretty_assertions",
+ "serde",
+ "tokio",
+ "tokio-util",
  "tracing",
 ]
 

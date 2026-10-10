@@ -238,6 +238,17 @@ fn include_merge() {
     assert_eq!(got, json!({"name": "1.yaml", "other": "value"}));
 }
 
+/// An anchor using a merge key is merged in another mapping: the demo
+/// exporter configuration does that.
+#[test]
+fn nested_merge_keys() {
+    let got = parse_str(
+        "base: &base\n  a: 1\nmiddle: &middle\n  b: 2\n  <<: *base\nflows:\n  - c: 3\n    <<: [*middle]\n  - <<: *middle\n    a: 9\n",
+    )
+    .unwrap();
+    assert_eq!(got["flows"], json!([{"a": 1, "b": 2, "c": 3}, {"a": 9, "b": 2}]));
+}
+
 #[test]
 fn type_change_replaces() {
     let mut base = json!({"inputs": {"type": "udp", "listen": ":2055", "workers": 4}});

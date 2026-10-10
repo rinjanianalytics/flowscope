@@ -22,6 +22,7 @@ flowscope-snmp = { path = "crates/flowscope-snmp" }
 flowscope-outlet = { path = "crates/flowscope-outlet" }
 flowscope-orchestrator = { path = "crates/flowscope-orchestrator" }
 flowscope-console = { path = "crates/flowscope-console" }
+flowscope-demoexporter = { path = "crates/flowscope-demoexporter" }
 flowscope-sdk = { path = "crates/flowscope-sdk", default-features = false }
 anyhow = "1"
 thiserror = "2"

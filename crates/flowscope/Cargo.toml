@@ -18,6 +18,7 @@ flowscope-inlet.workspace = true
 flowscope-outlet.workspace = true
 flowscope-orchestrator.workspace = true
 flowscope-console.workspace = true
+flowscope-demoexporter.workspace = true
 chrono.workspace = true
 flowscope-decoder.workspace = true
 serde_json.workspace = true

@@ -5,6 +5,7 @@
 //! of Akvorado.
 
 mod console;
+mod demoexporter;
 mod healthcheck;
 mod inlet;
 mod orchestrator;
@@ -75,9 +76,7 @@ fn main() -> anyhow::Result<()> {
         Command::Outlet(args) => runtime()?.block_on(outlet::run(args)),
         Command::Orchestrator(args) => runtime()?.block_on(orchestrator::run(args)),
         Command::Console(args) => runtime()?.block_on(console::run(args)),
-        Command::DemoExporter(_) => {
-            anyhow::bail!("this service is not ported to Rust yet")
-        }
+        Command::DemoExporter(args) => runtime()?.block_on(demoexporter::run(args)),
     }
 }
 

@@ -159,13 +159,36 @@ fn resolve_includes(
     Ok(())
 }
 
+/// Tell if a merge key ("<<") is left somewhere.
+fn has_merge_key(v: &serde_norway::Value) -> bool {
+    use serde_norway::Value as Y;
+    match v {
+        Y::Mapping(m) => m.iter().any(|(k, x)| k.as_str() == Some("<<") || has_merge_key(x)),
+        Y::Sequence(s) => s.iter().any(has_merge_key),
+        Y::Tagged(t) => has_merge_key(&t.value),
+        _ => false,
+    }
+}
+
+/// Apply the merge keys ("<<"). A merged mapping may bring its own merge
+/// key, when the anchor it comes from uses one: these need another pass.
+fn apply_merges(value: &mut serde_norway::Value) -> Result<(), String> {
+    for _ in 0..16 {
+        value.apply_merge().map_err(|e| e.to_string())?;
+        if !has_merge_key(value) {
+            return Ok(());
+        }
+    }
+    Err("too many nested merge keys".into())
+}
+
 /// Parse a YAML file with includes into a configuration tree.
 pub fn load_file(path: &Path) -> Result<(Value, Vec<PathBuf>), Error> {
     let path = std::fs::canonicalize(path).map_err(|source| Error::Read { path: path.into(), source })?;
     let root = path.parent().unwrap_or(Path::new(".")).to_path_buf();
     let file = path.file_name().unwrap().to_string_lossy().to_string();
     let (mut value, paths) = load_with_include(&root, &file, 0)?;
-    value.apply_merge().map_err(|e| Error::Yaml { path: path.clone(), message: e.to_string() })?;
+    apply_merges(&mut value).map_err(|message| Error::Yaml { path: path.clone(), message })?;
     let tree = yaml_to_tree(value).map_err(|message| Error::Yaml { path: path.clone(), message })?;
     let mut paths: Vec<PathBuf> = paths.into_iter().map(|p| root.join(p)).collect();
     paths.sort();
@@ -181,7 +204,7 @@ pub fn parse_str(input: &str) -> Result<Value, Error> {
         serde_norway::from_str(input).map_err(|e| Error::Yaml { path: "<input>".into(), message: e.to_string() })?
     };
     strip_top_level(&mut value);
-    value.apply_merge().map_err(|e| Error::Yaml { path: "<input>".into(), message: e.to_string() })?;
+    apply_merges(&mut value).map_err(|message| Error::Yaml { path: "<input>".into(), message })?;
     yaml_to_tree(value).map_err(|message| Error::Yaml { path: "<input>".into(), message })
 }
 
