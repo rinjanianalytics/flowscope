@@ -392,10 +392,14 @@ fn avatar_pixels(login: &str) -> Result<(u32, u32, Vec<u8>), String> {
     image.ok_or_else(|| "no avatar part".to_string())
 }
 
+/// Version of the avatar parts, in the ETag. Bump it when the parts change,
+/// or the browsers keep the old avatar.
+const AVATAR_VERSION: &str = "fs1";
+
 /// Answer with the avatar of the current user.
 pub fn avatar_response(info: &UserInformation, if_none_match: Option<&HeaderValue>) -> Response {
     let hash = fnv1_64(info.login.as_bytes());
-    let etag = format!("\"{hash:x}\"");
+    let etag = format!("\"{AVATAR_VERSION}-{hash:x}\"");
     if if_none_match.and_then(|v| v.to_str().ok()) == Some(etag.as_str()) {
         return (StatusCode::NOT_MODIFIED, [(header::ETAG, etag)]).into_response();
     }
@@ -415,28 +419,8 @@ mod tests {
 
     #[derive(serde::Deserialize)]
     struct Golden {
-        avatars: std::collections::BTreeMap<String, String>,
-        etags: std::collections::BTreeMap<String, String>,
         pcg: Vec<u64>,
         intn: Vec<u64>,
-    }
-
-    /// Decode standard base64 (Go encodes byte slices this way in JSON).
-    fn base64(s: &str) -> Vec<u8> {
-        let value = |c: u8| match c {
-            b'A'..=b'Z' => c - b'A',
-            b'a'..=b'z' => c - b'a' + 26,
-            b'0'..=b'9' => c - b'0' + 52,
-            b'+' => 62,
-            _ => 63,
-        };
-        let digits: Vec<u8> = s.bytes().filter(|&c| c != b'=').map(value).collect();
-        let mut out = vec![];
-        for chunk in digits.chunks(4) {
-            let n = chunk.iter().enumerate().fold(0u32, |acc, (i, &d)| acc | (d as u32) << (18 - 6 * i));
-            out.extend(&n.to_be_bytes()[1..chunk.len()]);
-        }
-        out
     }
 
     fn golden() -> Golden {
@@ -454,21 +438,27 @@ mod tests {
         assert_eq!(got, golden.intn);
     }
 
-    /// Avatars have the same pixels as the ones of Go, and the same ETag.
+    /// A login always gets the same avatar, and two logins get different
+    /// ones. The parts are the ones of FlowScope, so there is no answer of Go
+    /// to compare with. The choice of the parts uses the same generator.
     #[test]
     fn avatars() {
-        let golden = golden();
-        for (login, want) in &golden.avatars {
-            let info = UserInformation { login: login.clone(), ..Default::default() };
-            let response = avatar_response(&info, None);
-            assert_eq!(response.headers()[header::ETAG], golden.etags[login], "{login:?}");
-            let (w, h, pix) = avatar_pixels(login).unwrap();
-            let got = decode_part(&encode_png(w, h, &pix).unwrap()).unwrap();
-            assert_eq!(got, decode_part(&base64(want)).unwrap(), "{login:?}");
-        }
+        let (w, h, alfred) = avatar_pixels("alfred").unwrap();
+        assert_eq!((w, h), (160, 160));
+        assert_eq!(avatar_pixels("alfred").unwrap().2, alfred);
+        assert_ne!(avatar_pixels("bruce").unwrap().2, alfred);
+        // The background is opaque.
+        assert!(alfred.chunks(4).all(|p| p[3] == 255));
+
         let info = UserInformation { login: "alfred".into(), ..Default::default() };
-        let etag = HeaderValue::from_str(&golden.etags["alfred"]).unwrap();
+        let response = avatar_response(&info, None);
+        assert_eq!(response.status(), StatusCode::OK);
+        let etag = response.headers()[header::ETAG].clone();
+        assert!(etag.to_str().unwrap().starts_with("\"fs1-"));
         assert_eq!(avatar_response(&info, Some(&etag)).status(), StatusCode::NOT_MODIFIED);
+        // The ETag of the previous parts does not match.
+        let old = HeaderValue::from_str(&etag.to_str().unwrap().replace("fs1-", "")).unwrap();
+        assert_eq!(avatar_response(&info, Some(&old)).status(), StatusCode::OK);
     }
 
     #[test]

@@ -40,6 +40,7 @@ and serves the same HTTP API.
   `/api/v0/console/openapi.json`
 - ✨ *sdk*: `rinjani-flowscope-sdk`, a Rust client library for the console API
 - ✨ *console*: heatmaps can be the default graph type
+- ✨ *console*: new avatars, small network bots in place of the cats
 - 🌱 *console*: an unknown page is answered with status 404
 - 🩹 *console*: fix the second start with MySQL 8
 - 🩹 *console*: fix the completion of values for disabled columns

@@ -1,5 +1,5 @@
+background
 body
-fur
 eyes
 mouth
-accessorie
+accessory

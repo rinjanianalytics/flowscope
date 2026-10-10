@@ -149,7 +149,13 @@ struct Case {
 #[tokio::test]
 async fn same_as_go() {
     let path = concat!(env!("CARGO_MANIFEST_DIR"), "/../../tests/golden/testdata/console-http.json");
-    let cases: Vec<Case> = serde_json::from_str(&std::fs::read_to_string(path).unwrap()).unwrap();
+    let mut cases: Vec<Case> = serde_json::from_str(&std::fs::read_to_string(path).unwrap()).unwrap();
+    // The avatars are not the ones of Akvorado: their ETag has a version.
+    for case in cases.iter_mut().filter(|c| c.url.ends_with("/user/avatar")) {
+        for value in case.headers.get_mut("If-None-Match").into_iter().chain(case.resp_headers.get_mut("Etag")) {
+            *value = value.replacen('"', "\"fs1-", 1);
+        }
+    }
     let (c, mock, http) = console(Configuration::default(), auth::Configuration::default()).await;
     let app = c.router(&http);
     let mut failures = vec![];

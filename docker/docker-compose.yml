@@ -134,9 +134,9 @@ services:
       - traefik.http.routers.flowscope-console.priority=1
       - traefik.http.routers.flowscope-console.middlewares=console-auth
       - traefik.http.services.flowscope-console.loadbalancer.server.port=8080
-      - traefik.http.middlewares.console-auth.headers.customrequestheaders.Remote-User=alfred
-      - traefik.http.middlewares.console-auth.headers.customrequestheaders.Remote-Name=Alfred Pennyworth
-      - traefik.http.middlewares.console-auth.headers.customrequestheaders.Remote-Email=alfred@example.com
+      - traefik.http.middlewares.console-auth.headers.customrequestheaders.Remote-User=demo
+      - traefik.http.middlewares.console-auth.headers.customrequestheaders.Remote-Name=Demo User
+      - traefik.http.middlewares.console-auth.headers.customrequestheaders.Remote-Email=demo@example.com
       - metrics.enable=true
       - metrics.path=/api/v0/metrics
   flowscope-inlet:
