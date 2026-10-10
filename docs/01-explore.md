@@ -52,18 +52,25 @@ interfaces.
 
 Move the mouse over the graph. The tooltip gives the value of each band at that
 moment. Below the graph, a table repeats each band with its minimum, maximum,
-last, average, 95th percentile and total values.
+last, average, 95th percentile and total values. Move the mouse over a row of
+the table to highlight its band in the graph.
+
+To look closer at a part of the graph, press the mouse button at its start,
+drag to its end and release: the time range becomes this selection. The
+“back” button of your browser returns to the previous graph.
 
 ## Change what the graph shows
 
 A dimension is a column used to split the traffic. Let's use another one.
 
-1. In the left panel, click on the “Dimensions” box.
-2. Remove `SrcAS` and select `InIfProvider` instead.
-3. Click on “Apply”.
+1. In the left panel, click on the cross next to `SrcAS` in the “Dimensions”
+   box to remove it.
+2. Click on the box, type `InIfProvider` and select it.
+3. Click on “Apply”, at the top of the panel. This button reads “Refresh”
+   when the options match the graph on screen.
 
-The graph now shows one band per network provider: Cogent, Telia, and some
-internet exchanges.
+The graph now shows one band per network provider: `cogent`, `telia`, `tata`
+and some internet exchanges.
 
 Now add a second dimension, `ExporterName`, and apply again. Each combination
 of provider and router becomes its own band. The number of bands grows fast, so
@@ -83,8 +90,10 @@ InIfBoundary = external AND SrcAS = AS2906
 ```
 
 Press `Ctrl-Enter` to run the query. The graph now shows only the traffic coming
-from AS2906, which is Netflix. Type `Ctrl-Space` inside the box to get the list
-of the columns and values you can use. The complete syntax is described in the
+from AS2906, which is Netflix. The box checks the filter as you type: while it
+is not valid, the error is underlined and “Apply” is disabled. Type
+`Ctrl-Space` inside the box to get the list of the columns and values you can
+use. The complete syntax is described in the
 [console reference](52-console.md#filter-language).
 
 The same filter is available in the “Saved filters” list, under the name “From
@@ -96,9 +105,12 @@ other users.
 Time series answer the question “how much”. To get “from where to where”, use
 another graph type.
 
-1. Set the dimensions to `SrcAS` and `InIfProvider`, in this order.
-2. Change the graph type to “Sankey”.
-3. Click on “Apply”.
+1. Set the filter back to `InIfBoundary = external`, to see all networks
+   again.
+2. Set the dimensions to `SrcAS` and `InIfProvider`, in this order. You can
+   drag a dimension to move it.
+3. Change the graph type to “Sankey”.
+4. Click on “Apply”.
 
 Each dimension becomes a column of nodes, and the width of the links between
 them is the volume of traffic. You can read on a single picture which provider
@@ -107,7 +119,8 @@ dimensions, and it has no time axis: it covers the whole period at once.
 
 Switch the graph type back to “Stacked areas” and enable “Bidirectional”. The
 traffic in the opposite direction appears below the horizontal axis, as negative
-values. This is the usual way to compare what enters and what leaves.
+values. This is the usual way to compare what enters and what leaves. The table
+below the graph gets two tabs, “Direct” and “Reverse”, one for each direction.
 
 ## Share what you found
 

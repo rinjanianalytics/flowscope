@@ -14,7 +14,12 @@ The home page contains these statistics:
 - number of flows received per second
 - number of exporters
 - flow distribution by AS, ports, protocols, countries, and IP families
+- traffic of the last 24 hours
 - last flow received
+
+The sidebar on the left leads to the other pages. Its “Close” button, or
+`Ctrl-B`, reduces it to icons. The button at the top right switches between
+the light and the dark theme.
 
 ## Visualize page
 
@@ -38,11 +43,12 @@ appearance.
   Flows per second is also highly dependent of the selected timeframe: zooming
   out changes the displayed values.
 
-- Five graph types are available: “stacked”, “lines”, “grid”, and “heatmap” to
-  display time series, and “sankey” to show flow distributions between various
-  dimensions.
+- Six graph types are available. “Stacked areas”, “100% stacked”, “Lines”,
+  “Grid” and “Heatmap” display time series. “100% stacked” shows the share of
+  each series instead of its volume. “Sankey” shows flow distributions
+  between various dimensions.
 
-- For “stacked”, “lines”, and “grid” graphs, the *bidirectional* option adds
+- For “Stacked areas”, “100% stacked”, “Lines” and “Grid” graphs, the *bidirectional* option adds
   flows in the opposite direction to the graph. They are displayed as negative
   values on the graph. For “sankey” graphs, the *bidirectional* option splits
   the diagram into two side-by-side parts: the left side shows the forward
@@ -54,7 +60,7 @@ appearance.
   “reverse” button next to the *dimensions* and *filter* labels to check the
   dimensions and filters used for the reverse direction.
 
-- For “stacked” graphs, the *previous period* option adds a line for
+- For “Stacked areas” graphs, the *previous period* option adds a line for
   the traffic levels from the previous period. Depending on
   the current period, the previous period can be the previous hour,
   day, week, month, or year.
@@ -82,22 +88,32 @@ appearance.
 - FlowScope only retrieves a limited number of series. The "limit"
   parameter defines how many. The remaining values are categorized as "Other".
 
-- The `limitType` parameter, used with the `limit` parameter, helps find
-  traffic surges in 2 modes:
-  - `avg`: default mode, the query gets the highest cumulative traffic over the
-    selected time.
-  - `max`: the query gets the traffic bursts over the selected time.
-  - `last`: the query gets the most recent (last) traffic over the selected
+- The “Top by” selector tells which series are kept when the limit is
+  reached. It has 3 modes:
+  - “Avg”: default mode, the query keeps the highest cumulative traffic over
+    the selected time.
+  - “Max”: the query keeps the traffic bursts over the selected time.
+  - “Last”: the query keeps the most recent (last) traffic over the selected
     time.
 
 - The filter box contains an SQL-like expression to limit the data that is
   graphed. It has an auto-completion system that you can trigger with
   `Ctrl-Space`. `Ctrl-Enter` executes the request. You can save filters by
   providing a description. A filter can be shared with other users. The button
-  next to the *filter* label reverses its direction.
+  next to the *filter* label reverses its direction. The expression is checked
+  while you type: an error is underlined and the query cannot be run until it
+  is fixed.
+
+The button at the top of the panel runs the query. It reads “Apply” after a
+change and “Refresh” otherwise. While a query runs, it reads “Cancel”.
+
+On a time series, select a part of the graph with the mouse to restrict the
+time range to it. The handle below the graph changes its height.
 
 Below the graph, a data table displays per-series statistics including minimum,
-maximum, last, average, 95th percentile, and total values. For rate-based units
+maximum, last, average, 95th percentile, and total values. Moving the mouse
+over a row highlights its series in the graph. With the *bidirectional*
+option, the table has one tab for each direction. For rate-based units
 (bits per second, packets per second, flows per second), the total column shows
 the accumulated value over the selected time range (in bytes for bit-based
 units, in packets or flows for the others).
