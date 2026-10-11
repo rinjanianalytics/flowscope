@@ -21,6 +21,8 @@ identified with a specific icon:
 - 🌱 *console*: units are written in words, the axis of a graph shows the
   unit, times use a 24-hour clock and the first ten series each get a color
   of their own
+- 🌱 *console*: the lines of a graph are thicker and the links of a Sankey
+  graph are less transparent
 - 🌱 *console*: the home page shows the traffic now and its peak, ranks the
   top lists with the share of each entry, and groups the fields of the last
   flow. The fields without a value are behind a button
