@@ -247,7 +247,7 @@ function useLineOption(data: GraphLineResult, isDark: boolean): ECOption {
               type: "line",
               symbol: "none",
               itemStyle: { color: color(uniqIndex(row), false, theme) },
-              lineStyle: { color: color(uniqIndex(row), false, theme), width: 2 },
+              lineStyle: { color: color(uniqIndex(row), false, theme), width: 3 },
               emphasis: { focus: "series" },
               encode: {
                 x: 0,
@@ -523,7 +523,8 @@ function SankeyGraph({ data }: { data: GraphSankeyResult }) {
       animationDuration: 500,
       emphasis: { focus: "trajectory" as const },
       label: { formatter: "{b}", color: chrome.ink, fontFamily: "Poppins" },
-      lineStyle: { color: "gradient" as const, curveness: 0.5 },
+      // Twice the default opacity: the links were faint on both themes.
+      lineStyle: { color: "gradient" as const, curveness: 0.5, opacity: 0.4 },
     };
     const bold = (value: number) =>
       `<span style="display:inline-block;margin-left:2em;font-weight:bold;">${formatXps(value)}</span>`;
