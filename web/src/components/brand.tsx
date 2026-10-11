@@ -41,11 +41,14 @@ export function PageHeader({
   title,
   description,
   actions,
+  dense,
 }: {
   eyebrow: ReactNode;
   title: ReactNode;
   description?: ReactNode;
   actions?: ReactNode;
+  /** Keep the description for a screen with room for it. */
+  dense?: boolean;
 }) {
   return (
     <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-3">
@@ -55,7 +58,12 @@ export function PageHeader({
           {title}
         </h1>
         {description && (
-          <p className="max-w-measure text-sm text-muted-foreground">
+          <p
+            className={cn(
+              "max-w-measure text-sm text-muted-foreground",
+              dense && "hidden sm:block",
+            )}
+          >
             {description}
           </p>
         )}
@@ -74,6 +82,7 @@ export function Panel({
   description,
   action,
   children,
+  size,
   className,
   contentClassName,
 }: {
@@ -82,15 +91,20 @@ export function Panel({
   description?: ReactNode;
   action?: ReactNode;
   children: ReactNode;
+  size?: "default" | "sm";
   className?: string;
   contentClassName?: string;
 }) {
   return (
-    <Card className={className}>
+    <Card size={size} className={className}>
       {(eyebrow || title || action) && (
         <CardHeader className="gap-2">
           {eyebrow && <SectionLabel>{eyebrow}</SectionLabel>}
-          {title && <CardTitle>{title}</CardTitle>}
+          {title && (
+            <CardTitle>
+              <h2>{title}</h2>
+            </CardTitle>
+          )}
           {description && <CardDescription>{description}</CardDescription>}
           {action && (
             <CardAction className="flex flex-wrap items-center justify-end gap-2">

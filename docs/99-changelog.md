@@ -16,6 +16,9 @@ identified with a specific icon:
 
 ## FlowScope (unreleased)
 
+- 🌱 *console*: the home page shows the traffic now and its peak, ranks the
+  top lists with the share of each entry, and groups the fields of the last
+  flow. The fields without a value are behind a button
 - 🌱 *console*: the user and the theme switch are at the foot of the menu.
   The bar above the pages is only shown on a small screen, where it opens
   the menu
