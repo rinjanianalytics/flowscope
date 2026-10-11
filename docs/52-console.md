@@ -13,13 +13,17 @@ The home page contains these statistics:
 
 - number of flows received per second
 - number of exporters
-- flow distribution by AS, ports, protocols, countries, and IP families
+- traffic now and its peak over the period of the graph
 - traffic of the last 24 hours
-- last flow received
+- flow distribution by AS, ports, protocols, countries, and IP families, with
+  the share of each entry
+- last flow received, with its fields in sections. The fields without a value
+  are behind the “Show empty fields” button
 
-The sidebar on the left leads to the other pages. Its “Close” button, or
-`Ctrl-B`, reduces it to icons. The button at the top right switches between
-the light and the dark theme.
+The menu on the left leads to the other pages. Its “Collapse menu” button, or
+`Ctrl-B`, reduces it to icons. At its foot, the button next to your name
+switches between the light and the dark theme. On a small screen, the menu is
+closed: the button at the top left opens it.
 
 ## Visualize page
 
@@ -104,8 +108,11 @@ appearance.
   while you type: an error is underlined and the query cannot be run until it
   is fixed.
 
-The button at the top of the panel runs the query. It reads “Apply” after a
+The button at the foot of the panel runs the query. It reads “Apply” after a
 change and “Refresh” otherwise. While a query runs, it reads “Cancel”.
+
+On a small screen, the graph comes first. The “Options” button at the bottom
+opens the panel.
 
 On a time series, select a part of the graph with the mouse to restrict the
 time range to it. The handle below the graph changes its height.
