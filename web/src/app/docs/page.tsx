@@ -210,10 +210,13 @@ export default function DocumentationPage() {
                         event.preventDefault();
                         navigate(document.name, `#${first.id}`);
                       }}
+                      aria-current={current ? "page" : undefined}
                       className={cn(
                         "block truncate rounded-xl px-2 py-1.5 font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring/50",
+                        // The tint of the brand, like the current page in
+                        // the menu.
                         current
-                          ? "bg-sidebar-primary text-sidebar-primary-foreground"
+                          ? "bg-accent font-semibold text-accent-foreground"
                           : "text-foreground hover:bg-sidebar-accent",
                       )}
                     >
