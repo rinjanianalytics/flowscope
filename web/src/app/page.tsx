@@ -14,11 +14,16 @@ import {
   WidgetGraph,
   WidgetLastFlow,
   WidgetTop,
+  WidgetTrafficNow,
+  WidgetTrafficPeak,
+  isShareWidget,
 } from "@/components/home/widgets";
 
 export default function HomePage() {
   const config = useServerConfig();
   const topWidgets = config?.homepageTopWidgets ?? [];
+  const ranked = topWidgets.filter((widget) => !isShareWidget(widget));
+  const shares = topWidgets.filter(isShareWidget);
   return (
     <div className="flex w-full flex-col gap-6 px-4 py-6 sm:px-6">
       <PageHeader
@@ -26,27 +31,38 @@ export default function HomePage() {
         title="Your network traffic at a glance"
         description="FlowScope receives flows, adds data like interface names and countries, and stores them in ClickHouse."
         actions={
-          <Link href="/visualize" className={buttonVariants()}>
+          <Link
+            href="/visualize"
+            className={buttonVariants({ className: "h-11 px-5" })}
+          >
             <ChartArea />
             Explore flows
           </Link>
         }
       />
-      <div className="grid grid-cols-1 gap-4 xl:grid-cols-3">
-        <div className="grid auto-rows-min grid-cols-2 gap-4 md:grid-cols-4 xl:col-span-2">
-          <div className="col-span-2 grid grid-cols-2 gap-4 md:col-span-4 md:grid-cols-4">
-            <WidgetFlowRate />
-            <WidgetExporters />
-          </div>
-          {/* The last row grows to fill the width, whatever their number. */}
-          <div className="col-span-2 flex flex-wrap gap-4 md:col-span-4">
-            {topWidgets.map((widget) => (
-              <div key={widget} className="min-w-36 flex-1 basis-36">
-                <WidgetTop what={widget} />
-              </div>
-            ))}
-          </div>
-          <WidgetGraph className="col-span-2 md:col-span-4" />
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <WidgetFlowRate />
+        <WidgetExporters />
+        <WidgetTrafficNow />
+        <WidgetTrafficPeak />
+      </div>
+      <div className="grid grid-cols-1 items-start gap-4 xl:grid-cols-3">
+        <div className="flex min-w-0 flex-col gap-4 xl:col-span-2">
+          <WidgetGraph />
+          {/* Each row fills the width, whatever the number of widgets. */}
+          {[ranked, shares].map(
+            (widgets, row) =>
+              widgets.length > 0 && (
+                <div
+                  key={row}
+                  className="grid grid-cols-[repeat(auto-fit,minmax(13.5rem,1fr))] gap-4"
+                >
+                  {widgets.map((widget) => (
+                    <WidgetTop key={widget} what={widget} />
+                  ))}
+                </div>
+              ),
+          )}
         </div>
         <WidgetLastFlow />
       </div>

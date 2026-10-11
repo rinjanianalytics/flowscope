@@ -60,7 +60,7 @@ function Chip({
       <span
         role="button"
         aria-label={`Remove ${name}`}
-        className="cursor-pointer rounded-full hover:text-foreground"
+        className="-my-1 -mr-1 flex size-6 cursor-pointer items-center justify-center rounded-full hover:text-foreground"
         onPointerDown={(event) => event.stopPropagation()}
         onClick={(event) => {
           event.stopPropagation();

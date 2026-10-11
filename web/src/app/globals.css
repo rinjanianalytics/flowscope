@@ -47,7 +47,7 @@
   --color-info: var(--info);
   --color-info-bg: var(--info-bg);
   --shadow-card: var(--shadow-card);
-  --text-2xs: 0.6875rem;
+  --text-2xs: 0.75rem;
   --text-2xs--line-height: 1rem;
   --text-ui: 0.8125rem;
   --text-ui--line-height: 1.25rem;

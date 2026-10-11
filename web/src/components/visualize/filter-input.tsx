@@ -135,6 +135,7 @@ export function FilterInput({
           ]),
           history(),
           placeholder("Filter expression"),
+          EditorView.contentAttributes.of({ "aria-label": "Filter expression" }),
           EditorView.lineWrapping,
           theme.current.of([]),
           EditorView.updateListener.of((update) => {
@@ -219,7 +220,7 @@ export function FilterInput({
               <span
                 role="button"
                 aria-label={`Delete ${filter.description}`}
-                className="cursor-pointer rounded text-muted-foreground hover:text-destructive"
+                className="-my-1 flex size-7 shrink-0 cursor-pointer items-center justify-center rounded text-muted-foreground hover:text-destructive"
                 onPointerDown={(event) => event.stopPropagation()}
                 onClick={(event) => {
                   event.stopPropagation();

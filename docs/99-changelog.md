@@ -14,6 +14,22 @@ identified with a specific icon:
 - 🩹: bug fix
 - 🌱: miscellaneous change
 
+## FlowScope (unreleased)
+
+- 🌱 *console*: on a small screen, the graph of the visualize page comes
+  first and the options open in a sheet
+- 🌱 *console*: units are written in words, the axis of a graph shows the
+  unit, times use a 24-hour clock and the first ten series each get a color
+  of their own
+- 🌱 *console*: the home page shows the traffic now and its peak, ranks the
+  top lists with the share of each entry, and groups the fields of the last
+  flow. The fields without a value are behind a button
+- 🌱 *console*: the user and the theme switch are at the foot of the menu.
+  The bar above the pages is only shown on a small screen, where it opens
+  the menu
+- 🩹 *console*: the page for an unknown address says what happened and links
+  to the home page and to the documentation
+
 ## FlowScope 2.0.0-rs.0 - 2026-10-10
 
 The first pre-release of *FlowScope*. It is Akvorado, as of its 2026.10.0 version

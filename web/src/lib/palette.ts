@@ -5,10 +5,34 @@
 
 type Theme = "light" | "dark";
 
-// chart-1 to chart-4, for each theme.
+// Ten colors which differ in hue and in lightness, so two neighbors in a
+// stacked graph stay apart. The first and the third are chart-1 and chart-3
+// of the brand kit.
 const hues: Record<Theme, string[]> = {
-  light: ["#118a78", "#c97c14", "#4c72d9", "#b5508f"],
-  dark: ["#1fa08b", "#c97c14", "#5c86e6", "#c860a4"],
+  light: [
+    "#118a78",
+    "#e9a23b",
+    "#4c72d9",
+    "#e58fc4",
+    "#7a4a12",
+    "#6fcdbd",
+    "#7c3f8e",
+    "#b9c96a",
+    "#c2413b",
+    "#9db4f0",
+  ],
+  dark: [
+    "#1fa08b",
+    "#e9a23b",
+    "#5c86e6",
+    "#e58fc4",
+    "#a8762f",
+    "#7fdccb",
+    "#a36bb8",
+    "#c6d67a",
+    "#e0655f",
+    "#b3c4f5",
+  ],
 };
 // chart-5 and neighbors, for what is not a named series ("Other").
 const greys: Record<Theme, string[]> = {
@@ -37,13 +61,13 @@ const mix = (color: string, target: string, amount: number) => {
 const lightenColor = (color: string, amount: number) =>
   hex(channels(color).map((v) => v + amount));
 
-// Each step repeats the hues with another shade: lighter on a light
-// background, darker on a dark one.
+// After the last color, the hues repeat with another shade: lighter on a
+// light background, darker on a dark one.
 const palettes: Record<Theme, string[]> = {
-  light: [0, 0.22, 0.42, 0.58, 0.72, 0.84].flatMap((amount) =>
+  light: [0, 0.35, 0.6].flatMap((amount) =>
     hues.light.map((color) => mix(color, "#ffffff", amount)),
   ),
-  dark: [0, 0.16, 0.32, 0.46, 0.58, 0.7].flatMap((amount) =>
+  dark: [0, 0.3, 0.52].flatMap((amount) =>
     hues.dark.map((color) => mix(color, "#0f1215", amount)),
   ),
 };
@@ -54,9 +78,10 @@ export function dataColor(
   theme: Theme = "light",
 ) {
   const palette = palettes[theme];
-  // Neighbors get a different shade as well as a different hue.
-  const correctedIndex = index % 2 === 0 ? index : index + hues.light.length;
-  const computed = palette[correctedIndex % palette.length];
+  // The index may be negative: the grid asks for the color of a row it does
+  // not draw.
+  const computed =
+    palette[((index % palette.length) + palette.length) % palette.length];
   if (!alternate) {
     return computed;
   }

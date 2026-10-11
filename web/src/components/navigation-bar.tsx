@@ -59,8 +59,9 @@ const navigation = [
   },
 ];
 
+// The current page gets the tint of the brand, not a solid block.
 const activeItem =
-  "relative h-9 rounded-xl font-medium data-active:bg-sidebar-primary data-active:text-sidebar-primary-foreground data-active:hover:bg-sidebar-primary data-active:hover:text-sidebar-primary-foreground";
+  "relative h-10 rounded-xl font-medium data-active:bg-accent data-active:font-semibold data-active:text-accent-foreground data-active:hover:bg-accent data-active:hover:text-accent-foreground";
 
 function CollapseButton() {
   const { open, isMobile, toggleSidebar } = useSidebar();
@@ -71,13 +72,13 @@ function CollapseButton() {
         <SidebarMenuButton
           onClick={toggleSidebar}
           aria-expanded={open}
-          aria-label={open ? "Close sidebar" : "Open sidebar"}
-          tooltip="Open (Ctrl+B)"
-          className="h-8 rounded-xl text-muted-foreground hover:text-sidebar-accent-foreground"
+          aria-label={open ? "Collapse menu" : "Expand menu"}
+          tooltip="Expand menu (Ctrl+B)"
+          className="h-9 rounded-xl text-muted-foreground hover:text-sidebar-accent-foreground"
         >
           {open ? <PanelLeftClose /> : <PanelLeftOpen />}
           <span className="truncate group-data-[collapsible=icon]:sr-only">
-            Close
+            Collapse menu
           </span>
         </SidebarMenuButton>
       </SidebarMenuItem>
@@ -107,40 +108,47 @@ export function AppSidebar() {
         ref={navRef}
         className="no-scrollbar scroll-fade gap-0 pb-6 group-data-[collapsible=icon]:overflow-x-hidden group-data-[collapsible=icon]:overflow-y-auto"
       >
-        {navigation.map((group) => (
-          <SidebarGroup
-            key={group.group}
-            className="py-1 not-first:group-data-[collapsible=icon]:mt-1 not-first:group-data-[collapsible=icon]:border-t not-first:group-data-[collapsible=icon]:border-sidebar-border not-first:group-data-[collapsible=icon]:pt-2"
-          >
-            {/* In the icon rail, the hidden heading is pulled over the row
-                above it: it must not take its clicks. */}
-            <SidebarGroupLabel className="text-2xs font-semibold uppercase tracking-label text-muted-foreground group-data-[collapsible=icon]:pointer-events-none group-data-[collapsible=icon]:overflow-hidden">
-              {group.group}
-            </SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu className="gap-0">
-                {group.items.map((item) => (
-                  <SidebarMenuItem key={item.name}>
-                    <SidebarMenuButton
-                      isActive={item.match(pathname)}
-                      tooltip={item.name}
-                      className={activeItem}
-                      onClick={() => isMobile && setOpenMobile(false)}
-                      render={<Link href={item.href} />}
-                    >
-                      <item.icon />
-                      <span className="truncate group-data-[collapsible=icon]:sr-only">
-                        {item.name}
-                      </span>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        ))}
+        <nav aria-label="Main" className="flex flex-col">
+          {navigation.map((group) => (
+            <SidebarGroup
+              key={group.group}
+              className="py-1 not-first:group-data-[collapsible=icon]:mt-1 not-first:group-data-[collapsible=icon]:border-t not-first:group-data-[collapsible=icon]:border-sidebar-border not-first:group-data-[collapsible=icon]:pt-2"
+            >
+              {/* In the icon rail, the hidden heading is pulled over the row
+                  above it: it must not take its clicks. */}
+              <SidebarGroupLabel className="text-2xs font-semibold uppercase tracking-label text-muted-foreground group-data-[collapsible=icon]:pointer-events-none group-data-[collapsible=icon]:overflow-hidden">
+                {group.group}
+              </SidebarGroupLabel>
+              <SidebarGroupContent>
+                <SidebarMenu className="gap-0">
+                  {group.items.map((item) => (
+                    <SidebarMenuItem key={item.name}>
+                      <SidebarMenuButton
+                        isActive={item.match(pathname)}
+                        aria-current={item.match(pathname) ? "page" : undefined}
+                        tooltip={item.name}
+                        className={activeItem}
+                        onClick={() => isMobile && setOpenMobile(false)}
+                        render={<Link href={item.href} />}
+                      >
+                        <item.icon />
+                        <span className="truncate group-data-[collapsible=icon]:sr-only">
+                          {item.name}
+                        </span>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          ))}
+        </nav>
       </SidebarContent>
       <SidebarFooter className="border-t border-sidebar-border px-2 py-3">
+        <div className="flex items-center gap-1 group-data-[collapsible=icon]:flex-col">
+          <UserMenu />
+          <ThemeToggle />
+        </div>
         {config?.version && (
           <p className="truncate px-2 font-mono text-2xs text-muted-foreground group-data-[collapsible=icon]:hidden">
             {config.version}
@@ -152,25 +160,28 @@ export function AppSidebar() {
   );
 }
 
-/** The bar above the pages. */
+/**
+ * The bar above the pages on a small screen, where the menu is closed by
+ * default. On a larger screen, all it would hold is in the menu.
+ */
 export function TopBar() {
   const { setOpenMobile, openMobile } = useSidebar();
   return (
-    <header className="sticky top-0 z-20 flex-none border-b bg-background/90 backdrop-blur-md print:hidden">
-      <div className="flex min-w-0 items-center gap-2 px-4 py-2.5 sm:px-6">
+    <header className="sticky top-0 z-20 flex-none border-b bg-background/90 backdrop-blur-md md:hidden print:hidden">
+      <div className="flex min-w-0 items-center gap-3 px-4 py-2">
         <Button
           variant="outline"
           size="icon"
           onClick={() => setOpenMobile(true)}
           aria-label="Open menu"
           aria-expanded={openMobile}
-          className="size-10 shrink-0 bg-card md:hidden"
+          className="size-11 shrink-0 bg-card"
         >
           <Menu />
         </Button>
-        <div id="topbar-slot" className="flex min-w-0 grow items-center gap-2" />
-        <ThemeToggle />
-        <UserMenu />
+        <Link href="/" aria-label="FlowScope home" className="min-w-0">
+          <Wordmark size={28} />
+        </Link>
       </div>
     </header>
   );

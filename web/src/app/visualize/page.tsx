@@ -76,7 +76,9 @@ export default function VisualizePage() {
   const [error, setError] = useState("");
   const [fetching, setFetching] = useState(false);
   const [highlight, setHighlight] = useState<number | null>(null);
-  const [graphHeight, setGraphHeight] = useState(500);
+  // Unset until the handle is dragged: the height then follows the screen.
+  const [graphHeight, setGraphHeight] = useState<number | null>(null);
+  const graph = useRef<HTMLDivElement>(null);
   // The last change comes from the auto refresh.
   const auto = useRef(false);
   const [quiet, setQuiet] = useState(false);
@@ -199,7 +201,7 @@ export default function VisualizePage() {
   // Resize the graph by dragging the handle below it.
   const startResize = (event: React.PointerEvent) => {
     const startY = event.clientY;
-    const startHeight = graphHeight;
+    const startHeight = graph.current?.offsetHeight ?? 0;
     const move = (e: PointerEvent) =>
       setGraphHeight(Math.max(200, startHeight + e.clientY - startY));
     const stop = () => {
@@ -221,9 +223,10 @@ export default function VisualizePage() {
           onCancel={cancel}
         />
       )}
-      <div className="min-w-0 grow overflow-y-auto">
+      <div className="min-h-0 min-w-0 grow overflow-y-auto">
         <div className="flex flex-col gap-5 px-4 py-6 sm:px-6">
           <PageHeader
+            dense
             eyebrow="Visualize"
             title="Explore your flows"
             description="Pick a time range, dimensions and a filter. Select a part of the graph with the mouse to zoom in."
@@ -237,7 +240,11 @@ export default function VisualizePage() {
             </Alert>
           )}
           <Panel className="relative break-inside-avoid-page" contentClassName="gap-0">
-            <div style={{ height: graphHeight }}>
+            <div
+              ref={graph}
+              className="h-80 lg:h-[500px]"
+              style={graphHeight === null ? undefined : { height: graphHeight }}
+            >
               <DataGraph
                 data={result}
                 highlight={highlight}

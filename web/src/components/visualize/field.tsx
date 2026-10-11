@@ -26,18 +26,25 @@ export function Field({
   label,
   error,
   htmlFor,
+  labelId,
   className,
   children,
 }: {
   label: string;
   error?: string;
   htmlFor?: string;
+  /** For a field which is not an input: it names itself with this label. */
+  labelId?: string;
   className?: string;
   children: ReactNode;
 }) {
   return (
     <div className={cn("flex min-w-0 flex-col gap-1", className)}>
-      <label htmlFor={htmlFor} className="text-xs text-muted-foreground">
+      <label
+        id={labelId}
+        htmlFor={htmlFor}
+        className="text-ui text-muted-foreground"
+      >
         {label}
       </label>
       {children}
@@ -71,10 +78,10 @@ export function TextField({
           value={value}
           aria-invalid={!!error}
           onChange={(event) => onChange(event.target.value)}
-          className={cn("bg-card text-sm", button && "pr-8")}
+          className={cn("bg-card text-sm", button && "pr-9")}
         />
         {button && (
-          <span className="absolute inset-y-0 right-1 flex items-center">
+          <span className="absolute inset-y-0 right-0 flex items-center">
             {button}
           </span>
         )}
@@ -83,26 +90,35 @@ export function TextField({
   );
 }
 
-/** A section title in the options panel, with a hint on its right. */
+/**
+ * A section title in the options panel, with an action next to it and a hint
+ * on its right.
+ */
 export function SectionTitle({
   children,
+  action,
   hint,
 }: {
   children: ReactNode;
+  action?: ReactNode;
   hint?: ReactNode;
 }) {
   return (
-    <div className="mt-2 flex items-center justify-between gap-2 text-2xs font-semibold uppercase tracking-label text-muted-foreground">
-      <span className="flex items-center gap-1.5">{children}</span>
-      {hint && (
-        <span className="font-normal normal-case tracking-normal">{hint}</span>
-      )}
+    <div className="mt-2 flex min-h-8 items-center justify-between gap-2 text-muted-foreground">
+      <span className="flex items-center gap-1">
+        <h2 className="text-2xs font-semibold uppercase tracking-label">
+          {children}
+        </h2>
+        {action}
+      </span>
+      {hint && <span className="text-xs">{hint}</span>}
     </div>
   );
 }
 
+// 32 pixels wide: an icon alone is too small a target.
 export const iconButton =
-  "cursor-pointer rounded text-muted-foreground outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:text-muted-foreground";
+  "inline-flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-md text-muted-foreground outline-none hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-transparent disabled:hover:text-muted-foreground";
 
 /** A searchable list of choices in a popover. */
 export function Combobox<T>({
@@ -140,8 +156,10 @@ export function Combobox<T>({
 }) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const id = useId();
+  const labelId = `${id}-label`;
   return (
-    <Field label={label} error={error} className={className}>
+    <Field label={label} error={error} labelId={labelId} className={className}>
       <Popover
         open={open}
         onOpenChange={(next) => {
@@ -150,6 +168,8 @@ export function Combobox<T>({
         }}
       >
         <PopoverTrigger
+          id={id}
+          aria-labelledby={`${labelId} ${id}`}
           aria-invalid={!!error}
           className="flex min-h-8 w-full cursor-pointer items-center justify-between gap-2 rounded-lg border border-input bg-card px-2.5 py-1 text-left text-sm outline-none transition-colors focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 aria-invalid:border-destructive"
         >

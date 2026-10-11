@@ -33,7 +33,7 @@ function Item({
     <span
       title={title}
       className={cn(
-        "inline-flex min-w-0 items-center gap-1.5 rounded-full bg-secondary px-2.5 py-1 text-xs text-secondary-foreground",
+        "inline-flex min-w-0 items-center gap-1.5 rounded-full bg-secondary px-2.5 py-1 text-ui text-secondary-foreground",
         className,
       )}
     >
@@ -64,7 +64,7 @@ export function RequestSummary({ request }: { request: VisualizeState | null }) 
   return (
     <div className="flex min-w-0 flex-wrap items-center gap-1.5">
       <Item icon={Calendar} className="shrink-0">
-        {start} — {end}
+        {start} to {end}
       </Item>
       <Item icon={ChartPie} className="shrink-0">
         {graphTypes[request.graphType]}
