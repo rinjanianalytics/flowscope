@@ -14,6 +14,7 @@ import {
   Grid2x2,
   Grid3x3,
   Percent,
+  SlidersHorizontal,
   ZoomOut,
   type LucideIcon,
 } from "lucide-react";
@@ -26,7 +27,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 import {
   Combobox,
   Field,
@@ -43,10 +49,12 @@ import {
   bidirectionalGraphTypes,
   graphTypes,
   previousPeriodGraphTypes,
+  unitNames,
   type GraphType,
 } from "@/lib/graph-types";
 import { isEqual, type VisualizeState } from "@/lib/state";
 import { cn } from "@/lib/utils";
+import { useMediaQuery } from "@/hooks/use-media-query";
 import { useScrollFade } from "@/hooks/use-scroll-fade";
 
 const graphIcons: Record<GraphType, LucideIcon> = {
@@ -58,14 +66,10 @@ const graphIcons: Record<GraphType, LucideIcon> = {
   heatmap: Grid3x3,
 };
 
-const unitChoices: { label: string; name: Units; title: string }[] = [
-  { label: "L3ᵇ⁄ₛ", name: "l3bps", title: "Layer 3 bits per second" },
-  { label: "L2ᵇ⁄ₛ", name: "l2bps", title: "Layer 2 bits per second" },
-  { label: "→%", name: "inl2%", title: "Share of the input interface" },
-  { label: "%→", name: "outl2%", title: "Share of the output interface" },
-  { label: "ᵖ⁄ₛ", name: "pps", title: "Packets per second" },
-  { label: "ᶠ⁄ₛ", name: "fps", title: "Flows per second" },
-];
+const units = Object.entries(unitNames).map(([value, label]) => ({
+  value: value as Units,
+  label,
+}));
 
 const limitTypes = [
   { value: "avg", label: "Avg" },
@@ -195,10 +199,14 @@ export function OptionsPanel({
 }) {
   const config = useServerConfig();
   const defaults = config?.defaultVisualizeOptions;
+  // Next to the graph when there is room for both. Otherwise, the graph
+  // comes first and the options open in a sheet.
+  const wide = useMediaQuery("(min-width: 64rem)", true);
   const [open, setOpen] = useState(true);
+  const [sheetOpen, setSheetOpen] = useState(false);
   const [fields, setFields] = useState<Fields | null>(null);
   const [filterInvalid, setFilterInvalid] = useState(false);
-  const fadeRef = useScrollFade<HTMLFormElement>();
+  const fadeRef = useScrollFade<HTMLDivElement>();
   const [refreshInterval, setAutoRefresh] = useState(0);
   const set = (update: Partial<Fields>) =>
     setFields((current) => (current ? { ...current, ...update } : current));
@@ -351,8 +359,14 @@ export function OptionsPanel({
   }, [autoRefresh]);
 
   if (!fields) {
-    return <aside className="w-full shrink-0 lg:w-80 print:hidden" />;
+    return <aside className="shrink-0 lg:w-80 print:hidden" />;
   }
+
+  // What the button of the form does. The sheet goes away to show the result.
+  const apply = () => {
+    submit();
+    if (!hasErrors) setSheetOpen(false);
+  };
 
   // Time range helpers
   const shiftTimeRange = (direction: number) => {
@@ -417,11 +431,326 @@ export function OptionsPanel({
     </button>
   );
 
+  const form = (
+    <form
+      className="flex min-h-0 flex-1 flex-col"
+      autoComplete="off"
+      spellCheck={false}
+      onSubmit={(event) => {
+        event.preventDefault();
+        apply();
+      }}
+      onKeyDownCapture={(event) => {
+        if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
+          // The filter editor has its own handling.
+          if ((event.target as Element).closest(".cm-editor")) return;
+          event.preventDefault();
+          apply();
+        }
+      }}
+    >
+      <div
+        ref={fadeRef}
+        className="no-scrollbar scroll-fade flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto px-4 pb-4 pt-2"
+      >
+            <SectionTitle>Graph</SectionTitle>
+            <Field label="Unit">
+              <Select
+                value={fields.units}
+                onValueChange={(unit) => set({ units: unit as Units })}
+                items={units}
+              >
+                <SelectTrigger aria-label="Unit" className="w-full bg-card">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {units.map((unit) => (
+                    <SelectItem key={unit.value} value={unit.value}>
+                      {unit.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </Field>
+            <Field label="Graph type">
+              <Select
+                value={fields.graphType}
+                onValueChange={(type) => set({ graphType: type as GraphType })}
+                items={Object.entries(graphTypes).map(([value, label]) => ({
+                  value,
+                  label,
+                }))}
+              >
+                <SelectTrigger aria-label="Graph type" className="w-full bg-card">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {(Object.keys(graphTypes) as GraphType[]).map((type) => {
+                    const Icon = graphIcons[type];
+                    return (
+                      <SelectItem key={type} value={type}>
+                        <Icon className="size-4 text-muted-foreground" />
+                        {graphTypes[type]}
+                      </SelectItem>
+                    );
+                  })}
+                </SelectContent>
+              </Select>
+            </Field>
+            <div className="flex flex-wrap gap-x-4 gap-y-1">
+              {bidirectionalGraphTypes.includes(fields.graphType) && (
+                <label className="flex cursor-pointer items-center gap-2 text-sm">
+                  <Checkbox
+                    checked={fields.bidirectional}
+                    onCheckedChange={(checked) =>
+                      set({ bidirectional: !!checked })
+                    }
+                  />
+                  Bidirectional
+                </label>
+              )}
+              {previousPeriodGraphTypes.includes(fields.graphType) && (
+                <label className="flex cursor-pointer items-center gap-2 text-sm">
+                  <Checkbox
+                    checked={fields.previousPeriod}
+                    onCheckedChange={(checked) =>
+                      set({ previousPeriod: !!checked })
+                    }
+                  />
+                  Previous period
+                </label>
+              )}
+            </div>
+
+            <SectionTitle
+              hint={
+                <label
+                  className={cn(
+                    "flex items-center gap-1",
+                    liveRange ? "cursor-pointer" : "cursor-not-allowed",
+                  )}
+                  title={
+                    liveRange
+                      ? "Query again at a regular interval"
+                      : 'Only available when the range ends with "now"'
+                  }
+                >
+                  <span>Auto refresh</span>
+                  <select
+                    value={autoRefresh}
+                    disabled={!liveRange}
+                    onChange={(event) => setAutoRefresh(Number(event.target.value))}
+                    className="h-8 cursor-pointer rounded-md border border-input bg-card px-1.5 text-xs disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    {refreshIntervals.map((interval) => (
+                      <option key={interval.value} value={interval.value}>
+                        {interval.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              }
+              action={
+                <button
+                  type="button"
+                  title="Zoom out"
+                  aria-label="Zoom out"
+                  disabled={timeErrors}
+                  className={iconButton}
+                  onClick={zoomOut}
+                >
+                  <ZoomOut className="size-4" />
+                </button>
+              }
+            >
+              Time range
+            </SectionTitle>
+            <div className="grid grid-cols-2 gap-2 lg:grid-cols-1">
+              <Combobox
+                label="Presets"
+                className="col-span-full"
+                items={presets}
+                itemKey={(preset) => preset.name}
+                itemText={(preset) => preset.name}
+                selected={(preset) => preset === selectedPreset}
+                onSelect={(preset) => {
+                  if (preset.start && preset.end) {
+                    set({ humanStart: preset.start, humanEnd: preset.end });
+                  }
+                }}
+                trigger={selectedPreset.name}
+                placeholder="Search presets…"
+              />
+              <TextField
+                label="Start"
+                value={fields.humanStart}
+                onChange={(humanStart) => set({ humanStart })}
+                error={startError}
+                button={shiftButton(-1, "Move the time range backward")}
+              />
+              <TextField
+                label="End"
+                value={fields.humanEnd}
+                onChange={(humanEnd) => set({ humanEnd })}
+                error={endError}
+                button={shiftButton(1, "Move the time range forward")}
+              />
+            </div>
+
+            <SectionTitle
+              action={
+                <button
+                  type="button"
+                  title="Reverse direction"
+                  aria-label="Reverse the direction of the dimensions"
+                  disabled={!!dimensionsError}
+                  className={iconButton}
+                  onClick={reverseDimensions}
+                >
+                  <ArrowLeftRight className="size-4" />
+                </button>
+              }
+            >
+              Dimensions
+            </SectionTitle>
+            <div className="grid grid-cols-2 gap-2">
+              <DimensionsInput
+                className="col-span-full"
+                available={config?.dimensions ?? []}
+                selected={fields.dimensions}
+                onChange={(dimensions) => set({ dimensions })}
+                error={dimensionsError}
+              />
+              {canAggregate && (
+                <>
+                  <TextField
+                    label="IPv4 /x"
+                    value={fields.truncate4}
+                    onChange={(truncate4) => set({ truncate4 })}
+                    error={truncate4Error}
+                  />
+                  <TextField
+                    label="IPv6 /x"
+                    value={fields.truncate6}
+                    onChange={(truncate6) => set({ truncate6 })}
+                    error={truncate6Error}
+                  />
+                </>
+              )}
+              <TextField
+                label="Limit"
+                value={fields.limit}
+                onChange={(limit) => set({ limit })}
+                error={limitError}
+              />
+              <Field label="Top by">
+                <Select
+                  value={fields.limitType}
+                  onValueChange={(limitType) =>
+                    set({ limitType: limitType as string })
+                  }
+                  items={limitTypes}
+                >
+                  <SelectTrigger aria-label="Top by" className="w-full bg-card">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {limitTypes.map((type) => (
+                      <SelectItem key={type.value} value={type.value}>
+                        {type.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </Field>
+            </div>
+
+            <SectionTitle
+              action={
+                <button
+                  type="button"
+                  title="Reverse direction"
+                  aria-label="Reverse the direction of the filter"
+                  disabled={filterInvalid}
+                  className={iconButton}
+                  onClick={reverseFilter}
+                >
+                  <ArrowLeftRight className="size-4" />
+                </button>
+              }
+            >
+              Filter
+            </SectionTitle>
+            <FilterInput
+              value={fields.filter}
+              onChange={(filter) => set({ filter })}
+              onError={setFilterInvalid}
+              onSubmit={apply}
+            />
+      </div>
+      {/* Out of the scrolling part: the button stays in view. */}
+      <div className="flex shrink-0 items-center gap-3 border-t px-4 py-3">
+        <Button
+          type="submit"
+          variant={loading ? "outline" : "default"}
+          disabled={hasErrors && !loading}
+          className="h-10 grow"
+        >
+          {loading ? "Cancel" : applyLabel}
+        </Button>
+        {wide && (
+          <kbd className="rounded border bg-card px-1.5 py-0.5 font-mono text-xs text-muted-foreground">
+            Ctrl+Enter
+          </kbd>
+        )}
+      </div>
+    </form>
+  );
+
+  if (!wide) {
+    return (
+      <>
+        <div className="order-last flex shrink-0 items-center gap-2 border-t bg-surface-2 px-4 py-2.5 print:hidden">
+          <Button
+            type="button"
+            variant="outline"
+            aria-haspopup="dialog"
+            className="h-11 grow bg-card"
+            onClick={() => setSheetOpen(true)}
+          >
+            <SlidersHorizontal />
+            Options
+          </Button>
+          <Button
+            type="button"
+            variant={loading ? "outline" : "default"}
+            disabled={hasErrors && !loading}
+            className="h-11 grow"
+            onClick={() => submit()}
+          >
+            {loading ? "Cancel" : applyLabel}
+          </Button>
+        </div>
+        <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
+          <SheetContent
+            side="bottom"
+            className="max-h-[85dvh] gap-0 rounded-t-3xl bg-surface-2"
+          >
+            <SheetHeader className="pb-0">
+              <SheetTitle>Options</SheetTitle>
+            </SheetHeader>
+            {form}
+          </SheetContent>
+        </Sheet>
+      </>
+    );
+  }
+
   return (
     <aside
       className={cn(
-        "relative w-full shrink-0 border-b bg-surface-2 transition-[width] duration-100 lg:border-b-0 lg:border-r print:hidden",
-        open ? "lg:w-80" : "lg:w-5",
+        "relative flex shrink-0 flex-col border-r bg-surface-2 transition-[width] duration-100 print:hidden",
+        open ? "w-80" : "w-5",
       )}
     >
       <button
@@ -429,283 +758,13 @@ export function OptionsPanel({
         aria-label={open ? "Hide options" : "Show options"}
         aria-expanded={open}
         onClick={() => setOpen(!open)}
-        className="absolute -bottom-3 left-1/2 z-10 flex size-6 -translate-x-1/2 cursor-pointer items-center justify-center rounded-full border bg-card text-muted-foreground shadow-card hover:text-foreground lg:-right-3 lg:bottom-auto lg:left-auto lg:top-4 lg:translate-x-0"
+        className="absolute -right-3 top-4 z-10 flex size-6 cursor-pointer items-center justify-center rounded-full border bg-card text-muted-foreground shadow-card hover:text-foreground"
       >
         <ChevronRight
-          className={cn(
-            "size-4 transition-transform",
-            open ? "-rotate-90 lg:rotate-180" : "rotate-90 lg:rotate-0",
-          )}
+          className={cn("size-4 transition-transform", open && "rotate-180")}
         />
       </button>
-      {open && (
-        <form
-          ref={fadeRef}
-          className="no-scrollbar scroll-fade flex h-full max-h-[70vh] flex-col gap-2 overflow-y-auto px-4 py-4 lg:max-h-none"
-          autoComplete="off"
-          spellCheck={false}
-          onSubmit={(event) => {
-            event.preventDefault();
-            submit();
-          }}
-          onKeyDownCapture={(event) => {
-            if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
-              // The filter editor has its own handling.
-              if ((event.target as Element).closest(".cm-editor")) return;
-              event.preventDefault();
-              submit();
-            }
-          }}
-        >
-          <Button
-            type="submit"
-            variant={loading ? "outline" : "default"}
-            disabled={hasErrors && !loading}
-            className="w-full"
-          >
-            {loading ? "Cancel" : applyLabel}
-          </Button>
-
-          <SectionTitle>Graph</SectionTitle>
-          <Field label="Unit">
-            <ToggleGroup
-              value={[fields.units]}
-              onValueChange={(values) => {
-                const unit = values[values.length - 1] as Units | undefined;
-                if (unit) set({ units: unit });
-              }}
-              variant="outline"
-              size="sm"
-              spacing={0}
-              className="w-full"
-            >
-              {unitChoices.map((unit) => (
-                <ToggleGroupItem
-                  key={unit.name}
-                  value={unit.name}
-                  title={unit.title}
-                  className="grow px-1 data-pressed:bg-primary data-pressed:text-primary-foreground"
-                >
-                  {unit.label}
-                </ToggleGroupItem>
-              ))}
-            </ToggleGroup>
-          </Field>
-          <Field label="Graph type">
-            <Select
-              value={fields.graphType}
-              onValueChange={(type) => set({ graphType: type as GraphType })}
-              items={Object.entries(graphTypes).map(([value, label]) => ({
-                value,
-                label,
-              }))}
-            >
-              <SelectTrigger className="w-full bg-card">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {(Object.keys(graphTypes) as GraphType[]).map((type) => {
-                  const Icon = graphIcons[type];
-                  return (
-                    <SelectItem key={type} value={type}>
-                      <Icon className="size-4 text-muted-foreground" />
-                      {graphTypes[type]}
-                    </SelectItem>
-                  );
-                })}
-              </SelectContent>
-            </Select>
-          </Field>
-          <div className="flex flex-wrap gap-x-4 gap-y-1">
-            {bidirectionalGraphTypes.includes(fields.graphType) && (
-              <label className="flex cursor-pointer items-center gap-2 text-sm">
-                <Checkbox
-                  checked={fields.bidirectional}
-                  onCheckedChange={(checked) =>
-                    set({ bidirectional: !!checked })
-                  }
-                />
-                Bidirectional
-              </label>
-            )}
-            {previousPeriodGraphTypes.includes(fields.graphType) && (
-              <label className="flex cursor-pointer items-center gap-2 text-sm">
-                <Checkbox
-                  checked={fields.previousPeriod}
-                  onCheckedChange={(checked) =>
-                    set({ previousPeriod: !!checked })
-                  }
-                />
-                Previous period
-              </label>
-            )}
-          </div>
-
-          <SectionTitle
-            hint={
-              <label
-                className={cn(
-                  "flex items-center gap-1",
-                  liveRange ? "cursor-pointer" : "cursor-not-allowed",
-                )}
-                title={
-                  liveRange
-                    ? "Query again at a regular interval"
-                    : 'Only available when the range ends with "now"'
-                }
-              >
-                <span>Auto refresh</span>
-                <select
-                  value={autoRefresh}
-                  disabled={!liveRange}
-                  onChange={(event) => setAutoRefresh(Number(event.target.value))}
-                  className="cursor-pointer rounded-md border border-input bg-card px-1 py-0.5 text-xs disabled:cursor-not-allowed disabled:opacity-50"
-                >
-                  {refreshIntervals.map((interval) => (
-                    <option key={interval.value} value={interval.value}>
-                      {interval.label}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            }
-          >
-            Time range
-            <button
-              type="button"
-              title="Zoom out"
-              disabled={timeErrors}
-              className={iconButton}
-              onClick={zoomOut}
-            >
-              <ZoomOut className="size-4" />
-            </button>
-          </SectionTitle>
-          <div className="grid grid-cols-2 gap-2 lg:grid-cols-1">
-            <Combobox
-              label="Presets"
-              className="col-span-full"
-              items={presets}
-              itemKey={(preset) => preset.name}
-              itemText={(preset) => preset.name}
-              selected={(preset) => preset === selectedPreset}
-              onSelect={(preset) => {
-                if (preset.start && preset.end) {
-                  set({ humanStart: preset.start, humanEnd: preset.end });
-                }
-              }}
-              trigger={selectedPreset.name}
-              placeholder="Search presets…"
-            />
-            <TextField
-              label="Start"
-              value={fields.humanStart}
-              onChange={(humanStart) => set({ humanStart })}
-              error={startError}
-              button={shiftButton(-1, "Move the time range backward")}
-            />
-            <TextField
-              label="End"
-              value={fields.humanEnd}
-              onChange={(humanEnd) => set({ humanEnd })}
-              error={endError}
-              button={shiftButton(1, "Move the time range forward")}
-            />
-          </div>
-
-          <SectionTitle>
-            Dimensions
-            <button
-              type="button"
-              title="Reverse direction"
-              disabled={!!dimensionsError}
-              className={iconButton}
-              onClick={reverseDimensions}
-            >
-              <ArrowLeftRight className="size-4" />
-            </button>
-          </SectionTitle>
-          <div className="grid grid-cols-2 gap-2">
-            <DimensionsInput
-              className="col-span-full"
-              available={config?.dimensions ?? []}
-              selected={fields.dimensions}
-              onChange={(dimensions) => set({ dimensions })}
-              error={dimensionsError}
-            />
-            {canAggregate && (
-              <>
-                <TextField
-                  label="IPv4 /x"
-                  value={fields.truncate4}
-                  onChange={(truncate4) => set({ truncate4 })}
-                  error={truncate4Error}
-                />
-                <TextField
-                  label="IPv6 /x"
-                  value={fields.truncate6}
-                  onChange={(truncate6) => set({ truncate6 })}
-                  error={truncate6Error}
-                />
-              </>
-            )}
-            <TextField
-              label="Limit"
-              value={fields.limit}
-              onChange={(limit) => set({ limit })}
-              error={limitError}
-            />
-            <Field label="Top by">
-              <Select
-                value={fields.limitType}
-                onValueChange={(limitType) =>
-                  set({ limitType: limitType as string })
-                }
-                items={limitTypes}
-              >
-                <SelectTrigger className="w-full bg-card">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {limitTypes.map((type) => (
-                    <SelectItem key={type.value} value={type.value}>
-                      {type.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </Field>
-          </div>
-
-          <SectionTitle
-            hint={
-              <>
-                <kbd className="rounded border bg-card px-1 font-mono text-2xs">
-                  Ctrl-Enter
-                </kbd>{" "}
-                to execute
-              </>
-            }
-          >
-            Filter
-            <button
-              type="button"
-              title="Reverse direction"
-              disabled={filterInvalid}
-              className={iconButton}
-              onClick={reverseFilter}
-            >
-              <ArrowLeftRight className="size-4" />
-            </button>
-          </SectionTitle>
-          <FilterInput
-            value={fields.filter}
-            onChange={(filter) => set({ filter })}
-            onError={setFilterInvalid}
-            onSubmit={() => submit()}
-          />
-        </form>
-      )}
+      {open && form}
     </aside>
   );
 }

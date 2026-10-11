@@ -25,14 +25,17 @@ export const isValidDate = (date: Date) => !isNaN(date.valueOf());
 export const formatDate = (date: Date) =>
   SugarDate(date).format("{yyyy}-{MM}-{dd} {HH}:{mm}:{ss}").raw;
 
+// A 24-hour clock, like the axes of the graphs.
+const long = "{Month} {d}, {yyyy} {HH}:{mm}";
+
 /** Long form of a date, for display. */
-export const longDate = (iso: string) => SugarDate(iso).long().raw;
+export const longDate = (iso: string) => SugarDate(iso).format(long).raw;
 
 /** Time only when both dates are on the same day. */
 export const endDate = (startIso: string, endIso: string) =>
   SugarDate(endIso).format(
     SugarDate(startIso).toDateString().raw ===
       SugarDate(endIso).toDateString().raw
-      ? "%X"
-      : "{long}",
+      ? "{HH}:{mm}"
+      : long,
   ).raw;

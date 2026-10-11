@@ -14,7 +14,13 @@ import {
   type LineSeriesOption,
   type SankeySeriesOption,
 } from "@/lib/echarts";
-import { formatXps, rowName, sameRow, uniqueRows } from "@/lib/format";
+import {
+  formatXps,
+  formatXpsLabel,
+  rowName,
+  sameRow,
+  uniqueRows,
+} from "@/lib/format";
 import { chartChrome, dataColor, dataColorGrey } from "@/lib/palette";
 
 type TimeRangeHandler = (range: [Date, Date]) => void;
@@ -88,6 +94,8 @@ function useLineOption(data: GraphLineResult, isDark: boolean): ECOption {
     const theme = isDark ? "dark" : "light";
     const chrome = chartChrome(theme);
     const percent = ["inl2%", "outl2%"].includes(data.units);
+    // "bps", "pps" or "fps"
+    const unit = data.units.slice(-3);
     const source: [string, ...number[]][] = data.t
       .map((t, timeIdx) => {
         let result: [string, ...number[]] = [
@@ -143,20 +151,20 @@ function useLineOption(data: GraphLineResult, isDark: boolean): ECOption {
         color: chrome.text,
         formatter:
           data.graphType === "stacked100"
-            ? (v: number) => (v * 100).toFixed(0)
+            ? (v: number) => `${(v * 100).toFixed(0)}%`
             : percent
-              ? (v: number) => v.toFixed(0)
-              : formatXps,
+              ? (v: number) => `${v.toFixed(0)}%`
+              : (v: number) => formatXpsLabel(v, unit),
       },
       axisPointer: {
         label: {
           formatter: ({ value }: { value: unknown }) => {
             const v = Number(value);
             return data.graphType === "stacked100"
-              ? (v * 100).toFixed(1)
+              ? `${(v * 100).toFixed(1)}%`
               : percent
-                ? v.toFixed(0)
-                : formatXps(v);
+                ? `${v.toFixed(0)}%`
+                : formatXps(v) + unit;
           },
         },
       },
@@ -225,7 +233,7 @@ function useLineOption(data: GraphLineResult, isDark: boolean): ECOption {
       const uniq = uniqueRows(data.rows);
       const uniqIndex = (row: string[]) => uniq.findIndex((o) => sameRow(row, o));
       return {
-        grid: { left: 60, top: 20, right: "1%", bottom: 24 },
+        grid: { left: 76, top: 20, right: "1%", bottom: 24 },
         xAxis,
         yAxis,
         dataset,

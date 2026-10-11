@@ -20,11 +20,22 @@ export const bidirectionalGraphTypes: GraphType[] = [
 ];
 export const previousPeriodGraphTypes: GraphType[] = ["stacked"];
 
+/** Units, short, for where the room is scarce. */
 export const unitLabels = {
-  l3bps: "L3ᵇ⁄ₛ",
-  l2bps: "L2ᵇ⁄ₛ",
-  "inl2%": "→L2%",
-  "outl2%": "L2%→",
-  pps: "ᵖ⁄ₛ",
-  fps: "ᶠ⁄ₛ",
+  l3bps: "L3 bits/s",
+  l2bps: "L2 bits/s",
+  "inl2%": "% of input interface",
+  "outl2%": "% of output interface",
+  pps: "Packets/s",
+  fps: "Flows/s",
+} as const;
+
+/** Units, in full. */
+export const unitNames = {
+  l3bps: "Layer 3 bits per second",
+  l2bps: "Layer 2 bits per second",
+  "inl2%": "Share of the input interface",
+  "outl2%": "Share of the output interface",
+  pps: "Packets per second",
+  fps: "Flows per second",
 } as const;
