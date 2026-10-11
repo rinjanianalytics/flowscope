@@ -78,7 +78,10 @@ export function dataColor(
   theme: Theme = "light",
 ) {
   const palette = palettes[theme];
-  const computed = palette[index % palette.length];
+  // The index may be negative: the grid asks for the color of a row it does
+  // not draw.
+  const computed =
+    palette[((index % palette.length) + palette.length) % palette.length];
   if (!alternate) {
     return computed;
   }

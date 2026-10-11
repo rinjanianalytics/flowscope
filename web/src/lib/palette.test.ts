@@ -20,6 +20,11 @@ describe("dataColor", () => {
     expect(dataColor(30)).toBe(dataColor(0));
   });
 
+  it("accepts a negative index", () => {
+    expect(dataColor(-1)).toBe(dataColor(29));
+    expect(dataColor(-1, true, "dark")).toMatch(/^#[0-9a-f]{6}$/);
+  });
+
   it("gives another color for the alternate", () => {
     expect(dataColor(0, true)).not.toBe(dataColor(0));
   });
