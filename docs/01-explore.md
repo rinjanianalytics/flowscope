@@ -39,7 +39,7 @@ service.
 Click on “Visualize” in the sidebar. The page opens with a graph already
 drawn. On the left, a panel holds the options used to build it:
 
-- the unit is `L3ᵇ⁄ₛ`, layer-3 bits per second,
+- the unit is “Layer 3 bits per second”,
 - the graph type is “Stacked areas”,
 - the time range goes from 6 hours ago to now,
 - the only dimension is `SrcAS`, limited to the 10 first values,
@@ -67,7 +67,7 @@ A dimension is a column used to split the traffic. Let's use another one.
 1. In the left panel, click on the cross next to `SrcAS` in the “Dimensions”
    box to remove it.
 2. Click on the box, type `InIfProvider` and select it.
-3. Click on “Apply”, at the top of the panel. This button reads “Refresh”
+3. Click on “Apply”, at the foot of the panel. This button reads “Refresh”
    when the options match the graph on screen.
 
 The graph now shows one band per network provider: `cogent`, `telia`, `tata`
