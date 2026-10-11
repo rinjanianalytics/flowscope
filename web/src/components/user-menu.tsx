@@ -17,6 +17,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useUser } from "@/components/providers";
 import { apiUrl } from "@/lib/api";
 
+/** The current user, at the foot of the menu. */
 export function UserMenu() {
   const user = useUser();
   const name = user?.name || user?.email || user?.login || "Guest";
@@ -24,15 +25,25 @@ export function UserMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
-        className="rounded-full outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
-        aria-label="Open user menu"
+        className="flex min-w-0 grow cursor-pointer items-center gap-2.5 rounded-xl p-1 text-left outline-none hover:bg-sidebar-accent focus-visible:ring-3 focus-visible:ring-ring/50 group-data-[collapsible=icon]:grow-0"
+        aria-label={`User menu of ${name}`}
       >
         <Avatar>
           {user && <AvatarImage src={avatarUrl} alt="" />}
           <AvatarFallback>{name.slice(0, 1).toUpperCase()}</AvatarFallback>
         </Avatar>
+        <span className="min-w-0 leading-tight group-data-[collapsible=icon]:hidden">
+          <span className="block truncate text-sm font-medium text-sidebar-accent-foreground">
+            {name}
+          </span>
+          {user?.name && user?.email && (
+            <span className="block truncate text-xs text-muted-foreground">
+              {user.email}
+            </span>
+          )}
+        </span>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="min-w-48">
+      <DropdownMenuContent side="top" align="start" className="min-w-48">
         <DropdownMenuGroup>
           <DropdownMenuLabel>
             <span className="block truncate text-sm text-foreground">

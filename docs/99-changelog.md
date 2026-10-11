@@ -16,6 +16,9 @@ identified with a specific icon:
 
 ## FlowScope (unreleased)
 
+- 🌱 *console*: the user and the theme switch are at the foot of the menu.
+  The bar above the pages is only shown on a small screen, where it opens
+  the menu
 - 🩹 *console*: the page for an unknown address says what happened and links
   to the home page and to the documentation
 
