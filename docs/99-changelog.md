@@ -29,8 +29,8 @@ identified with a specific icon:
 - 🌱 *console*: the user and the theme switch are at the foot of the menu.
   The bar above the pages is only shown on a small screen, where it opens
   the menu
-- 🩹 *console*: the page for an unknown address says what happened and links
-  to the home page and to the documentation
+- 🩹 *console*: the page for an unknown address or an unknown document says
+  what happened and links to the home page and to the documentation
 
 ## FlowScope 2.0.0-rs.0 - 2026-10-10
 

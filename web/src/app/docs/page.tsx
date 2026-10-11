@@ -8,8 +8,16 @@ import { useQuery } from "@tanstack/react-query";
 import { ChevronRight, CircleAlert, GitBranch } from "lucide-react";
 import { SectionLabel } from "@/components/brand";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { NotFound } from "@/components/not-found";
 import { useDocumentTitle, useServerConfig } from "@/components/providers";
-import { apiUrl, appPath, appUrl, basePath, type DocumentToc } from "@/lib/api";
+import {
+  ApiError,
+  apiUrl,
+  appPath,
+  appUrl,
+  basePath,
+  type DocumentToc,
+} from "@/lib/api";
 import { cn } from "@/lib/utils";
 import { useScrollFade } from "@/hooks/use-scroll-fade";
 
@@ -66,7 +74,8 @@ export default function DocumentationPage() {
       });
       const answer = await response.json().catch(() => null);
       if (!response.ok) {
-        throw new Error(
+        throw new ApiError(
+          response.status,
           answer?.message ??
             `Server returned an error: ${response.status} ${response.statusText}`,
         );
@@ -87,6 +96,9 @@ export default function DocumentationPage() {
     [data],
   );
   const toc = data?.toc ?? [];
+  // An address like /docs/unknown is served by this page: it says itself
+  // that there is nothing there.
+  const notFound = error instanceof ApiError && error.status === 404;
 
   // Only the current document is expanded when switching. The other ones
   // are toggled by the user.
@@ -116,7 +128,7 @@ export default function DocumentationPage() {
     // The title comes from the rendered document.
     setTitle(content.current?.querySelector("h1")?.textContent ?? null);
   }, [html]);
-  useDocumentTitle(title);
+  useDocumentTitle(notFound ? "Not found" : title);
 
   // Hand over to the application the links it knows about, instead of
   // loading the whole page again.
@@ -157,6 +169,12 @@ export default function DocumentationPage() {
       {label}
     </a>
   );
+
+  if (notFound) {
+    return (
+      <NotFound what="document" onDocumentation={() => navigate("intro", "")} />
+    );
+  }
 
   return (
     <div className="flex size-full flex-col md:flex-row">
