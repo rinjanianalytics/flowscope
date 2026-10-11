@@ -14,6 +14,11 @@ identified with a specific icon:
 - 🩹: bug fix
 - 🌱: miscellaneous change
 
+## FlowScope (unreleased)
+
+- 🩹 *console*: the page for an unknown address says what happened and links
+  to the home page and to the documentation
+
 ## FlowScope 2.0.0-rs.0 - 2026-10-10
 
 The first pre-release of *FlowScope*. It is Akvorado, as of its 2026.10.0 version
