@@ -6,6 +6,9 @@
 # - The Rust toolchain. `rust-toolchain.toml`, the `rust` image of the
 #   Dockerfile and the toolchain of `.github/workflows/rust.yml` change
 #   together, by hand.
+# - A new major version of Node.js. The `node` image of the Dockerfile and
+#   the Node.js of `.github/workflows/rust.yml` move together, by hand, to
+#   the next long-term release (even major versions only).
 # - The images of the Docker Compose setup (`docker/versions.yml`). Their
 #   comments limit some to a release line, such as the long-term releases
 #   of ClickHouse, which Dependabot cannot follow. They are updated by hand,
@@ -40,3 +43,5 @@ updates:
     schedule: { interval: weekly, day: monday, time: "06:00", timezone: Asia/Jakarta }
     ignore:
       - dependency-name: rust
+      - dependency-name: node
+        update-types: ["version-update:semver-major"]
