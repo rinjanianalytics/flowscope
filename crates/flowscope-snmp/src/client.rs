@@ -314,3 +314,81 @@ pub async fn get_v3(
     }
     Err(Error::Invalid("cannot synchronize with the agent".into()))
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    // With an engine state from the cache, the request must still carry the
+    // engine ID as its context engine ID. Some agents, Cisco NX-OS for one,
+    // refuse a scoped PDU without it. Akvorado fixed this in its poller
+    // (93e25ee6, issue 2719); this client always set it.
+    #[tokio::test]
+    async fn v3_cached_engine_sets_context_engine_id() {
+        let engine = b"\x80\x00\x00\x09\x03nx-os".to_vec();
+        let auth_key = AuthProtocol::Sha.localized_key(b"authpassword", &engine);
+        let agent = UdpSocket::bind("127.0.0.1:0").await.unwrap();
+        let target = agent.local_addr().unwrap();
+
+        let answer = {
+            let (engine, auth_key) = (engine.clone(), auth_key.clone());
+            tokio::spawn(async move {
+                let mut buf = vec![0u8; 65536];
+                let (n, from) = agent.recv_from(&mut buf).await.unwrap();
+                let Ok(Message::V3(m)) = message::decode(&buf[..n]) else { panic!("not a v3 request") };
+                // No discovery: the first request is the GET, for the cached engine.
+                assert_eq!(m.usm.engine_id, engine);
+                let request = m.scoped.clone().expect("a scoped PDU in clear, without privacy");
+                assert_eq!(request.pdu.kind, ber::GET_REQUEST);
+                let context_engine_id = request.context_engine_id.clone();
+                let usm = UsmParams {
+                    engine_id: engine.clone(),
+                    engine_boots: 1,
+                    engine_time: 100,
+                    user_name: b"user".to_vec(),
+                    ..Default::default()
+                };
+                let pdu = Pdu {
+                    kind: ber::RESPONSE,
+                    request_id: request.pdu.request_id,
+                    error_status: 0,
+                    error_index: 0,
+                    varbinds: vec![(request.pdu.varbinds[0].0.clone(), Value::OctetString(b"nx-os".to_vec()))],
+                };
+                let scoped = ScopedPdu { context_engine_id: engine.clone(), context_name: vec![], pdu };
+                let sec = Security {
+                    auth: AuthProtocol::Sha,
+                    auth_key: &auth_key,
+                    privacy: PrivProtocol::None,
+                    priv_key: &[],
+                    salt: 0,
+                };
+                let reply = message::encode_v3(m.msg_id, FLAG_AUTH, &usm, &scoped, &sec);
+                agent.send_to(&reply, from).await.unwrap();
+                context_engine_id
+            })
+        };
+
+        let creds = Credentials::User {
+            user_name: "user".into(),
+            auth: AuthProtocol::Sha,
+            auth_passphrase: "authpassword".into(),
+            privacy: PrivProtocol::None,
+            priv_passphrase: String::new(),
+            context_name: String::new(),
+        };
+        let mut state = Some(EngineState {
+            engine_id: engine.clone(),
+            engine_boots: 1,
+            engine_time: 100,
+            learned_at: Instant::now(),
+            auth_key,
+            priv_key: vec![],
+        });
+        let options = Options { timeout: Duration::from_secs(2), retries: 0 };
+        let oids = [ber::parse_oid("1.3.6.1.2.1.1.5.0").unwrap()];
+        let r = get_v3(target, &creds, &oids, &options, &mut state, &mut || {}).await.unwrap();
+        assert_eq!(r.varbinds[0].1, Value::OctetString(b"nx-os".to_vec()));
+        assert_eq!(answer.await.unwrap(), engine);
+    }
+}
