@@ -25,14 +25,17 @@ pub const PREFIX: &str = "/api/v0/console";
 #[utoipa::path(
     get, path = "/api/v0/console/configuration", tag = "console", operation_id = "getConfiguration",
     summary = "What the web interface needs to start",
-    responses((status = 200, body = Configuration)),
+    responses((status = 200, description = "The configuration", body = Configuration)),
 )]
 fn configuration() {}
 
 #[utoipa::path(
     get, path = "/api/v0/console/user/info", tag = "user", operation_id = "getUserInfo",
     summary = "The current user",
-    responses((status = 200, body = UserInfo), (status = 401, description = "Not logged in", body = ErrorMessage)),
+    responses(
+        (status = 200, description = "The current user", body = UserInfo),
+        (status = 401, description = "Not logged in", body = ErrorMessage),
+    ),
 )]
 fn user_info() {}
 
@@ -50,7 +53,10 @@ fn user_avatar() {}
     post, path = "/api/v0/console/graph/line", tag = "graph", operation_id = "graphLine",
     summary = "Traffic over time",
     request_body = LineInput,
-    responses((status = 200, body = LineOutput), (status = 400, description = "Invalid input", body = ErrorMessage)),
+    responses(
+        (status = 200, description = "The traffic over time", body = LineOutput),
+        (status = 400, description = "Invalid input", body = ErrorMessage),
+    ),
 )]
 fn graph_line() {}
 
@@ -58,7 +64,10 @@ fn graph_line() {}
     post, path = "/api/v0/console/graph/sankey", tag = "graph", operation_id = "graphSankey",
     summary = "Traffic between the values of several dimensions",
     request_body = GraphInput,
-    responses((status = 200, body = SankeyOutput), (status = 400, description = "Invalid input", body = ErrorMessage)),
+    responses(
+        (status = 200, description = "The traffic between values", body = SankeyOutput),
+        (status = 400, description = "Invalid input", body = ErrorMessage),
+    ),
 )]
 fn graph_sankey() {}
 
@@ -67,7 +76,7 @@ fn graph_sankey() {}
     summary = "Table and resolution a graph would use",
     request_body = TableIntervalInput,
     responses(
-        (status = 200, body = TableIntervalOutput),
+        (status = 200, description = "The table and resolution", body = TableIntervalOutput),
         (status = 400, description = "Invalid input", body = ErrorMessage),
     ),
 )]
@@ -77,7 +86,10 @@ fn graph_table_interval() {}
     post, path = "/api/v0/console/graph/reverse", tag = "graph", operation_id = "graphReverse",
     summary = "Swap the direction of dimensions and of a filter",
     request_body = Reverse,
-    responses((status = 200, body = Reverse), (status = 400, description = "Invalid input", body = ErrorMessage)),
+    responses(
+        (status = 200, description = "The reversed input", body = Reverse),
+        (status = 400, description = "Invalid input", body = ErrorMessage),
+    ),
 )]
 fn graph_reverse() {}
 
@@ -96,14 +108,17 @@ fn filter_validate() {}
     post, path = "/api/v0/console/filter/complete", tag = "filter", operation_id = "filterComplete",
     summary = "Complete a filter expression",
     request_body = CompleteInput,
-    responses((status = 200, body = CompleteOutput), (status = 400, description = "Invalid input", body = ErrorMessage)),
+    responses(
+        (status = 200, description = "The completions", body = CompleteOutput),
+        (status = 400, description = "Invalid input", body = ErrorMessage),
+    ),
 )]
 fn filter_complete() {}
 
 #[utoipa::path(
     get, path = "/api/v0/console/filter/saved", tag = "filter", operation_id = "listSavedFilters",
     summary = "Saved filters the current user can see",
-    responses((status = 200, body = SavedFilters)),
+    responses((status = 200, description = "The saved filters", body = SavedFilters)),
 )]
 fn saved_filters() {}
 
@@ -111,7 +126,10 @@ fn saved_filters() {}
     post, path = "/api/v0/console/filter/saved", tag = "filter", operation_id = "addSavedFilter",
     summary = "Save a filter",
     request_body = SavedFilterInput,
-    responses((status = 204, description = "Saved"), (status = 400, description = "Invalid input", body = ErrorMessage)),
+    responses(
+        (status = 204, description = "Saved"),
+        (status = 400, description = "Invalid input", body = ErrorMessage),
+    ),
 )]
 fn add_saved_filter() {}
 
@@ -140,14 +158,14 @@ fn widget_flow_last() {}
 #[utoipa::path(
     get, path = "/api/v0/console/widget/flow-rate", tag = "widget", operation_id = "widgetFlowRate",
     summary = "Flows received each second",
-    responses((status = 200, body = FlowRate)),
+    responses((status = 200, description = "The flow rate", body = FlowRate)),
 )]
 fn widget_flow_rate() {}
 
 #[utoipa::path(
     get, path = "/api/v0/console/widget/exporters", tag = "widget", operation_id = "widgetExporters",
     summary = "Exporters sending flows",
-    responses((status = 200, body = Exporters)),
+    responses((status = 200, description = "The exporters", body = Exporters)),
 )]
 fn widget_exporters() {}
 
@@ -158,14 +176,17 @@ fn widget_exporters() {}
         "name" = String, Path,
         description = "src-as, dst-as, src-country, dst-country, exporter, protocol, etype, src-port or dst-port",
     )),
-    responses((status = 200, body = Top), (status = 400, description = "Unknown widget", body = ErrorMessage)),
+    responses(
+        (status = 200, description = "The top values", body = Top),
+        (status = 400, description = "Unknown widget", body = ErrorMessage),
+    ),
 )]
 fn widget_top() {}
 
 #[utoipa::path(
     get, path = "/api/v0/console/widget/graph", tag = "widget", operation_id = "widgetGraph",
     summary = "Traffic of the last day",
-    responses((status = 200, body = Traffic)),
+    responses((status = 200, description = "The traffic of the last day", body = Traffic)),
 )]
 fn widget_graph() {}
 

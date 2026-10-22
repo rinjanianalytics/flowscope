@@ -654,6 +654,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description The configuration */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -710,6 +711,7 @@ export interface operations {
             };
         };
         responses: {
+            /** @description The completions */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -738,6 +740,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description The saved filters */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -864,6 +867,7 @@ export interface operations {
             };
         };
         responses: {
+            /** @description The traffic over time */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -896,6 +900,7 @@ export interface operations {
             };
         };
         responses: {
+            /** @description The reversed input */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -928,6 +933,7 @@ export interface operations {
             };
         };
         responses: {
+            /** @description The traffic between values */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -960,6 +966,7 @@ export interface operations {
             };
         };
         responses: {
+            /** @description The table and resolution */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -1017,6 +1024,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description The current user */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -1045,6 +1053,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description The exporters */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -1095,6 +1104,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description The flow rate */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -1114,6 +1124,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description The traffic of the last day */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -1136,6 +1147,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description The top values */
             200: {
                 headers: {
                     [name: string]: unknown;
