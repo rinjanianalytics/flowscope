@@ -185,6 +185,9 @@ fn decode_record(
         let (mut first_switched, mut system_init) = (0u64, 0u64);
         let mut has_first_switched = false;
         let mut mpls_labels: Vec<u32> = Vec::with_capacity(5);
+        // Systematic sampling stated in the record itself (RouterOS 7 does so):
+        // samplingPacketInterval packets taken of every interval + space.
+        let (mut packet_interval, mut packet_space) = (0u64, 0u64);
 
         for field in fields {
             let Some(v) = field.value else { continue };
@@ -226,6 +229,8 @@ fn decode_record(
                 f::SAMPLER_ID | f::SELECTOR_ID => {
                     bf.sampling_rate = exporter.sampling_rate(version, obs_domain_id, decode_unumber(v)) as u64
                 }
+                f::SAMPLING_PACKET_INTERVAL => packet_interval = decode_unumber(v),
+                f::SAMPLING_PACKET_SPACE => packet_space = decode_unumber(v),
 
                 f::SOURCE_IPV4_ADDRESS => {
                     if !is_all_zero_ip(v) {
@@ -419,6 +424,9 @@ fn decode_record(
         bf.append_uint(K::EType, etype as u64);
         if !mpls_labels.is_empty() {
             bf.append_array_uint32(K::MPLSLabels, &mpls_labels);
+        }
+        if bf.sampling_rate == 0 && packet_interval > 0 {
+            bf.sampling_rate = packet_interval.saturating_add(packet_space) / packet_interval;
         }
         if bf.sampling_rate == 0 {
             bf.sampling_rate = exporter.sampling_rate(version, obs_domain_id, 0) as u64;
