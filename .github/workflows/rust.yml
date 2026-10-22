@@ -6,6 +6,8 @@ on:
   pull_request:
   # To start a run by hand.
   workflow_dispatch:
+  # From the release workflow, before it builds anything.
+  workflow_call:
 
 # The jobs only read the code.
 permissions:

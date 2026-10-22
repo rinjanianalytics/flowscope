@@ -81,11 +81,29 @@ $ gh api -X POST repos/OWNER/REPO/rulesets --input .github/rulesets/main-review.
 
 ## Releases
 
-A tag `v1.2.3` on `main` makes a release: GitHub builds the image
-`ghcr.io/rinjanianalytics/flowscope:1.2.3`, moves `latest` to it and creates
-the release page. The notes of the release are the section
-"FlowScope 1.2.3" of `docs/99-changelog.md`: write it before you tag. A
-version with a suffix, like `v1.2.3-rc.1`, is marked as a pre-release.
+A release is a tag on `main`, made by the owner. Before it, set the version
+in `Cargo.toml` (`[workspace.package]`) and `Cargo.lock`, and name its
+section of `docs/99-changelog.md` "FlowScope 1.2.3 - date". Merge that, then
+tag the merge commit and push the tag by its full name:
+
+```console
+$ git tag -a v1.2.3 -m "FlowScope 1.2.3"
+$ git push origin refs/tags/v1.2.3
+```
+
+`.github/workflows/release.yml` then:
+
+1. runs the checks of a pull request again,
+2. checks that the tag, the version and the changelog agree,
+3. builds the image for `linux/amd64` and `linux/arm64`, each on a machine of
+   its own architecture, and pushes `ghcr.io/rinjanianalytics/flowscope:1.2.3`
+   for both. `latest` moves to it, except for a pre-release,
+4. creates the release page from the changelog's section,
+5. runs the published image the way "Try it" in the README says, on both
+   architectures, and checks that flows reach ClickHouse and the console.
+
+A version with a suffix, like `v1.2.3-rc.1`, is a pre-release. A pull
+request that changes the Dockerfile builds both images and pushes nothing.
 
 ## Packages
 
