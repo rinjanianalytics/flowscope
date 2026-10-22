@@ -16,6 +16,9 @@ identified with a specific icon:
 
 ## FlowScope (unreleased)
 
+- 🔒 *build*: the web interface is built with postcss-selector-parser 7.1.6,
+  which fixes GHSA-rj75-hqrm-r3gf. It only runs at build time, and the
+  built pages are the same
 - 🌱 *console*: the foot of the menu links to the source on GitHub and to
   the website of Rinjani Analytics, and names Akvorado and the license
 - 🌱 *console*: on a small screen, the graph of the visualize page comes
