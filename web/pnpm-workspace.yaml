@@ -1,3 +1,8 @@
 allowBuilds:
   sharp: false
   unrs-resolver: false
+
+# @tailwindcss/typography 0.5.20 pins postcss-selector-parser 6.0.10, which
+# GHSA-rj75-hqrm-r3gf affects. 7.1.6 fixes it and builds the same CSS.
+overrides:
+  "@tailwindcss/typography>postcss-selector-parser": ^7.1.6
