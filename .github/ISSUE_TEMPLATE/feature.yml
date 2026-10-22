@@ -1,0 +1,22 @@
+name: Feature
+description: Something FlowScope could do.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: What you need
+      description: The problem to solve, on your network. What you do today without it.
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: How FlowScope could do it
+      description: Optional. Screens, settings or API calls you have in mind. If Akvorado has it already, say so.
+  - type: dropdown
+    id: exporters
+    attributes:
+      label: Exporters concerned
+      multiple: true
+      options: [Any, NetFlow v5, NetFlow v9, IPFIX, sFlow, BMP or BioRIS routing, SNMP or gNMI metadata, Not about exporters]

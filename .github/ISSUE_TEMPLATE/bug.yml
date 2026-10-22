@@ -1,0 +1,52 @@
+name: Bug
+description: FlowScope does something wrong, or differently from Akvorado.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. **Leave out SNMP communities, passwords, tokens and license keys**,
+        and real addresses if you prefer (192.0.2.1 is fine). A security problem goes to the
+        private report instead (see the links when you open an issue).
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: The output of `flowscope version`, the image tag, or the version at the foot of the console's menu.
+      placeholder: 2.0.0-rs.0
+    validations:
+      required: true
+  - type: dropdown
+    id: install
+    attributes:
+      label: Installed as
+      options: [The Docker Compose setup of this repository, The Docker image, Built from source, Other]
+    validations:
+      required: true
+  - type: dropdown
+    id: service
+    attributes:
+      label: Service
+      multiple: true
+      options: [inlet, outlet, orchestrator, console (web interface or API), demo-exporter, Not sure]
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened, and what you expected
+      description: If Akvorado behaves differently with the same configuration and the same flows, say how.
+    validations:
+      required: true
+  - type: textarea
+    id: config
+    attributes:
+      label: The configuration involved
+      description: The part of the configuration concerned, with secrets removed.
+      render: yaml
+  - type: textarea
+    id: logs
+    attributes:
+      label: Log lines
+      description: What the service printed around the time (`docker compose logs <service>`).
+      render: text

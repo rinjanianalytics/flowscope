@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Report a security problem
+    url: https://github.com/rinjanianalytics/flowscope/security/advisories/new
+    about: Privately, to the maintainers only. Please do not open a public issue for it.
+  - name: The documentation
+    url: https://github.com/rinjanianalytics/flowscope/blob/main/docs/00-intro.md
+    about: Install, configuration, operation and troubleshooting (also under "Documentation" in a running console).
+  - name: A problem Akvorado has too
+    url: https://github.com/akvorado/akvorado/issues
+    about: FlowScope is a Rust rewrite of Akvorado. A problem which also exists there is best reported there too.

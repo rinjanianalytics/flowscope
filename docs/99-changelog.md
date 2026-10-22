@@ -16,6 +16,8 @@ identified with a specific icon:
 
 ## FlowScope (unreleased)
 
+- 🌱 *console*: the foot of the menu links to the source on GitHub and to
+  the website of Rinjani Analytics, and names Akvorado and the license
 - 🌱 *console*: on a small screen, the graph of the visualize page comes
   first and the options open in a sheet
 - 🌱 *console*: units are written in words, the axis of a graph shows the

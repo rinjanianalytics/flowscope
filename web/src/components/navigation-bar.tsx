@@ -14,6 +14,7 @@ import {
   PanelLeftClose,
   PanelLeftOpen,
 } from "lucide-react";
+import { BrandLinks, Credit } from "@/components/brand-links";
 import { Wordmark } from "@/components/logo";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { UserMenu } from "@/components/user-menu";
@@ -149,11 +150,8 @@ export function AppSidebar() {
           <UserMenu />
           <ThemeToggle />
         </div>
-        {config?.version && (
-          <p className="truncate px-2 font-mono text-2xs text-muted-foreground group-data-[collapsible=icon]:hidden">
-            {config.version}
-          </p>
-        )}
+        <BrandLinks />
+        <Credit version={config?.version} />
         <CollapseButton />
       </SidebarFooter>
     </Sidebar>
