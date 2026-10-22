@@ -86,7 +86,7 @@ jobs:
           case "$version" in *-*) pre=true ;; *) pre=false ;; esac
           echo "version=$version" >> "$GITHUB_OUTPUT"
           echo "prerelease=$pre" >> "$GITHUB_OUTPUT"
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: notes
           path: notes.md
@@ -144,7 +144,7 @@ jobs:
           DIGEST: ${{ steps.build.outputs.digest }}
           ARCH: ${{ matrix.arch }}
         run: echo "$DIGEST" > "$RUNNER_TEMP/digest-$ARCH"
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: github.ref_type == 'tag'
         with:
           name: digest-${{ matrix.arch }}
