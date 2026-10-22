@@ -34,9 +34,14 @@ updates:
   - package-ecosystem: github-actions
     directory: /
     schedule: { interval: weekly, day: monday, time: "06:00", timezone: Asia/Jakarta }
+    # Its tag names the Rust toolchain, not a version of the action.
+    ignore:
+      - dependency-name: dtolnay/rust-toolchain
+    # A major version comes alone: the release workflow uses most of these
+    # actions, and a pull request cannot run its publishing jobs.
     groups:
       actions:
-        patterns: ["*"]
+        update-types: [minor, patch]
 
   - package-ecosystem: docker
     directory: /docker
