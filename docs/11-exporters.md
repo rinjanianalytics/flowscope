@@ -628,7 +628,21 @@ core:
     192.168.10.11: 2000  # mikrotik2
 ```
 
-This should not be needed for RouterOS v7 (at least from version 7.10).
+This is not needed for RouterOS v7. With IPFIX, it states its sampling in each
+record (`samplingPacketInterval` and `samplingPacketSpace`), and *FlowScope*
+reads it there. This was checked with RouterOS 7.24.5, exporting IPFIX with
+packet sampling:
+
+```text
+/ip traffic-flow set enabled=yes interfaces=ether1 packet-sampling=yes \
+    sampling-interval=1 sampling-space=9 active-flow-timeout=1m
+/ip traffic-flow target add dst-address=192.0.2.10 port=4739 version=ipfix
+```
+
+`sampling-interval=1 sampling-space=9` takes one packet of every ten. List
+only the interfaces facing your neighbors in `interfaces`: RouterOS accounts a
+forwarded packet on each listed interface it crosses, so listing both sides of
+a path counts its traffic twice.
 
 Here are a few resources from MikroTik help site to configure a Mikrotik device:
 
