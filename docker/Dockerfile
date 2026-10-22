@@ -1,5 +1,5 @@
 # The web interface is a static export. The Rust build embeds it.
-FROM --platform=$BUILDPLATFORM node:22-alpine AS build-web
+FROM --platform=$BUILDPLATFORM node:25-alpine AS build-web
 RUN corepack enable
 WORKDIR /build/web
 # Cache for modules
