@@ -115,3 +115,96 @@ fn netflow_v5_short_packet() {
     let flows = decode(&NetflowDecoder::new(&r), &p, Options::default());
     assert_eq!(flows.len(), 1);
 }
+
+/// An IPFIX packet: a template (id 256) of the given fields (type, length),
+/// then one data record with the given values, each `length` bytes long.
+fn ipfix_packet(fields: &[(u16, u16)], values: &[u64]) -> Vec<u8> {
+    let mut template = vec![];
+    template.extend(256u16.to_be_bytes());
+    template.extend((fields.len() as u16).to_be_bytes());
+    for (t, l) in fields {
+        template.extend(t.to_be_bytes());
+        template.extend(l.to_be_bytes());
+    }
+    let mut record = vec![];
+    for ((_, l), v) in fields.iter().zip(values) {
+        record.extend(&v.to_be_bytes()[8 - *l as usize..]);
+    }
+    let mut sets = vec![];
+    for (id, body) in [(2u16, template), (256u16, record)] {
+        sets.extend(id.to_be_bytes());
+        sets.extend((body.len() as u16 + 4).to_be_bytes());
+        sets.extend(body);
+    }
+    let mut p = vec![];
+    p.extend(10u16.to_be_bytes());
+    p.extend((sets.len() as u16 + 16).to_be_bytes());
+    p.extend(u32s(&[1_700_000_000, 1, 0]));
+    p.extend(sets);
+    p
+}
+
+// RouterOS 7 states its sampling in each IPFIX record: samplingPacketInterval
+// (305) packets taken of every interval + samplingPacketSpace (306). The Go
+// version only reads them from options records, so the flows of a MikroTik
+// router came without a sampling rate and the outlet dropped them.
+#[test]
+fn ipfix_sampling_stated_in_the_record() {
+    let r = Reporter::new_mock();
+    let fields = [(8, 4), (12, 4), (1, 4), (2, 4), (305, 4), (306, 4)];
+    let src = u32::from(std::net::Ipv4Addr::new(10, 10, 0, 73)) as u64;
+    let dst = u32::from(std::net::Ipv4Addr::new(10, 10, 7, 10)) as u64;
+    let flows =
+        decode(&NetflowDecoder::new(&r), &ipfix_packet(&fields, &[src, dst, 1250, 1, 1, 9]), Options::default());
+    assert_eq!(flows.len(), 1);
+    assert_eq!(flows[0].sampling_rate, 10);
+    assert_eq!(flows[0].src_addr, Some("::ffff:10.10.0.73".parse().unwrap()));
+
+    // Without them, the record still has no sampling rate.
+    let fields = [(8, 4), (12, 4), (1, 4), (2, 4)];
+    let flows = decode(&NetflowDecoder::new(&r), &ipfix_packet(&fields, &[src, dst, 1250, 1]), Options::default());
+    assert_eq!(flows.len(), 1);
+    assert_eq!(flows[0].sampling_rate, 0);
+}
+
+/// The UDP payloads of a classic pcap file of Ethernet frames carrying IPv4.
+fn pcap_udp_payloads(path: &str) -> Vec<Vec<u8>> {
+    let data = std::fs::read(std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../..").join(path)).unwrap();
+    let le = match &data[..4] {
+        [0xd4, 0xc3, 0xb2, 0xa1] => true,
+        [0xa1, 0xb2, 0xc3, 0xd4] => false,
+        _ => panic!("{path}: not a pcap file"),
+    };
+    let u32_at = |b: &[u8]| {
+        let a = [b[0], b[1], b[2], b[3]];
+        if le { u32::from_le_bytes(a) } else { u32::from_be_bytes(a) }
+    };
+    let (mut off, mut out) = (24, vec![]);
+    while off + 16 <= data.len() {
+        let len = u32_at(&data[off + 8..]) as usize;
+        let frame = &data[off + 16..off + 16 + len];
+        let ihl = (frame[14] & 0x0f) as usize * 4;
+        out.push(frame[14 + ihl + 8..].to_vec());
+        off += 16 + len;
+    }
+    out
+}
+
+// The same, from the lab's CHR: RouterOS 7.24.5 exporting IPFIX with 1 packet
+// in 10 sampled (sampling-interval=1 sampling-space=9). The first packet holds
+// its two templates, the next five its records. Every flow gets the rate 10.
+#[test]
+fn ipfix_sampling_from_routeros() {
+    let r = Reporter::new_mock();
+    let decoder = NetflowDecoder::new(&r);
+    let mut flows = vec![];
+    for payload in pcap_udp_payloads("tests/data/routeros/ipfix-7.24.5.pcap") {
+        flows.extend(decode(&decoder, &payload, Options::default()));
+    }
+    assert!(flows.len() >= 5, "{} flows", flows.len());
+    for f in &flows {
+        assert_eq!(f.sampling_rate, 10, "{f:?}");
+    }
+    let client: std::net::Ipv6Addr = "::ffff:10.10.0.73".parse().unwrap();
+    assert!(flows.iter().any(|f| f.src_addr == Some(client)), "no flow from the lab's client");
+}

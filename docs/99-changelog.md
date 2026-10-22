@@ -16,6 +16,8 @@ identified with a specific icon:
 
 ## FlowScope (unreleased)
 
+- 🩹 *outlet*: read the sampling rate a router states in each IPFIX record,
+  as RouterOS 7 does. Its flows were dropped for a missing sampling rate
 - 🔒 *build*: the web interface is built with postcss-selector-parser 7.1.6,
   which fixes GHSA-rj75-hqrm-r3gf. It only runs at build time, and the
   built pages are the same
