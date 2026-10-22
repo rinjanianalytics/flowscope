@@ -1,40 +1,268 @@
 ---
+# Releases FlowScope from a tag. To release:
+#   1. Set the version in Cargo.toml ([workspace.package]) and Cargo.lock,
+#      and name its section of docs/99-changelog.md
+#      "## FlowScope <version> - <date>". Merge that.
+#   2. git tag -a v<version> -m "FlowScope <version>"
+#      git push origin refs/tags/v<version>
+#      (by its full ref: a clone with Akvorado's history holds its tags too).
+# The workflow then runs CI, builds the image for linux/amd64 and
+# linux/arm64, each on a runner of its own architecture, pushes
+# ghcr.io/rinjanianalytics/flowscope:<version> for both (and moves `latest`,
+# except for a pre-release such as 2.0.0-rs.1), creates the GitHub release
+# from the changelog's section, so a release never names an image that
+# cannot be pulled, and last runs the published image the way the README
+# says to try FlowScope, on both architectures.
+#
+# A pull request that changes the Dockerfile or this file, and a manual run
+# (Actions, Release, Run workflow), build both images and push nothing.
 name: Release
+
 on:
   push:
     tags: ["v*"]
+  pull_request:
+    paths:
+      - docker/Dockerfile
+      - docker/Dockerfile.dockerignore
+      - .github/workflows/release.yml
+  workflow_dispatch:
 
 permissions:
   contents: read
 
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  IMAGE: ghcr.io/rinjanianalytics/flowscope
+
 jobs:
-  release:
-    runs-on: ubuntu-latest
-    permissions:
-      # To create the release.
-      contents: write
+  ci:
+    if: github.ref_type == 'tag'
+    uses: ./.github/workflows/rust.yml
+
+  version:
+    name: Version, tag and changelog agree
+    if: github.ref_type == 'tag'
+    runs-on: ubuntu-24.04
+    outputs:
+      version: ${{ steps.v.outputs.version }}
+      prerelease: ${{ steps.v.outputs.prerelease }}
     steps:
       - uses: actions/checkout@v5
-      # The notes are the section of the changelog for this version, from
-      # "## FlowScope 1.2.3" to the next title. Without one, GitHub lists
-      # the changes.
-      - name: Create the release
-        env:
-          GH_TOKEN: ${{ github.token }}
-          TAG: ${{ github.ref_name }}
+        with:
+          persist-credentials: false
+      - id: v
         run: |
-          version="${TAG#v}"
+          set -eu
+          version=$(sed -n 's/^version = "\(.*\)"$/\1/p' Cargo.toml | head -n1)
+          if [ "$GITHUB_REF_NAME" != "v$version" ]; then
+            echo "::error::tag $GITHUB_REF_NAME, but Cargo.toml says $version"; exit 1
+          fi
+          # The changelog's section "## FlowScope <version>" (with or without
+          # a date after it), up to the next title.
           awk -v title="## FlowScope $version" '
-            index($0, title) == 1 { found = 1; next }
             found && /^## / { exit }
             found { print }
+            $0 == title || index($0, title " ") == 1 { found = 1 }
           ' docs/99-changelog.md > notes.md
-          flags=()
-          # A version like 1.2.3-rc.1 is a pre-release.
-          case "$version" in *-*) flags+=(--prerelease) ;; esac
-          if grep -q '[^[:space:]]' notes.md; then
-            flags+=(--notes-file notes.md)
-          else
-            flags+=(--generate-notes)
+          if ! grep -q '[^[:space:]]' notes.md; then
+            echo "::error::docs/99-changelog.md has no section \"FlowScope $version\""; exit 1
           fi
-          gh release create "$TAG" --verify-tag --title "FlowScope $version" "${flags[@]}"
+          cat >> notes.md <<NOTES
+
+          ### Run it
+
+          \`\`\`console
+          \$ docker pull $IMAGE:$version   # linux/amd64 and linux/arm64
+          \`\`\`
+
+          To try it with simulated routers, follow "Try it" in the README of
+          this release. The documentation ships with FlowScope, under
+          "Documentation" in the console.
+          NOTES
+          case "$version" in *-*) pre=true ;; *) pre=false ;; esac
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "prerelease=$pre" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: notes
+          path: notes.md
+          retention-days: 7
+
+  build:
+    name: Image for ${{ matrix.arch }}
+    needs: [ci, version]
+    # On a pull request or a manual run, the jobs above are skipped: build
+    # only. On a tag, they must pass.
+    if: ${{ !failure() && !cancelled() }}
+    strategy:
+      matrix:
+        include:
+          - arch: amd64
+            runner: ubuntu-24.04
+          - arch: arm64
+            runner: ubuntu-24.04-arm
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 90
+    permissions:
+      contents: read
+      # To push the image.
+      packages: write
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        if: github.ref_type == 'tag'
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      # On a tag, the image is pushed by its digest only. The job below
+      # names both under one tag.
+      - uses: docker/build-push-action@v6
+        id: build
+        with:
+          context: .
+          file: docker/Dockerfile
+          platforms: linux/${{ matrix.arch }}
+          build-args: |
+            VERSION=${{ github.ref_type == 'tag' && github.ref_name || '' }}
+          labels: |
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.version=${{ needs.version.outputs.version }}
+          outputs: ${{ github.ref_type == 'tag' && format('type=image,name={0},push-by-digest=true,name-canonical=true,push=true', env.IMAGE) || 'type=cacheonly' }}
+          cache-from: type=gha,scope=release-${{ matrix.arch }}
+          cache-to: type=gha,mode=max,scope=release-${{ matrix.arch }}
+      - name: Keep the digest
+        if: github.ref_type == 'tag'
+        env:
+          DIGEST: ${{ steps.build.outputs.digest }}
+          ARCH: ${{ matrix.arch }}
+        run: echo "$DIGEST" > "$RUNNER_TEMP/digest-$ARCH"
+      - uses: actions/upload-artifact@v4
+        if: github.ref_type == 'tag'
+        with:
+          name: digest-${{ matrix.arch }}
+          path: ${{ runner.temp }}/digest-${{ matrix.arch }}
+          retention-days: 1
+
+  publish:
+    name: Publish the image and the release
+    needs: [version, build]
+    if: github.ref_type == 'tag'
+    runs-on: ubuntu-24.04
+    permissions:
+      # The GitHub release.
+      contents: write
+      # The tags of the image.
+      packages: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: digest-*
+          path: digests
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with:
+          name: notes
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: One tag for both architectures
+        env:
+          VERSION: ${{ needs.version.outputs.version }}
+          PRERELEASE: ${{ needs.version.outputs.prerelease }}
+        run: |
+          set -eu
+          tags=(-t "$IMAGE:$VERSION")
+          if [ "$PRERELEASE" = false ]; then tags+=(-t "$IMAGE:latest"); fi
+          refs=()
+          for f in digests/digest-*; do refs+=("$IMAGE@$(cat "$f")"); done
+          docker buildx imagetools create "${tags[@]}" "${refs[@]}"
+          docker buildx imagetools inspect "$IMAGE:$VERSION" | tee inspect.txt
+          for p in linux/amd64 linux/arm64; do
+            grep -q "Platform: *$p\$" inspect.txt || { echo "::error::no $p image"; exit 1; }
+          done
+      - name: GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          VERSION: ${{ needs.version.outputs.version }}
+          PRERELEASE: ${{ needs.version.outputs.prerelease }}
+        run: |
+          set -eu
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            echo "The release $GITHUB_REF_NAME exists already; left as it is."
+            exit 0
+          fi
+          flags=()
+          if [ "$PRERELEASE" = true ]; then flags+=(--prerelease --latest=false); fi
+          gh release create "$GITHUB_REF_NAME" --verify-tag --title "FlowScope $VERSION" \
+            --notes-file notes.md "${flags[@]}"
+
+  smoke:
+    name: Demo with the published image on ${{ matrix.arch }}
+    needs: [version, publish]
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: amd64
+            runner: ubuntu-24.04
+          - arch: arm64
+            runner: ubuntu-24.04-arm
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 30
+    env:
+      RELEASED: ghcr.io/rinjanianalytics/flowscope:${{ needs.version.outputs.version }}
+      ARCH: ${{ matrix.arch }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - name: Pull the image, without a login
+        run: |
+          set -eu
+          docker pull "$RELEASED"
+          got=$(docker image inspect -f '{{.Architecture}}' "$RELEASED")
+          # shellcheck disable=SC2153 # ARCH comes from the job's env.
+          [ "$got" = "$ARCH" ] || { echo "::error::got $got, expected $ARCH"; exit 1; }
+          docker run --rm "$RELEASED" version | tee version.txt
+          grep -q "^flowscope $GITHUB_REF_NAME\$" version.txt \
+            || { echo "::error::the image does not say $GITHUB_REF_NAME"; exit 1; }
+          # The Docker Compose setup runs ghcr.io/rinjanianalytics/flowscope:main.
+          # Give that name to the released image, so the setup runs it.
+          docker tag "$RELEASED" ghcr.io/rinjanianalytics/flowscope:main
+      - name: The README's "Try it"
+        run: |
+          set -eu
+          cp .env.example .env
+          COMPOSE_PROFILES=demo docker compose up --wait --wait-timeout 600
+      - name: Flows reach ClickHouse and the console
+        run: |
+          set -eu
+          api=http://127.0.0.1:8081/api/v0/console
+          rate=0
+          for _ in $(seq 1 60); do
+            rate=$(curl -fsS "$api/widget/flow-rate" | jq -r '.rate // 0') || rate=0
+            if jq -en "$rate > 0" >/dev/null; then break; fi
+            sleep 5
+          done
+          echo "flow rate: $rate flows/s"
+          jq -en "$rate > 0" >/dev/null || { echo "::error::no flow reached ClickHouse"; exit 1; }
+          exporters=$(curl -fsS "$api/widget/exporters" | jq '.exporters | length')
+          echo "exporters: $exporters"
+          [ "$exporters" -eq 4 ] || { echo "::error::expected the 4 demo exporters"; exit 1; }
+          # A top list is read from ClickHouse, with the AS numbers the outlet added.
+          curl -fsS "$api/widget/top/src-as" | tee top.json | jq -c '.top[:3]'
+          [ "$(jq '.top | length' top.json)" -ge 1 ] || { echo "::error::empty top list"; exit 1; }
+      - name: Logs
+        if: always()
+        run: docker compose ps; docker compose logs --no-color --tail 40
