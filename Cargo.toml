@@ -37,7 +37,7 @@ axum = "0.8"
 tower = "0.5"
 moka = { version = "0.12", features = ["future"] }
 redis = { version = "1", default-features = false, features = ["tokio-comp", "aio"] }
-sha2 = "0.10"
+sha2 = "0.11"
 http-body-util = "0.1"
 bytes = "1"
 prost = "0.14"
