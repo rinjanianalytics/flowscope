@@ -635,4 +635,15 @@ mod tests {
         let got: Vec<Algo> = from_value(json!(["random", "by-exporter", "ByExporter"])).unwrap();
         assert_eq!(got, vec![Algo::Random, Algo::ByExporter, Algo::ByExporter]);
     }
+
+    // A number is not a name: Akvorado refuses it since b4d64af5 (before, Go
+    // stored it as is). Its cases: a name, a number out of range, a number
+    // in range, an unknown name.
+    #[test]
+    fn enums_refuse_numbers() {
+        assert_eq!(from_value::<Algo>(json!("by-exporter")).unwrap(), Algo::ByExporter);
+        for bad in [json!(42), json!(1), json!("third")] {
+            assert!(from_value::<Algo>(bad.clone()).is_err(), "{bad} was accepted");
+        }
+    }
 }

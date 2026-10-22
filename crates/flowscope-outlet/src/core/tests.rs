@@ -848,3 +848,15 @@ fn decode_path() {
     assert_eq!(h.sent.lock().unwrap().len() as u64, forwarded);
     kafkainput::Component::stop_workers(&*input);
 }
+
+// A named value given as a number is refused, not stored as is. Port of
+// Akvorado's TestNonStringToTextUnmarshallerHookFunc (b4d64af5), with the
+// ASN providers as the named values.
+#[test]
+fn config_refuses_numbers_for_named_values() {
+    let parse = |yaml: &str| from_value::<Configuration>(parse_str(yaml).unwrap()).map(|c| c.asn_providers);
+    assert_eq!(parse("asn-providers: [routing, flow]").unwrap(), vec![AsnProvider::Routing, AsnProvider::Flow]);
+    for bad in ["asn-providers: [42]", "asn-providers: [1]", "asn-providers: [third]"] {
+        assert!(parse(bad).is_err(), "{bad} was accepted");
+    }
+}
