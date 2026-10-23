@@ -19,7 +19,7 @@
         "operationId": "getConfiguration",
         "responses": {
           "200": {
-            "description": "",
+            "description": "The configuration",
             "content": {
               "application/json": {
                 "schema": {
@@ -98,7 +98,7 @@
         },
         "responses": {
           "200": {
-            "description": "",
+            "description": "The completions",
             "content": {
               "application/json": {
                 "schema": {
@@ -129,7 +129,7 @@
         "operationId": "listSavedFilters",
         "responses": {
           "200": {
-            "description": "",
+            "description": "The saved filters",
             "content": {
               "application/json": {
                 "schema": {
@@ -280,7 +280,7 @@
         },
         "responses": {
           "200": {
-            "description": "",
+            "description": "The traffic over time",
             "content": {
               "application/json": {
                 "schema": {
@@ -321,7 +321,7 @@
         },
         "responses": {
           "200": {
-            "description": "",
+            "description": "The reversed input",
             "content": {
               "application/json": {
                 "schema": {
@@ -362,7 +362,7 @@
         },
         "responses": {
           "200": {
-            "description": "",
+            "description": "The traffic between values",
             "content": {
               "application/json": {
                 "schema": {
@@ -403,7 +403,7 @@
         },
         "responses": {
           "200": {
-            "description": "",
+            "description": "The table and resolution",
             "content": {
               "application/json": {
                 "schema": {
@@ -465,7 +465,7 @@
         "operationId": "getUserInfo",
         "responses": {
           "200": {
-            "description": "",
+            "description": "The current user",
             "content": {
               "application/json": {
                 "schema": {
@@ -496,7 +496,7 @@
         "operationId": "widgetExporters",
         "responses": {
           "200": {
-            "description": "",
+            "description": "The exporters",
             "content": {
               "application/json": {
                 "schema": {
@@ -552,7 +552,7 @@
         "operationId": "widgetFlowRate",
         "responses": {
           "200": {
-            "description": "",
+            "description": "The flow rate",
             "content": {
               "application/json": {
                 "schema": {
@@ -573,7 +573,7 @@
         "operationId": "widgetGraph",
         "responses": {
           "200": {
-            "description": "",
+            "description": "The traffic of the last day",
             "content": {
               "application/json": {
                 "schema": {
@@ -605,7 +605,7 @@
         ],
         "responses": {
           "200": {
-            "description": "",
+            "description": "The top values",
             "content": {
               "application/json": {
                 "schema": {
