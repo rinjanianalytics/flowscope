@@ -4,7 +4,7 @@
 //! SNMPv3 user-based security model (RFC 3414, RFC 3826, RFC 7860):
 //! localized keys, HMAC authentication, DES and AES privacy.
 
-use hmac::{Hmac, Mac};
+use hmac::{Hmac, KeyInit, Mac};
 use md5::Md5;
 use sha1::Sha1;
 use sha2::{Digest, Sha224, Sha256, Sha384, Sha512};
@@ -165,7 +165,7 @@ impl PrivProtocol {
         match self {
             PrivProtocol::None => (data.to_vec(), vec![]),
             PrivProtocol::Des => {
-                use cbc::cipher::{BlockEncryptMut, KeyIvInit};
+                use cbc::cipher::{BlockModeEncrypt, KeyIvInit};
                 let mut salt_bytes = Vec::with_capacity(8);
                 salt_bytes.extend_from_slice(&engine_boots.to_be_bytes());
                 salt_bytes.extend_from_slice(&(salt as u32).to_be_bytes());
@@ -175,7 +175,7 @@ impl PrivProtocol {
                 buf.resize(data.len().div_ceil(8) * 8, 0);
                 let n = buf.len();
                 let enc = cbc::Encryptor::<des::Des>::new_from_slices(&key[..8], &iv).unwrap();
-                enc.encrypt_padded_mut::<cbc::cipher::block_padding::NoPadding>(&mut buf, n).unwrap();
+                enc.encrypt_padded::<cbc::cipher::block_padding::NoPadding>(&mut buf, n).unwrap();
                 (buf, salt_bytes)
             }
             _ => {
@@ -203,14 +203,14 @@ impl PrivProtocol {
         match self {
             PrivProtocol::None => Ok(data.to_vec()),
             PrivProtocol::Des => {
-                use cbc::cipher::{BlockDecryptMut, KeyIvInit};
+                use cbc::cipher::{BlockModeDecrypt, KeyIvInit};
                 if params.len() != 8 || !data.len().is_multiple_of(8) {
                     return Err("invalid DES parameters".into());
                 }
                 let iv: Vec<u8> = key[8..16].iter().zip(params).map(|(a, b)| a ^ b).collect();
                 let mut buf = data.to_vec();
                 let dec = cbc::Decryptor::<des::Des>::new_from_slices(&key[..8], &iv).unwrap();
-                dec.decrypt_padded_mut::<cbc::cipher::block_padding::NoPadding>(&mut buf).map_err(|e| e.to_string())?;
+                dec.decrypt_padded::<cbc::cipher::block_padding::NoPadding>(&mut buf).map_err(|e| e.to_string())?;
                 Ok(buf)
             }
             _ => {
@@ -230,7 +230,7 @@ impl PrivProtocol {
 }
 
 fn aes_cfb(key: &[u8], iv: &[u8], buf: &mut [u8], encrypt: bool) {
-    use cfb_mode::cipher::{AsyncStreamCipher, KeyIvInit};
+    use cfb_mode::cipher::KeyIvInit;
     macro_rules! run {
         ($aes:ty) => {{
             if encrypt {
