@@ -55,7 +55,7 @@ libc = "0.2"
 socket2 = { version = "0.6", features = ["all"] }
 cityhash-rs = "1"
 regex = "1"
-png = "0.17"
+png = "0.18"
 pulldown-cmark = { version = "0.13", default-features = false, features = ["html"] }
 sqlx = { version = "0.8", default-features = false, features = ["runtime-tokio", "sqlite", "postgres", "mysql", "tls-rustls-ring-native-roots", "macros"] }
 url = "2"
