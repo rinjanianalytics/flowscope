@@ -49,7 +49,7 @@ hyper-util = { version = "0.1", features = ["tokio"] }
 tonic-prost-build = "0.14"
 protox = "0.10"
 rdkafka = { version = "0.39", features = ["cmake-build", "ssl-vendored", "zstd", "libz-static", "curl-static", "tokio"] }
-rand = "0.9"
+rand = "0.10"
 clap = { version = "4", features = ["derive"] }
 libc = "0.2"
 socket2 = { version = "0.6", features = ["all"] }
