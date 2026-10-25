@@ -51,7 +51,7 @@ jobs:
       version: ${{ steps.v.outputs.version }}
       prerelease: ${{ steps.v.outputs.prerelease }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         with:
           persist-credentials: false
       - id: v
@@ -112,7 +112,7 @@ jobs:
       # To push the image.
       packages: write
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         with:
           persist-credentials: false
       - uses: docker/setup-buildx-action@v3
@@ -224,7 +224,7 @@ jobs:
       RELEASED: ghcr.io/rinjanianalytics/flowscope:${{ needs.version.outputs.version }}
       ARCH: ${{ matrix.arch }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         with:
           persist-credentials: false
       - name: Pull the image, without a login
